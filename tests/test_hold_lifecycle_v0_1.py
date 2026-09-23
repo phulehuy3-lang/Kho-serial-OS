@@ -141,6 +141,19 @@ class HoldReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(result.canonical_decision, BLOCK_OVERLAP)
         self.assertEqual(result.active_overlap_peer_ids, ("HOLD-SYNTH-B",))
 
+    def test_touching_boundary_peer_blocks_with_canonical_interval_semantics(self) -> None:
+        peer = hold(
+            hold_id="HOLD-SYNTH-B",
+            target_id="INT-SYNTH-B",
+            range_start="1999",
+            range_end="2500",
+        )
+        result = evaluate_hold_release_readiness(
+            hold(), interval(), peers=(peer,)
+        )
+        self.assertEqual(result.canonical_decision, BLOCK_OVERLAP)
+        self.assertEqual(result.active_overlap_peer_ids, ("HOLD-SYNTH-B",))
+
     def test_released_false_overlap_does_not_block(self) -> None:
         peer = hold(
             hold_id="HOLD-SYNTH-B",
