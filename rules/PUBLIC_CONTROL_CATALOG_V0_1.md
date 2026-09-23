@@ -5,7 +5,7 @@ Status: **PUBLIC CONSOLIDATION BASELINE**
 ## Purpose
 
 Define the public control inventory, responsibility boundaries, and allowed
-dependencies after Phase 2 Controls 01–07.
+dependencies after Phase 2 Controls 01–08.
 
 This catalog is descriptive governance for the public repository. It does not
 create production authority or a write path.
@@ -93,16 +93,41 @@ Dependency policy:
 - no string status such as `PASS` or `READY_FOR_RELEASE` is implicitly
   accepted as a passing gate.
 
+### Control 08 — DRY_RUN_MUTATION_CONTRACT_V0_1
+
+Validates a synthetic mutation manifest architecture without any executable
+write capability.
+
+Responsibilities include:
+
+- deterministic manifest hash;
+- idempotency binding;
+- reviewed dry-run mutation whitelist;
+- exact rollback pairing;
+- explicit approval binding;
+- mandatory post-transition read-back obligations;
+- invariant `production_write_authorized=False`.
+
+Dependency policy:
+
+- may depend on `SOURCE_POOL_AUTHORITY_V0_1` only through an explicit
+  upstream resolution object;
+- same-year only in v0.1;
+- HOLD release excluded;
+- must not import a production adapter or connected-service client;
+- PASS means dry-run contract coherence only, never write authority.
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
 
 - local `PASS` / `HOLD` labels inside domain controls;
-- canonical-JSON hashing helpers inside the two authority controls.
+- canonical-JSON hashing helpers inside the authority and dry-run contract
+  modules.
 
 Reason: forcing a shared common-core module now would introduce coupling before
-the authority schemas are proven stable. Consolidation should occur only when a
-shared semantic contract exists, not merely to reduce line count.
+the schemas are proven stable. Consolidation should occur only when a shared
+semantic contract exists, not merely to reduce line count.
 
 ## Prohibited coupling
 
@@ -127,14 +152,19 @@ interval integrity ─┐
 negative stock ─────┤
 reconciliation ─────┼─> explicit boolean gate map ─> release aggregator
 formula health ─────┘
+
+source-pool authority ─> explicit resolution ─> dry-run mutation contract
 ```
 
 Domain-specific authority/HOLD decisions remain separately scoped and must not
 be converted to PASS merely because another control passed.
 
+The dry-run mutation contract is not a release or mutation executor.
+
 ## Deferred larger migrations
 
-Large orchestration modules such as writer dry-run contracts or outbound
-decision kernels require a separate dependency and public-boundary audit before
-migration. They are not implicitly approved by the completion of Controls
-01–07.
+The outbound decision kernel remains deferred pending its own dependency,
+duplication, and public-boundary audit.
+
+Executable production adapters/writers are outside the current public
+capability boundary and remain prohibited.
