@@ -5,7 +5,7 @@ Status: **PUBLIC CONSOLIDATION BASELINE**
 ## Purpose
 
 Define the public control inventory, responsibility boundaries, and allowed
-dependencies after Phase 2 Controls 01–10.
+dependencies after Phase 2 Controls 01–11.
 
 This catalog is descriptive governance for the public repository. It does not
 create production authority or a write path.
@@ -166,6 +166,32 @@ Dependency policy:
   authority-resolver, replay-engine, or mutation code;
 - does not prove that a live read was authorized.
 
+### Control 11 — MATERIALIZED_LINEAGE_REPLAY_V0_1
+
+Replays a historical same-year allocation decision from already-materialized
+candidate/source lineage.
+
+Responsibilities include:
+
+- reconstructing pre-transaction available quantity as inbound minus prior
+  committed outbound;
+- requiring independently verified pre-transaction serial lineage;
+- validating replayability of historical lineage evidence;
+- replaying canonical ranking/allocation through Control 09;
+- comparing ranked sources, selected sources, allocation quantities, and
+  comparable candidate-set hashes;
+- distinguishing `NOT_REPLAYABLE` evidence defects from `HOLD` semantic
+  mismatches.
+
+Dependency policy:
+
+- may depend on Control 09 as the canonical ranked-prefix replay kernel;
+- candidate scope is locked to `MATERIALIZED_CANDIDATE_SET_ONLY`;
+- a MATCH proves parity only within the supplied materialized set;
+- must not discover the global candidate universe;
+- must not import private outbound replay kernels, production adapters, live
+  readers, connected-service clients, or mutation code.
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
@@ -205,7 +231,9 @@ source-pool authority ───────────────┐
                                      ├─> dry-run mutation contract
 authorized candidate IDs ─> ranked-prefix allocation + lineage ─┤
                                      │
-materialized read surfaces ─> snapshot integrity + atomicity ────┘
+materialized read surfaces ─> snapshot integrity + atomicity
+
+historical materialized source lineage ─> Control 09 replay ─> parity result ────┘
 ```
 
 Domain-specific authority/HOLD decisions remain separately scoped and must not
@@ -227,6 +255,11 @@ intentionally unmigrated. Only their pure schema/snapshot-integrity layer was
 extracted as Control 10. Live connector execution, credentials, permissions,
 target discovery, authority resolution, and replay orchestration remain outside
 Control 10.
+
+The private production snapshot validator, synthetic writer replay harness, and
+Wave A response-preimage/governance workflow remain intentionally unmigrated.
+Only the same-year materialized-lineage replay primitive was extracted as
+Control 11, and it explicitly does not prove global candidate completeness.
 
 Executable production adapters/writers are outside the current public
 capability boundary and remain prohibited.
