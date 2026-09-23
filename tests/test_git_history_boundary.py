@@ -6,7 +6,7 @@ import subprocess
 import tempfile
 import unittest
 
-from scripts.check_git_history_boundary import scan_range
+from scripts.check_git_history_boundary import _email_is_public_safe, scan_range
 
 
 class GitHistoryBoundaryTests(unittest.TestCase):
@@ -70,7 +70,7 @@ class GitHistoryBoundaryTests(unittest.TestCase):
                 os.chdir(old)
             self.assertTrue(any(x.code == "PUBLIC_AUTHOR_EMAIL" for x in issues))
 
-    def test_noreply_commit_email_passes_metadata_gate(self) -> None:
+    def test_user_noreply_commit_email_passes_metadata_gate(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             self._git(root, "init")
@@ -89,6 +89,9 @@ class GitHistoryBoundaryTests(unittest.TestCase):
             finally:
                 os.chdir(old)
             self.assertFalse(any("EMAIL" in x.code for x in issues))
+
+    def test_github_squash_committer_email_is_safe(self) -> None:
+        self.assertTrue(_email_is_public_safe("noreply" + "@" + "github.com"))
 
 
 if __name__ == "__main__":
