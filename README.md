@@ -29,7 +29,7 @@ The bootstrap baseline provides:
 - SOURCE_OF_TRUTH / DERIVED_READ_ONLY boundary enforcement;
 - public-boundary and static-capability CI.
 
-Phase 2 adds eleven sanitized controls:
+Phase 2 adds twelve sanitized controls:
 
 1. CROSS_YEAR_AUTHORITY_V0_1
 2. SOURCE_POOL_AUTHORITY_V0_1
@@ -42,6 +42,7 @@ Phase 2 adds eleven sanitized controls:
 9. RANKED_PREFIX_ALLOCATION_LINEAGE_V0_1
 10. READONLY_SHADOW_SNAPSHOT_INTEGRITY_V0_1
 11. MATERIALIZED_LINEAGE_REPLAY_V0_1
+12. FORMULA_SEMANTIC_IDENTITY_V0_1
 
 The authoritative public dependency/composition map is documented in
 `rules/PUBLIC_CONTROL_CATALOG_V0_1.md`.
@@ -70,6 +71,10 @@ The materialized-lineage replay control reconstructs historical same-year
 availability from verified lineage evidence and replays Control 09 only within
 the explicitly supplied materialized candidate set. A MATCH is not proof of
 global candidate completeness.
+
+Formula health and formula semantic identity are intentionally separate:
+Control 06 checks formula presence/error health, while Control 12 checks whether
+a materialized QUERY formula still matches an explicit semantic contract.
 
 The repository remains an engineering-control baseline, not an operational
 database and not an authority for live warehouse state.
