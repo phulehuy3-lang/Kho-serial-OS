@@ -17,14 +17,24 @@ from pathlib import PurePosixPath
 import subprocess
 import sys
 
-from scripts.check_repo_boundary import (
-    ALLOWED_PUBLIC_EMAIL_SUFFIXES,
-    FORBIDDEN_DIRS,
-    FORBIDDEN_SUFFIXES,
-    MAX_TEXT_BYTES,
-    BoundaryIssue,
-    scan_text,
-)
+try:
+    from scripts.check_repo_boundary import (
+        ALLOWED_PUBLIC_EMAIL_SUFFIXES,
+        FORBIDDEN_DIRS,
+        FORBIDDEN_SUFFIXES,
+        MAX_TEXT_BYTES,
+        BoundaryIssue,
+        scan_text,
+    )
+except ModuleNotFoundError:
+    from check_repo_boundary import (
+        ALLOWED_PUBLIC_EMAIL_SUFFIXES,
+        FORBIDDEN_DIRS,
+        FORBIDDEN_SUFFIXES,
+        MAX_TEXT_BYTES,
+        BoundaryIssue,
+        scan_text,
+    )
 
 
 ZERO_SHA = "0" * 40
@@ -111,14 +121,14 @@ def scan_commit(commit: str) -> tuple[BoundaryIssue, ...]:
             issues.append(BoundaryIssue(path_text, "UNSCANNABLE_HISTORY_FILE", "historical file exceeds text scan limit"))
             continue
         try:
-            content = blob.decode("utf-8")
+            text_content = blob.decode("utf-8")
         except UnicodeDecodeError:
             issues.append(BoundaryIssue(path_text, "UNSCANNABLE_HISTORY_FILE", "historical file is not UTF-8 text"))
             continue
-        if "\x00" in content:
+        if "\x00" in text_content:
             issues.append(BoundaryIssue(path_text, "UNSCANNABLE_HISTORY_FILE", "historical file contains binary NUL data"))
             continue
-        issues.extend(scan_text(path_text, content))
+        issues.extend(scan_text(path_text, text_content))
 
     return tuple(issues)
 
