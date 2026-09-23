@@ -5,7 +5,7 @@ Status: **PUBLIC CONSOLIDATION BASELINE**
 ## Purpose
 
 Define the public control inventory, responsibility boundaries, and allowed
-dependencies after Phase 2 Controls 01–09.
+dependencies after Phase 2 Controls 01–10.
 
 This catalog is descriptive governance for the public repository. It does not
 create production authority or a write path.
@@ -140,6 +140,27 @@ Dependency policy:
 - must not import Cross-Year Authority, Source-Pool Authority, HOLD lifecycle,
   release-gate aggregation, Rule Graph, or artifact-release logic.
 
+### Control 10 — READONLY_SHADOW_SNAPSHOT_INTEGRITY_V0_1
+
+Validates deterministic in-memory multi-surface snapshot integrity.
+
+Responsibilities include:
+
+- surface-contract hashing;
+- target/schema-contract hashing;
+- exact expected read-surface set;
+- exact row field-set and scalar-type validation;
+- deterministic surface and snapshot hashing;
+- version-marker atomicity detection.
+
+Dependency policy:
+
+- standalone pure snapshot primitive;
+- consumes already-materialized in-memory reads only;
+- must not import provider/connector, credential, permission, target-discovery,
+  authority-resolver, replay-engine, or mutation code;
+- does not prove that a live read was authorized.
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
@@ -179,6 +200,8 @@ formula health ─────┘
 source-pool authority ─> explicit resolution ─> dry-run mutation contract
 
 already-authorized candidates ─> ranked-prefix allocation + lineage
+
+materialized read surfaces ─> snapshot integrity + atomicity
 ```
 
 Domain-specific authority/HOLD decisions remain separately scoped and must not
@@ -194,6 +217,12 @@ extracted as Control 09 after dependency/duplication/public-boundary audit.
 
 Rule Graph release profiles, BBGH/DDH artifact semantics, live candidate
 universe authority, and executable outbound mutation remain outside Control 09.
+
+The private synthetic shadow replay harness and read-only shadow adapter remain
+intentionally unmigrated. Only their pure schema/snapshot-integrity layer was
+extracted as Control 10. Live connector execution, credentials, permissions,
+target discovery, authority resolution, and replay orchestration remain outside
+Control 10.
 
 Executable production adapters/writers are outside the current public
 capability boundary and remain prohibited.
