@@ -19,6 +19,7 @@ import sys
 
 try:
     from scripts.check_repo_boundary import (
+        ALLOWED_PUBLIC_EMAILS,
         ALLOWED_PUBLIC_EMAIL_SUFFIXES,
         FORBIDDEN_DIRS,
         FORBIDDEN_SUFFIXES,
@@ -28,6 +29,7 @@ try:
     )
 except ModuleNotFoundError:
     from check_repo_boundary import (
+        ALLOWED_PUBLIC_EMAILS,
         ALLOWED_PUBLIC_EMAIL_SUFFIXES,
         FORBIDDEN_DIRS,
         FORBIDDEN_SUFFIXES,
@@ -71,7 +73,10 @@ def _commit_emails(commit: str) -> tuple[str, str]:
 
 def _email_is_public_safe(email: str) -> bool:
     lowered = email.lower()
-    return any(lowered.endswith(suffix) for suffix in ALLOWED_PUBLIC_EMAIL_SUFFIXES)
+    return (
+        lowered in ALLOWED_PUBLIC_EMAILS
+        or any(lowered.endswith(suffix) for suffix in ALLOWED_PUBLIC_EMAIL_SUFFIXES)
+    )
 
 
 def _changed_paths(commit: str) -> tuple[str, ...]:
@@ -102,7 +107,7 @@ def scan_commit(commit: str) -> tuple[BoundaryIssue, ...]:
             issues.append(BoundaryIssue(
                 f"commit:{commit}",
                 f"PUBLIC_{role}_EMAIL",
-                f"{role.lower()} email must use a GitHub noreply address",
+                f"{role.lower()} email must use an approved GitHub noreply address",
             ))
 
     for path_text in _changed_paths(commit):

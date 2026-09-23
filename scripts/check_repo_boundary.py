@@ -55,7 +55,8 @@ LABELED_PRODUCTION_ID_PATTERN = re.compile(
 EMAIL_PATTERN = re.compile(
     r"(?i)\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b"
 )
-ALLOWED_PUBLIC_EMAIL_SUFFIXES = ("@users.noreply.github.com", "@noreply.github.com")
+ALLOWED_PUBLIC_EMAILS = {"noreply@github.com"}
+ALLOWED_PUBLIC_EMAIL_SUFFIXES = ("@users.noreply.github.com",)
 
 
 @dataclass(frozen=True, slots=True)
@@ -92,10 +93,10 @@ def scan_text(rel_text: str, content: str) -> tuple[BoundaryIssue, ...]:
         ))
 
     # Generic personal emails are prohibited in repository file content.
-    # GitHub noreply addresses are allowed for documentation/test fixtures.
+    # GitHub-generated noreply addresses are allowed.
     for match in EMAIL_PATTERN.finditer(content):
         value = match.group(0).lower()
-        if not value.endswith(ALLOWED_PUBLIC_EMAIL_SUFFIXES):
+        if value not in ALLOWED_PUBLIC_EMAILS and not value.endswith(ALLOWED_PUBLIC_EMAIL_SUFFIXES):
             issues.append(BoundaryIssue(
                 rel_text,
                 "PUBLIC_PERSONAL_EMAIL",
