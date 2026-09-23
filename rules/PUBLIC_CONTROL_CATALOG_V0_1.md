@@ -5,7 +5,7 @@ Status: **PUBLIC CONSOLIDATION BASELINE**
 ## Purpose
 
 Define the public control inventory, responsibility boundaries, and allowed
-dependencies after Phase 2 Controls 01–08.
+dependencies after Phase 2 Controls 01–09.
 
 This catalog is descriptive governance for the public repository. It does not
 create production authority or a write path.
@@ -117,6 +117,29 @@ Dependency policy:
 - must not import a production adapter or connected-service client;
 - PASS means dry-run contract coherence only, never write authority.
 
+### Control 09 — RANKED_PREFIX_ALLOCATION_LINEAGE_V0_1
+
+Validates deterministic ranked-prefix allocation and lineage over an
+already-authorized candidate set.
+
+Responsibilities include:
+
+- canonical NEAREST-PRIOR ranking;
+- ranked-prefix allocation;
+- independent verifier on a separate implementation path;
+- deterministic candidate-set hashing;
+- source-rank lineage;
+- allocation-plan lineage.
+
+Dependency policy:
+
+- allocator path may depend on the bootstrap `allocation_nearest_prior.py`
+  primitive;
+- verifier must not call allocator decision/ranking helpers;
+- candidate authority/completeness is explicitly upstream;
+- must not import Cross-Year Authority, Source-Pool Authority, HOLD lifecycle,
+  release-gate aggregation, Rule Graph, or artifact-release logic.
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
@@ -154,6 +177,8 @@ reconciliation ─────┼─> explicit boolean gate map ─> release agg
 formula health ─────┘
 
 source-pool authority ─> explicit resolution ─> dry-run mutation contract
+
+already-authorized candidates ─> ranked-prefix allocation + lineage
 ```
 
 Domain-specific authority/HOLD decisions remain separately scoped and must not
@@ -163,8 +188,12 @@ The dry-run mutation contract is not a release or mutation executor.
 
 ## Deferred larger migrations
 
-The outbound decision kernel remains deferred pending its own dependency,
-duplication, and public-boundary audit.
+The original monolithic outbound decision kernel remains intentionally
+unmigrated. Only its unique ranked-prefix allocation and lineage layer was
+extracted as Control 09 after dependency/duplication/public-boundary audit.
+
+Rule Graph release profiles, BBGH/DDH artifact semantics, live candidate
+universe authority, and executable outbound mutation remain outside Control 09.
 
 Executable production adapters/writers are outside the current public
 capability boundary and remain prohibited.
