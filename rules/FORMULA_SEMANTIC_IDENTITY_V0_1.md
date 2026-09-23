@@ -80,6 +80,10 @@ Contract ID:
 
 `FORMULA_QUERY_SEMANTIC_HASH_V1`
 
+The v1 semantic payload and formula-contract payload are protected by golden
+vector regressions. Changing canonicalization or payload fields without a new
+version identifier is therefore a compatibility failure.
+
 ## Fail-closed behavior
 
 Assessment returns HOLD for:
