@@ -1,6 +1,6 @@
 # Phase 3 Required Gate Set Preflight — Design v0.1
 
-Status: **DESIGN SELECTED FOR IMPLEMENTATION REVIEW; NO CODE YET**
+Status: **DESIGN SELECTED; IMPLEMENTATION TRACKED SEPARATELY**
 
 Inputs: `PHASE_3_PUBLIC_SCOPE_GATE_V0_1` and
 `PHASE_3_EVIDENCE_COMPLETENESS_DESIGN_REVIEW_V0_1`.
@@ -113,5 +113,5 @@ resource identifier, or MASTER LIVE mutation is in scope.
 
 Before implementation merge, review exact diff, non-personal commit metadata,
 adversarial results, `unit-tests` and `trusted-public-boundary` logs, and
-post-merge push checks. A future control number in this design is a selected
-candidate, not a claim that Control 13 is implemented or released.
+post-merge push checks. A control number in this design alone is a selected
+candidate, not evidence that implementation passed CI or a release was tagged.

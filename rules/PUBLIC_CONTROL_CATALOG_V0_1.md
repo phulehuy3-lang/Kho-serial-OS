@@ -1,11 +1,11 @@
 # PUBLIC_CONTROL_CATALOG_V0_1
 
-Status: **PUBLIC CONSOLIDATION BASELINE**
+Status: **PUBLIC CONTROL INVENTORY — PHASE 2 BASELINE + PHASE 3 ADDITION**
 
 ## Purpose
 
 Define the public control inventory, responsibility boundaries, and allowed
-dependencies after Phase 2 Controls 01–12.
+dependencies for frozen Phase 2 Controls 01–12 and the later Phase 3 addition.
 
 This catalog is descriptive governance for the public repository. It does not
 create production authority or a write path.
@@ -222,6 +222,22 @@ Dependency policy:
 - neither control implies cached-value freshness or source↔derived parity;
 - must not import workbook adapters, live mapping constants, connectors, or
   mutation code.
+
+## Phase 3 control
+
+### Control 13 — REQUIRED_GATE_SET_PREFLIGHT_V0_1
+
+Checks exact required-gate coverage, duplicate IDs, and scenario/task/scope/
+capture-marker binding in already-materialized evidence. A structural PASS
+returns an immutable, complete native boolean/unknown map for explicit
+downstream composition with Control 07. `False` and `None` are forwarded and
+remain blocking there. The caller is responsible for declaring the authoritative
+required set and marker; this control proves neither global gate applicability
+nor live freshness, evidence authenticity, production release, or write
+authority. It imports no business controls or connected-service client.
+
+The frozen `v0.2.0` release remains the twelve-control Phase 2 baseline;
+Control 13 is a later main-branch addition.
 
 ## Accepted local duplication
 
