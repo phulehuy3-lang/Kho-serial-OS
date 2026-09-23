@@ -32,8 +32,13 @@ class RepositoryBoundaryTests(unittest.TestCase):
         issues = self._scan("docs/note.md", "contact = " + email)
         self.assertTrue(any(x.code == "PUBLIC_PERSONAL_EMAIL" for x in issues))
 
-    def test_github_noreply_email_is_allowed(self) -> None:
+    def test_github_user_noreply_email_is_allowed(self) -> None:
         email = "12345+synthetic" + "@" + "users.noreply.github.com"
+        issues = self._scan("docs/note.md", email)
+        self.assertFalse(any(x.code == "PUBLIC_PERSONAL_EMAIL" for x in issues))
+
+    def test_github_webflow_committer_email_is_allowed(self) -> None:
+        email = "noreply" + "@" + "github.com"
         issues = self._scan("docs/note.md", email)
         self.assertFalse(any(x.code == "PUBLIC_PERSONAL_EMAIL" for x in issues))
 
