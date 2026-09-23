@@ -1,5 +1,9 @@
 """Fail-closed public repository boundary guard.
 
+Scans the checked-out repository snapshot. This is one layer only; CI also
+runs the Git history boundary gate so content cannot be hidden in an earlier
+commit and removed before the PR head.
+
 This module performs no network or production I/O.
 """
 
@@ -48,6 +52,11 @@ LABELED_PRODUCTION_ID_PATTERN = re.compile(
     r"[^\n\r\d]{0,20}(\d{10,22})\b"
 )
 
+EMAIL_PATTERN = re.compile(
+    r"(?i)\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b"
+)
+ALLOWED_PUBLIC_EMAIL_SUFFIXES = ("@users.noreply.github.com", "@noreply.github.com")
+
 
 @dataclass(frozen=True, slots=True)
 class BoundaryIssue:
@@ -64,12 +73,37 @@ def _iter_files(root: Path) -> Iterator[Path]:
             yield path
 
 
-def _is_synthetic_test(path: Path, root: Path) -> bool:
-    try:
-        rel = path.relative_to(root)
-    except ValueError:
-        return False
-    return bool(rel.parts and rel.parts[0] == "tests")
+def scan_text(rel_text: str, content: str) -> tuple[BoundaryIssue, ...]:
+    issues: list[BoundaryIssue] = []
+
+    for code, pattern in SECRET_PATTERNS:
+        if pattern.search(content):
+            issues.append(BoundaryIssue(rel_text, code, "credential/token-like material"))
+
+    for code, pattern in CONNECTED_DOC_URL_PATTERNS:
+        if pattern.search(content):
+            issues.append(BoundaryIssue(rel_text, code, "connected production document URL/ID is not allowed"))
+
+    if LABELED_PRODUCTION_ID_PATTERN.search(content):
+        issues.append(BoundaryIssue(
+            rel_text,
+            "LABELED_PRODUCTION_IDENTIFIER",
+            "long numeric identifier appears next to a production label",
+        ))
+
+    # Generic personal emails are prohibited in repository file content.
+    # GitHub noreply addresses are allowed for documentation/test fixtures.
+    for match in EMAIL_PATTERN.finditer(content):
+        value = match.group(0).lower()
+        if not value.endswith(ALLOWED_PUBLIC_EMAIL_SUFFIXES):
+            issues.append(BoundaryIssue(
+                rel_text,
+                "PUBLIC_PERSONAL_EMAIL",
+                "non-noreply email address appears in public repository content",
+            ))
+            break
+
+    return tuple(issues)
 
 
 def scan_repository(root: Path) -> tuple[BoundaryIssue, ...]:
@@ -105,16 +139,7 @@ def scan_repository(root: Path) -> tuple[BoundaryIssue, ...]:
             issues.append(BoundaryIssue(rel_text, "UNSCANNABLE_FILE", "file contains binary NUL data"))
             continue
 
-        for code, pattern in SECRET_PATTERNS:
-            if pattern.search(content):
-                issues.append(BoundaryIssue(rel_text, code, "credential/token-like material"))
-
-        for code, pattern in CONNECTED_DOC_URL_PATTERNS:
-            if pattern.search(content):
-                issues.append(BoundaryIssue(rel_text, code, "connected production document URL/ID is not allowed"))
-
-        if not _is_synthetic_test(path, root) and LABELED_PRODUCTION_ID_PATTERN.search(content):
-            issues.append(BoundaryIssue(rel_text, "LABELED_PRODUCTION_IDENTIFIER", "long numeric identifier appears next to a production label"))
+        issues.extend(scan_text(rel_text, content))
 
     return tuple(issues)
 
