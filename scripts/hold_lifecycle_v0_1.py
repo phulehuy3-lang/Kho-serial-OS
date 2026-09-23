@@ -10,6 +10,8 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Iterable
 
+from scripts.serial_interval_integrity_v0_1 import SerialInterval, intervals_overlap
+
 
 PASS = "PASS"
 HOLD = "HOLD"
@@ -153,17 +155,25 @@ def _ranges_overlap(
     right_start: str | None,
     right_end: str | None,
 ) -> bool | None:
+    """Delegate inclusive overlap semantics to the canonical interval control."""
+
     ls = _range_key(left_start)
     le = _range_key(left_end)
     rs = _range_key(right_start)
     re = _range_key(right_end)
     if None in {ls, le, rs, re}:
         return None
+
     assert ls is not None and le is not None
     assert rs is not None and re is not None
-    if ls > le or rs > re:
+
+    try:
+        left = SerialInterval(ls, le)
+        right = SerialInterval(rs, re)
+    except (TypeError, ValueError):
         return None
-    return not (le < rs or re < ls)
+
+    return intervals_overlap(left, right)
 
 
 def validate_hold_record(

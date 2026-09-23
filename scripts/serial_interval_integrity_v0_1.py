@@ -9,10 +9,6 @@ from dataclasses import dataclass
 from typing import Sequence
 
 
-def _native_non_negative_int(value: object) -> bool:
-    return isinstance(value, int) and not isinstance(value, bool) and value >= 0
-
-
 @dataclass(frozen=True, slots=True)
 class SerialInterval:
     """Inclusive numeric serial interval."""
