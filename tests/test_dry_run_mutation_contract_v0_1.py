@@ -116,6 +116,7 @@ def manifest(**overrides):
         "line_keys": ("LINE-A",),
         "source_years": (2026,),
         "source_pool_authority_id": "AUTH-SYNTH-POOL-A",
+        "candidate_source_ids": ("SOURCE-SYNTH-A",),
         "candidate_set_hash": CANDIDATE_HASH,
         "allocation_plan_hash": PLAN_HASH,
         "mutation_whitelist_id": "WL-SYNTH-A",

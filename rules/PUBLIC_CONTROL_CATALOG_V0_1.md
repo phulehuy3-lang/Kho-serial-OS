@@ -101,6 +101,7 @@ write capability.
 Responsibilities include:
 
 - deterministic manifest hash;
+- exact source-pool ↔ candidate-source-set binding;
 - idempotency binding;
 - reviewed dry-run mutation whitelist;
 - exact rollback pairing;
@@ -112,6 +113,9 @@ Dependency policy:
 
 - may depend on `SOURCE_POOL_AUTHORITY_V0_1` only through an explicit
   upstream resolution object;
+- may consume validated candidate/allocation hashes produced by Control 09 and
+  a pretransition snapshot hash produced by Control 10 without importing those
+  modules;
 - same-year only in v0.1;
 - HOLD release excluded;
 - must not import a production adapter or connected-service client;
@@ -129,7 +133,8 @@ Responsibilities include:
 - independent verifier on a separate implementation path;
 - deterministic candidate-set hashing;
 - source-rank lineage;
-- allocation-plan lineage.
+- allocation-plan lineage;
+- canonical allocation-plan hashing after lineage PASS.
 
 Dependency policy:
 
@@ -166,8 +171,7 @@ Dependency policy:
 The following duplication is currently intentional:
 
 - local `PASS` / `HOLD` labels inside domain controls;
-- canonical-JSON hashing helpers inside the authority and dry-run contract
-  modules.
+- canonical-JSON/SHA-256 helpers inside Controls 01, 02, 08, 09, and 10.
 
 Reason: forcing a shared common-core module now would introduce coupling before
 the schemas are proven stable. Consolidation should occur only when a shared
@@ -197,11 +201,11 @@ negative stock ─────┤
 reconciliation ─────┼─> explicit boolean gate map ─> release aggregator
 formula health ─────┘
 
-source-pool authority ─> explicit resolution ─> dry-run mutation contract
-
-already-authorized candidates ─> ranked-prefix allocation + lineage
-
-materialized read surfaces ─> snapshot integrity + atomicity
+source-pool authority ───────────────┐
+                                     ├─> dry-run mutation contract
+authorized candidate IDs ─> ranked-prefix allocation + lineage ─┤
+                                     │
+materialized read surfaces ─> snapshot integrity + atomicity ────┘
 ```
 
 Domain-specific authority/HOLD decisions remain separately scoped and must not

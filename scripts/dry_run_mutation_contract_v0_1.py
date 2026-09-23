@@ -100,6 +100,7 @@ class DryRunMutationManifest:
     year_scope: str
     source_years: tuple[int, ...]
     source_pool_authority_id: str
+    candidate_source_ids: tuple[str, ...]
     candidate_set_hash: str
     allocation_plan_hash: str
     mutation_whitelist_id: str
@@ -128,6 +129,14 @@ class DryRunMutationAssessment:
 
 def _clean(value: object) -> str:
     return value.strip() if isinstance(value, str) else ""
+
+
+def _valid_source_ids(values: object) -> bool:
+    if not isinstance(values, tuple) or not values:
+        return False
+    if any(not _clean(value) for value in values):
+        return False
+    return len(set(values)) == len(values)
 
 
 def _valid_scalar(value: object) -> bool:
@@ -299,6 +308,7 @@ def mutation_manifest_hash_payload(
         "year_scope": manifest.year_scope,
         "source_years": list(manifest.source_years),
         "source_pool_authority_id": manifest.source_pool_authority_id,
+        "candidate_source_ids": list(manifest.candidate_source_ids),
         "candidate_set_hash": manifest.candidate_set_hash,
         "allocation_plan_hash": manifest.allocation_plan_hash,
         "mutation_whitelist_id": manifest.mutation_whitelist_id,
@@ -362,6 +372,7 @@ def with_computed_mutation_manifest_hash(
     line_keys: tuple[str, ...],
     source_years: tuple[int, ...],
     source_pool_authority_id: str,
+    candidate_source_ids: tuple[str, ...],
     candidate_set_hash: str,
     allocation_plan_hash: str,
     mutation_whitelist_id: str,
@@ -393,6 +404,7 @@ def with_computed_mutation_manifest_hash(
         year_scope=year_scope,
         source_years=source_years,
         source_pool_authority_id=source_pool_authority_id,
+        candidate_source_ids=candidate_source_ids,
         candidate_set_hash=candidate_set_hash,
         allocation_plan_hash=allocation_plan_hash,
         mutation_whitelist_id=mutation_whitelist_id,
@@ -418,6 +430,7 @@ def with_computed_mutation_manifest_hash(
         year_scope=provisional.year_scope,
         source_years=provisional.source_years,
         source_pool_authority_id=provisional.source_pool_authority_id,
+        candidate_source_ids=provisional.candidate_source_ids,
         candidate_set_hash=provisional.candidate_set_hash,
         allocation_plan_hash=provisional.allocation_plan_hash,
         mutation_whitelist_id=provisional.mutation_whitelist_id,
@@ -515,6 +528,9 @@ def assess_dry_run_mutation_contract(
     ):
         if not _clean(value):
             blockers.append(f"DRY_RUN_MUTATION:{code}")
+
+    if not _valid_source_ids(manifest.candidate_source_ids):
+        blockers.append("DRY_RUN_MUTATION:CANDIDATE_SOURCE_IDS_INVALID")
 
     for code, value in (
         ("CANDIDATE_SET_HASH_INVALID", manifest.candidate_set_hash),
@@ -645,11 +661,23 @@ def assess_dry_run_mutation_contract(
         or not source_pool_resolution.candidate_scope_verified
     ):
         blockers.append("DRY_RUN_MUTATION:SOURCE_POOL_AUTHORITY_NOT_VERIFIED")
+    if source_pool_resolution.blocking_reasons:
+        blockers.append("DRY_RUN_MUTATION:SOURCE_POOL_RESOLUTION_HAS_BLOCKERS")
     if (
         source_pool_resolution.authority_id
         != manifest.source_pool_authority_id
     ):
         blockers.append("DRY_RUN_MUTATION:SOURCE_POOL_AUTHORITY_ID_MISMATCH")
+    if not _valid_source_ids(source_pool_resolution.permitted_source_ids):
+        blockers.append(
+            "DRY_RUN_MUTATION:SOURCE_POOL_PERMITTED_SOURCE_SET_INVALID"
+        )
+    elif (
+        _valid_source_ids(manifest.candidate_source_ids)
+        and set(source_pool_resolution.permitted_source_ids)
+        != set(manifest.candidate_source_ids)
+    ):
+        blockers.append("DRY_RUN_MUTATION:SOURCE_POOL_SOURCE_SET_MISMATCH")
 
     readback = manifest.readback_contract
     if not _clean(readback.contract_id):

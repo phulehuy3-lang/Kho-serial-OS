@@ -20,6 +20,7 @@ Version 0.1 requires:
 - production-ready flag = native `False`;
 - HOLD release request = native `False`;
 - source-pool authority already verified upstream;
+- exact candidate source IDs bound into the manifest;
 - explicit approval bound to the exact task and manifest hash;
 - reviewed dry-run mutation whitelist;
 - exact rollback intent for every operation;
@@ -69,8 +70,9 @@ Every proposed operation must be covered by the whitelist.
 The idempotency key binds:
 
 - task ID;
+- candidate source IDs;
 - candidate-set hash;
-- allocation-plan hash;
+- canonical allocation-plan hash;
 - ordered operations;
 - expected-before values;
 - intended-after values.
@@ -104,7 +106,16 @@ Approval must bind:
 This control depends only on `SOURCE_POOL_AUTHORITY_V0_1`.
 
 The supplied source-pool resolution must be internally PASS/ready, candidate
-scope verified, and bind the exact authority ID carried by the manifest.
+scope verified, contain no blockers, expose a valid non-empty permitted source
+set, and bind the exact authority ID carried by the manifest.
+
+The manifest also binds the exact candidate source IDs used by downstream
+ranking/allocation. Their set must equal the source-pool resolution's
+`permitted_source_ids`. Ordering may differ for the authority comparison, but
+the manifest preserves the supplied candidate order in its own hash.
+
+When composed with Control 09, candidate IDs must use the same source-ID
+namespace as Control 02.
 
 ## Read-back obligations
 
