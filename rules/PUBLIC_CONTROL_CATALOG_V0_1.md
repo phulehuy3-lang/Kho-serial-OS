@@ -5,7 +5,7 @@ Status: **PUBLIC CONSOLIDATION BASELINE**
 ## Purpose
 
 Define the public control inventory, responsibility boundaries, and allowed
-dependencies after Phase 2 Controls 01–11.
+dependencies after Phase 2 Controls 01–12.
 
 This catalog is descriptive governance for the public repository. It does not
 create production authority or a write path.
@@ -193,12 +193,38 @@ Dependency policy:
 - must not import private outbound replay kernels, production adapters, live
   readers, connected-service clients, or mutation code.
 
+### Control 12 — FORMULA_SEMANTIC_IDENTITY_V0_1
+
+Validates exact semantics of an already-materialized QUERY formula against an
+explicit, hashed contract.
+
+Responsibilities include:
+
+- generic QUERY semantic contracts;
+- deterministic contract hashing;
+- normalized source/query semantics;
+- exact header-row binding;
+- verified native QUERY parsing;
+- verified OOXML-export wrapper parsing;
+- exact exported fallback binding;
+- deterministic versioned semantic hashing;
+- fail-closed detection of semantic drift.
+
+Dependency policy:
+
+- standalone pure in-memory primitive;
+- complements Control 06 but does not import it;
+- Control 06 proves presence/error health; Control 12 proves semantic identity;
+- neither control implies cached-value freshness or source↔derived parity;
+- must not import workbook adapters, live mapping constants, connectors, or
+  mutation code.
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
 
 - local `PASS` / `HOLD` labels inside domain controls;
-- canonical-JSON/SHA-256 helpers inside Controls 01, 02, 08, 09, and 10.
+- canonical-JSON/SHA-256 helpers inside Controls 01, 02, 08, 09, 10, and 12.
 
 Control 09 additionally publishes distinct hash contract IDs for candidate-set
 and allocation-plan payloads. Digest algorithm identity alone is not treated as
@@ -227,10 +253,11 @@ Higher-level workflows may compose controls only by explicit inputs.
 Example:
 
 ```text
-interval integrity ─┐
-negative stock ─────┤
-reconciliation ─────┼─> explicit boolean gate map ─> release aggregator
-formula health ─────┘
+interval integrity ──┐
+negative stock ───────┤
+reconciliation ───────┼─> explicit boolean gate map ─> release aggregator
+formula health ───────┤
+formula semantics ────┘
 
 source-pool authority ───────────────┐
                                      ├─> dry-run mutation contract
@@ -265,6 +292,11 @@ The private production snapshot validator, synthetic writer replay harness, and
 Wave A response-preimage/governance workflow remain intentionally unmigrated.
 Only the same-year materialized-lineage replay primitive was extracted as
 Control 11, and it explicitly does not prove global candidate completeness.
+
+The private production mapping adapter remains intentionally unmigrated. Only
+its generic in-memory QUERY formula-semantic identity primitive was extracted
+as Control 12. Live sheet/range mappings, workbook access, cached-value
+validation, and production snapshot orchestration remain outside Control 12.
 
 Executable production adapters/writers are outside the current public
 capability boundary and remain prohibited.
