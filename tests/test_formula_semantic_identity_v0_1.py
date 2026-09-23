@@ -5,11 +5,13 @@ import unittest
 
 from scripts.formula_semantic_identity_v0_1 import (
     EXPORTED_QUERY_WRAPPER,
+    FORMULA_SEMANTIC_HASH_ALGORITHM,
     FORMULA_SEMANTIC_HASH_CONTRACT_ID,
     HOLD,
     NATIVE_QUERY,
     PASS,
     assess_formula_semantic_identity,
+    compute_formula_contract_hash,
     compute_formula_semantic_hash,
     normalize_query_source,
     normalize_query_text,
@@ -66,6 +68,31 @@ class FormulaSemanticContractTests(unittest.TestCase):
         self.assertIn(
             "FORMULA_SEMANTICS:HEADER_ROWS_INVALID",
             validate_formula_semantic_contract(item),
+        )
+
+    def test_hash_algorithm_id_is_versioned(self) -> None:
+        self.assertEqual(
+            FORMULA_SEMANTIC_HASH_ALGORITHM,
+            "SHA256_CANONICAL_QUERY_SEMANTICS_V1",
+        )
+
+    def test_semantic_hash_v1_golden_vector(self) -> None:
+        digest = compute_formula_semantic_hash(
+            source="SOURCE_TABLE!A:Z",
+            query_text="SELECT A,B,C WHERE C > 0 AND B = TRUE",
+            header_rows=1,
+        )
+        self.assertEqual(
+            digest,
+            "296181cfeb95670501db89abf6a97e64"
+            "884a3dea82820ecfeb976b4f8d9f29ba",
+        )
+
+    def test_formula_contract_hash_v1_golden_vector(self) -> None:
+        self.assertEqual(
+            compute_formula_contract_hash(contract()),
+            "d5941a33c41208c8a7067cdf31025440"
+            "5c1cdd0bdd426844157dba7c9d0b4e64",
         )
 
     def test_hash_contract_id_is_versioned(self) -> None:
