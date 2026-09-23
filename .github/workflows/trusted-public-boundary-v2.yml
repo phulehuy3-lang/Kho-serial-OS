@@ -41,7 +41,8 @@ jobs:
             scripts/check_git_history_boundary.py \
             scripts/check_git_history_boundary_v2.py \
             scripts/check_static_quality.py \
-            scripts/check_static_quality_v2.py; do
+            scripts/check_static_quality_v2.py \
+            tests/test_git_history_boundary.py; do
             if grep -Fxq "$frozen" <<<"$changed"; then
               echo "FROZEN_POLICY_PATH_CHANGED: $frozen"
               exit 1
