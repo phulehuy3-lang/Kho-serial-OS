@@ -288,6 +288,41 @@ class MaterializedLineageReplayTests(unittest.TestCase):
             result.blocking_reasons,
         )
 
+    def test_historical_allocation_total_mismatch_is_not_replayable(
+        self,
+    ) -> None:
+        result = replay_materialized_lineage(
+            snapshot(
+                evidence=historical(
+                    quantities=(99,),
+                )
+            )
+        )
+        self.assertEqual(result.status, NOT_REPLAYABLE)
+        self.assertIn(
+            "LINEAGE_REPLAY:HISTORICAL_ALLOCATION_TOTAL_MISMATCH",
+            result.blocking_reasons,
+        )
+        self.assertEqual(result.kernel_ranked_source_ids, ())
+        self.assertEqual(result.kernel_expected_allocation, ())
+        self.assertIsNone(result.kernel_candidate_set_hash)
+
+    def test_historical_allocation_total_over_request_is_not_replayable(
+        self,
+    ) -> None:
+        result = replay_materialized_lineage(
+            snapshot(
+                evidence=historical(
+                    quantities=(101,),
+                )
+            )
+        )
+        self.assertEqual(result.status, NOT_REPLAYABLE)
+        self.assertIn(
+            "LINEAGE_REPLAY:HISTORICAL_ALLOCATION_TOTAL_MISMATCH",
+            result.blocking_reasons,
+        )
+
     def test_rank_mismatch_holds(self) -> None:
         sources = (
             source(
@@ -318,11 +353,31 @@ class MaterializedLineageReplayTests(unittest.TestCase):
             result.blocking_reasons,
         )
 
-    def test_allocation_quantity_mismatch_holds(self) -> None:
+    def test_allocation_distribution_mismatch_holds(self) -> None:
+        sources = (
+            source(
+                "SRC-NEW",
+                source_date=date(2026, 9, 10),
+                source_row=20,
+                serial_start="01000",
+                inbound_qty=60,
+            ),
+            source(
+                "SRC-OLD",
+                source_date=date(2026, 9, 7),
+                source_row=10,
+                serial_start="02000",
+                inbound_qty=60,
+            ),
+        )
+        evidence = historical(
+            ranked=("SRC-NEW", "SRC-OLD"),
+            selected=("SRC-NEW", "SRC-OLD"),
+            quantities=(50, 50),
+            candidate_count=2,
+        )
         result = replay_materialized_lineage(
-            snapshot(
-                evidence=historical(quantities=(99,))
-            )
+            snapshot(sources=sources, evidence=evidence)
         )
         self.assertEqual(result.status, HOLD)
         self.assertIn(
