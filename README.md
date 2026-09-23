@@ -44,8 +44,15 @@ Phase 2 adds twelve sanitized controls:
 11. MATERIALIZED_LINEAGE_REPLAY_V0_1
 12. FORMULA_SEMANTIC_IDENTITY_V0_1
 
+Phase 3 adds one scoped, pure composition preflight:
+
+13. REQUIRED_GATE_SET_PREFLIGHT_V0_1
+
 The authoritative public dependency/composition map is documented in
 `rules/PUBLIC_CONTROL_CATALOG_V0_1.md`.
+
+The Phase 2 `v0.2.0` tag remains the frozen twelve-control release. Control 13
+is a later main-branch addition and does not alter that tag.
 
 ## Composition rule
 
@@ -75,6 +82,10 @@ global candidate completeness.
 Formula health and formula semantic identity are intentionally separate:
 Control 06 checks formula presence/error health, while Control 12 checks whether
 a materialized QUERY formula still matches an explicit semantic contract.
+
+Control 13 validates exact coverage against a caller-declared required gate
+set before Control 07 aggregates its complete boolean/unknown map. It does not
+establish which business gates the caller should declare.
 
 The repository remains an engineering-control baseline, not an operational
 database and not an authority for live warehouse state.
