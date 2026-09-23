@@ -7,6 +7,7 @@ import tempfile
 import unittest
 
 from scripts.check_git_history_boundary import _email_is_public_safe, scan_range
+from scripts.check_git_history_boundary_v2 import scan_range_v2
 
 
 class GitHistoryBoundaryTests(unittest.TestCase):
@@ -92,6 +93,32 @@ class GitHistoryBoundaryTests(unittest.TestCase):
 
     def test_github_squash_committer_email_is_safe(self) -> None:
         self.assertTrue(_email_is_public_safe("noreply" + "@" + "github.com"))
+
+    def test_v2_catches_transient_symlink(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self._git(root, "init")
+            self._git(root, "config", "user.name", "Synthetic Test")
+            self._git(root, "config", "user.email", "noreply@github.com")
+            (root / "safe.txt").write_text("safe\n", encoding="utf-8")
+            self._git(root, "add", ".")
+            self._git(root, "commit", "-m", "base")
+            base = self._git(root, "rev-parse", "HEAD")
+            (root / "link").symlink_to("safe.txt")
+            self._git(root, "add", "link")
+            self._git(root, "commit", "-m", "add link")
+            (root / "link").unlink()
+            self._git(root, "add", "-u")
+            self._git(root, "commit", "-m", "remove link")
+            head = self._git(root, "rev-parse", "HEAD")
+            old = os.getcwd()
+            try:
+                os.chdir(root)
+                self.assertEqual(scan_range(base, head), ())
+                issues = scan_range_v2(base, head)
+            finally:
+                os.chdir(old)
+            self.assertTrue(any(issue.code == "LINKED_OBJECT_HISTORY" for issue in issues))
 
 
 if __name__ == "__main__":

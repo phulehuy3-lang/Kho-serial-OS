@@ -1,0 +1,66 @@
+name: Trusted Public Boundary V2
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  trusted-public-boundary-v2:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout trusted base policy
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.base.sha || github.sha }}
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Validate PR with trusted base policy
+        if: github.event_name == 'pull_request_target'
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$HEAD_SHA"
+          changed="$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")"
+          for frozen in \
+            .github/workflows/trusted-public-boundary.yml \
+            .github/workflows/trusted-public-boundary-v2.yml \
+            scripts/check_repo_boundary.py \
+            scripts/check_git_history_boundary.py \
+            scripts/check_git_history_boundary_v2.py \
+            scripts/check_static_quality.py \
+            scripts/check_static_quality_v2.py \
+            tests/test_git_history_boundary.py; do
+            if grep -Fxq "$frozen" <<<"$changed"; then
+              echo "FROZEN_POLICY_PATH_CHANGED: $frozen"
+              exit 1
+            fi
+          done
+          python scripts/check_git_history_boundary_v2.py "$BASE_SHA" "$HEAD_SHA"
+          git worktree add --detach "$RUNNER_TEMP/pr-head" "$HEAD_SHA"
+          python scripts/check_repo_boundary.py "$RUNNER_TEMP/pr-head"
+          python scripts/check_static_quality_v2.py "$RUNNER_TEMP/pr-head"
+
+      - name: Main self-check
+        if: github.event_name == 'push'
+        shell: bash
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          python scripts/check_git_history_boundary_v2.py "$BEFORE_SHA" "$HEAD_SHA"
+          python scripts/check_repo_boundary.py .
+          python scripts/check_static_quality_v2.py .
