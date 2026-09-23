@@ -40,6 +40,8 @@ internally coherent, including:
 - ranked source IDs are unique and non-empty;
 - selected source IDs are unique, non-empty, and inside the materialized set;
 - allocation quantities are positive native integers;
+- historical allocation quantities sum exactly to the transaction requested
+  quantity;
 - source snapshots are unique and same-year;
 - source date is not after document date;
 - source row is a positive native integer;
@@ -62,7 +64,12 @@ Control 09 is then used to recompute:
 - allocation quantities;
 - candidate-set hash.
 
-Any semantic mismatch with the historical lineage returns `HOLD`.
+Historical evidence that is internally impossible before replay, including an
+allocation total different from the transaction requested quantity, is
+`NOT_REPLAYABLE`.
+
+After replayability passes, any semantic mismatch between the historical
+decision and the current canonical replay returns `HOLD`.
 
 ## Historical candidate-set hash
 

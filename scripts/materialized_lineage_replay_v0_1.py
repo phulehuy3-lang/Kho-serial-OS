@@ -168,6 +168,17 @@ def _replayability_blockers(
         blockers.append("LINEAGE_REPLAY:SELECTION_QUANTITY_LENGTH_MISMATCH")
 
     if (
+        _positive_int(tx.requested_qty)
+        and isinstance(evidence.allocation_quantities, tuple)
+        and evidence.allocation_quantities
+        and all(_positive_int(q) for q in evidence.allocation_quantities)
+        and sum(evidence.allocation_quantities) != tx.requested_qty
+    ):
+        blockers.append(
+            "LINEAGE_REPLAY:HISTORICAL_ALLOCATION_TOTAL_MISMATCH"
+        )
+
+    if (
         _positive_int(evidence.candidate_count)
         and isinstance(evidence.ranked_source_ids, tuple)
         and evidence.candidate_count != len(evidence.ranked_source_ids)
