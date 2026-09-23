@@ -10,6 +10,7 @@ from datetime import date
 
 from scripts.ranked_prefix_allocation_lineage_v0_1 import (
     CANDIDATE_SET_HASH_ALGORITHM,
+    CANDIDATE_SET_HASH_CONTRACT_ID,
     PASS as RANKED_PREFIX_PASS,
     AllocationSlice,
     RankedCandidate,
@@ -61,6 +62,7 @@ class HistoricalLineageEvidence:
     allocation_quantities: tuple[int, ...]
     historical_candidate_set_hash: str | None = None
     historical_hash_algorithm: str | None = None
+    historical_hash_contract_id: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -78,6 +80,7 @@ class MaterializedLineageReplayComparison:
     blocking_reasons: tuple[str, ...]
     candidate_scope: str
     hash_status: str
+    cryptographic_hash_match_proven: bool
     reconstructed_available_qty: tuple[tuple[str, int], ...]
     kernel_ranked_source_ids: tuple[str, ...]
     kernel_expected_allocation: tuple[AllocationSlice, ...]
@@ -267,6 +270,8 @@ def _replayability_blockers(
     if (
         historical_hash is not None
         and historical_algorithm == CANDIDATE_SET_HASH_ALGORITHM
+        and evidence.historical_hash_contract_id
+        == CANDIDATE_SET_HASH_CONTRACT_ID
         and not _is_sha256(historical_hash)
     ):
         blockers.append(
@@ -319,7 +324,11 @@ def _hash_status(
     if historical_hash is None:
         return HASH_MISSING, ()
 
-    if evidence.historical_hash_algorithm != CANDIDATE_SET_HASH_ALGORITHM:
+    if (
+        evidence.historical_hash_algorithm != CANDIDATE_SET_HASH_ALGORITHM
+        or evidence.historical_hash_contract_id
+        != CANDIDATE_SET_HASH_CONTRACT_ID
+    ):
         return HASH_NOT_COMPARABLE, ()
 
     if kernel_hash == historical_hash:
@@ -351,6 +360,7 @@ def replay_materialized_lineage(
                 if evidence.historical_candidate_set_hash is None
                 else HASH_NOT_COMPARABLE
             ),
+            cryptographic_hash_match_proven=False,
             reconstructed_available_qty=reconstructed,
             kernel_ranked_source_ids=(),
             kernel_expected_allocation=(),
@@ -398,6 +408,7 @@ def replay_materialized_lineage(
             blocking_reasons=tuple(sorted(set(blockers))),
             candidate_scope=evidence.candidate_scope,
             hash_status=hash_status,
+            cryptographic_hash_match_proven=(hash_status == HASH_MATCH),
             reconstructed_available_qty=reconstructed,
             kernel_ranked_source_ids=decision.ranked_candidate_ids,
             kernel_expected_allocation=decision.expected_allocation,
@@ -410,6 +421,7 @@ def replay_materialized_lineage(
         blocking_reasons=(),
         candidate_scope=evidence.candidate_scope,
         hash_status=hash_status,
+        cryptographic_hash_match_proven=(hash_status == HASH_MATCH),
         reconstructed_available_qty=reconstructed,
         kernel_ranked_source_ids=decision.ranked_candidate_ids,
         kernel_expected_allocation=decision.expected_allocation,

@@ -69,12 +69,24 @@ Any semantic mismatch with the historical lineage returns `HOLD`.
 If no historical hash is present, replay may still match semantically and
 reports `MISSING`.
 
-If a hash is present under a different algorithm identifier, replay reports
-`NOT_COMPARABLE`.
+If a hash is present under a different algorithm identifier or a different
+hash contract ID, replay reports `NOT_COMPARABLE`.
 
-When the historical algorithm matches Control 09's canonical candidate-set
-algorithm, the historical hash must be a valid lowercase SHA-256 digest and
-must equal the recomputed hash. A mismatch returns `HOLD`.
+Comparable candidate-set hashes require both:
+
+- algorithm ID = `SHA256_CANONICAL_JSON_V1`;
+- contract ID = `RANKED_PREFIX_CANDIDATE_SET_HASH_V1`.
+
+The algorithm identifies the digest/canonicalization mechanism. The contract ID
+identifies the exact payload schema. Matching only the algorithm is
+insufficient.
+
+When both identities match, the historical hash must be a valid lowercase
+SHA-256 digest and must equal the recomputed hash. A mismatch returns `HOLD`.
+
+The result separately exposes whether cryptographic hash equality was actually
+proven. A semantic `MATCH` with a missing or non-comparable historical hash is
+not represented as cryptographic equality.
 
 ## Result classes
 

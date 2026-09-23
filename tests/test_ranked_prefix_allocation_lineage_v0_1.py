@@ -6,6 +6,8 @@ import unittest
 from unittest.mock import patch
 
 from scripts.ranked_prefix_allocation_lineage_v0_1 import (
+    ALLOCATION_PLAN_HASH_CONTRACT_ID,
+    CANDIDATE_SET_HASH_CONTRACT_ID,
     HOLD,
     PASS,
     AllocationSlice,
@@ -102,6 +104,40 @@ class RankedPrefixDecisionTests(unittest.TestCase):
         second = evaluate((b, a))
         self.assertEqual(first.ranked_candidate_ids, second.ranked_candidate_ids)
         self.assertEqual(first.candidate_set_hash, second.candidate_set_hash)
+
+    def test_candidate_hash_contract_id_is_versioned(self) -> None:
+        self.assertEqual(
+            CANDIDATE_SET_HASH_CONTRACT_ID,
+            "RANKED_PREFIX_CANDIDATE_SET_HASH_V1",
+        )
+
+    def test_candidate_hash_v1_golden_vector(self) -> None:
+        decision = evaluate_ranked_prefix_allocation(
+            task_id="TASK-HASH-A",
+            target_date=date(2026, 2, 15),
+            requested_qty=100,
+            candidates=(
+                RankedCandidate(
+                    "SRC-A",
+                    date(2026, 2, 14),
+                    1,
+                    "00100",
+                    60,
+                ),
+                RankedCandidate(
+                    "SRC-B",
+                    date(2026, 2, 13),
+                    2,
+                    "00200",
+                    60,
+                ),
+            ),
+        )
+        self.assertEqual(
+            decision.candidate_set_hash,
+            "37184de82ede28fdddc86dcc23dd7f89"
+            "b3de35f67ba79ce7665e28cd0a761718",
+        )
 
     def test_nearest_prior_date_ranks_first(self) -> None:
         newer = candidate(
@@ -410,6 +446,56 @@ class LineageTests(unittest.TestCase):
         self.assertEqual(first, second)
         self.assertEqual(len(first), 64)
         self.assertTrue(all(char in "0123456789abcdef" for char in first))
+
+    def test_allocation_plan_hash_contract_id_is_versioned(self) -> None:
+        self.assertEqual(
+            ALLOCATION_PLAN_HASH_CONTRACT_ID,
+            "RANKED_PREFIX_ALLOCATION_PLAN_HASH_V1",
+        )
+
+    def test_allocation_plan_hash_v1_golden_vector(self) -> None:
+        decision = evaluate_ranked_prefix_allocation(
+            task_id="TASK-HASH-A",
+            target_date=date(2026, 2, 15),
+            requested_qty=100,
+            candidates=(
+                RankedCandidate(
+                    "SRC-A",
+                    date(2026, 2, 14),
+                    1,
+                    "00100",
+                    60,
+                ),
+                RankedCandidate(
+                    "SRC-B",
+                    date(2026, 2, 13),
+                    2,
+                    "00200",
+                    60,
+                ),
+            ),
+        )
+        lineage = build_source_rank_lineage(
+            task_id="TASK-HASH-A",
+            decision=decision,
+            source_rank_gate_id="GATE-A",
+        )
+        plan = build_allocation_plan(
+            task_id="TASK-HASH-A",
+            decision=decision,
+            source_rank_gate_id="GATE-A",
+        )
+        digest = compute_allocation_plan_hash(
+            task_id="TASK-HASH-A",
+            decision=decision,
+            lineage=lineage,
+            plan_rows=plan,
+        )
+        self.assertEqual(
+            digest,
+            "e36f9f6818a2290e67d1d39ca0923fd"
+            "64605a4663547da62c946204a20157b63",
+        )
 
     def test_plan_state_changes_allocation_plan_hash(self) -> None:
         planned = build_allocation_plan(

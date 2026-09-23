@@ -69,6 +69,18 @@ business policy.
 
 ## Candidate-set hash
 
+Hash algorithm ID:
+
+`SHA256_CANONICAL_JSON_V1`
+
+Hash contract ID:
+
+`RANKED_PREFIX_CANDIDATE_SET_HASH_V1`
+
+The algorithm ID identifies the digest/canonical-JSON mechanism. The contract
+ID identifies the exact candidate-set payload schema. Historical compatibility
+requires both identities, not the algorithm string alone.
+
 The deterministic SHA-256 hash binds:
 
 - task ID;
@@ -105,6 +117,18 @@ Allocation-plan lineage additionally binds:
 Supported plan states are `PLANNED` and `COMMITTED`.
 
 ## Allocation-plan hash
+
+Hash algorithm ID:
+
+`SHA256_CANONICAL_JSON_V1`
+
+Hash contract ID:
+
+`RANKED_PREFIX_ALLOCATION_PLAN_HASH_V1`
+
+The candidate-set and allocation-plan hashes intentionally share the same hash
+algorithm while using different contract IDs because their payload schemas are
+not interchangeable.
 
 A canonical allocation-plan SHA-256 hash may be produced only after allocation
 plan lineage validation passes.
