@@ -10,7 +10,8 @@ Define a pure, fail-closed contract for:
 2. ranked-prefix allocation;
 3. independent allocation verification;
 4. source-rank lineage;
-5. allocation-plan lineage.
+5. allocation-plan lineage;
+6. canonical allocation-plan hashing.
 
 This control does not discover candidates, authorize their business scope,
 resolve cross-year authority, evaluate HOLD policy, aggregate release gates, or
@@ -102,6 +103,26 @@ Allocation-plan lineage additionally binds:
 - plan state.
 
 Supported plan states are `PLANNED` and `COMMITTED`.
+
+## Allocation-plan hash
+
+A canonical allocation-plan SHA-256 hash may be produced only after allocation
+plan lineage validation passes.
+
+The hash binds:
+
+- task ID;
+- source-rank gate ID;
+- candidate-set hash;
+- ordered allocation rows;
+- allocation rank;
+- candidate ID;
+- planned quantity;
+- plan state.
+
+Changing plan state from `PLANNED` to `COMMITTED` therefore changes the hash.
+Invalid or lineage-inconsistent plans are not hashable through the public
+helper.
 
 ## Scope boundary
 

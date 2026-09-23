@@ -20,6 +20,7 @@ from scripts.allocation_nearest_prior import (
 PASS = "PASS"
 HOLD = "HOLD"
 CANDIDATE_SET_HASH_ALGORITHM = "SHA256_CANONICAL_JSON_V1"
+ALLOCATION_PLAN_HASH_ALGORITHM = "SHA256_CANONICAL_JSON_V1"
 _ALLOWED_PLAN_STATES = {"PLANNED", "COMMITTED"}
 
 
@@ -596,3 +597,51 @@ def validate_allocation_plan_lineage(
             blocking_reasons=tuple(sorted(set(blockers))),
         )
     return ValidationDecision(status=PASS, ready=True, blocking_reasons=())
+
+
+def compute_allocation_plan_hash(
+    *,
+    task_id: str,
+    decision: RankedPrefixDecision,
+    lineage: SourceRankLineage,
+    plan_rows: Sequence[AllocationPlanRow],
+) -> str:
+    """Hash only a lineage-valid allocation plan.
+
+    The hash is suitable for binding downstream dry-run contracts to the exact
+    validated plan. Invalid plans raise instead of producing a trusted hash.
+    """
+
+    validation = validate_allocation_plan_lineage(
+        task_id=task_id,
+        decision=decision,
+        lineage=lineage,
+        plan_rows=plan_rows,
+    )
+    if not validation.ready:
+        raise ValueError(
+            "allocation plan hash requires PASS lineage validation: "
+            + ",".join(validation.blocking_reasons)
+        )
+
+    payload = {
+        "task_id": task_id,
+        "source_rank_gate_id": lineage.source_rank_gate_id,
+        "candidate_set_hash": lineage.candidate_set_hash,
+        "rows": [
+            {
+                "allocation_rank": row.allocation_rank,
+                "candidate_id": row.candidate_id,
+                "planned_quantity": row.planned_quantity,
+                "state": row.state,
+            }
+            for row in plan_rows
+        ],
+    }
+    encoded = json.dumps(
+        payload,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()

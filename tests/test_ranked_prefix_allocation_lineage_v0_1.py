@@ -12,6 +12,7 @@ from scripts.ranked_prefix_allocation_lineage_v0_1 import (
     RankedCandidate,
     build_allocation_plan,
     build_source_rank_lineage,
+    compute_allocation_plan_hash,
     evaluate_ranked_prefix_allocation,
     validate_allocation_plan_lineage,
     validate_source_rank_lineage,
@@ -387,6 +388,72 @@ class LineageTests(unittest.TestCase):
             "RANKED_PREFIX:PLAN_QTY_MISMATCH",
             result.blocking_reasons,
         )
+
+    def test_allocation_plan_hash_is_deterministic(self) -> None:
+        plan = build_allocation_plan(
+            task_id="TASK-SYNTH-A",
+            decision=self.decision,
+            source_rank_gate_id=self.lineage.source_rank_gate_id,
+        )
+        first = compute_allocation_plan_hash(
+            task_id="TASK-SYNTH-A",
+            decision=self.decision,
+            lineage=self.lineage,
+            plan_rows=plan,
+        )
+        second = compute_allocation_plan_hash(
+            task_id="TASK-SYNTH-A",
+            decision=self.decision,
+            lineage=self.lineage,
+            plan_rows=plan,
+        )
+        self.assertEqual(first, second)
+        self.assertEqual(len(first), 64)
+        self.assertTrue(all(char in "0123456789abcdef" for char in first))
+
+    def test_plan_state_changes_allocation_plan_hash(self) -> None:
+        planned = build_allocation_plan(
+            task_id="TASK-SYNTH-A",
+            decision=self.decision,
+            source_rank_gate_id=self.lineage.source_rank_gate_id,
+            state="PLANNED",
+        )
+        committed = build_allocation_plan(
+            task_id="TASK-SYNTH-A",
+            decision=self.decision,
+            source_rank_gate_id=self.lineage.source_rank_gate_id,
+            state="COMMITTED",
+        )
+        planned_hash = compute_allocation_plan_hash(
+            task_id="TASK-SYNTH-A",
+            decision=self.decision,
+            lineage=self.lineage,
+            plan_rows=planned,
+        )
+        committed_hash = compute_allocation_plan_hash(
+            task_id="TASK-SYNTH-A",
+            decision=self.decision,
+            lineage=self.lineage,
+            plan_rows=committed,
+        )
+        self.assertNotEqual(planned_hash, committed_hash)
+
+    def test_invalid_plan_cannot_receive_canonical_hash(self) -> None:
+        plan = list(
+            build_allocation_plan(
+                task_id="TASK-SYNTH-A",
+                decision=self.decision,
+                source_rank_gate_id=self.lineage.source_rank_gate_id,
+            )
+        )
+        plan[-1] = replace(plan[-1], planned_quantity=39)
+        with self.assertRaises(ValueError):
+            compute_allocation_plan_hash(
+                task_id="TASK-SYNTH-A",
+                decision=self.decision,
+                lineage=self.lineage,
+                plan_rows=plan,
+            )
 
     def test_invalid_plan_state_is_rejected_by_builder(self) -> None:
         with self.assertRaises(ValueError):
