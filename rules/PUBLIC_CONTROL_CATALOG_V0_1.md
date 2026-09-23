@@ -215,6 +215,10 @@ Dependency policy:
 - standalone pure in-memory primitive;
 - complements Control 06 but does not import it;
 - Control 06 proves presence/error health; Control 12 proves semantic identity;
+- when both gates are applicable, higher-level composition must require both to
+  pass independently before release aggregation can be ready;
+- a public regression composes Controls 06 and 12 only through explicit native
+  booleans into Control 07; the production control modules remain decoupled;
 - neither control implies cached-value freshness or source↔derived parity;
 - must not import workbook adapters, live mapping constants, connectors, or
   mutation code.
