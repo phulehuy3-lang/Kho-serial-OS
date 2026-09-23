@@ -21,6 +21,7 @@ from scripts.materialized_lineage_replay_v0_1 import (
 )
 from scripts.ranked_prefix_allocation_lineage_v0_1 import (
     CANDIDATE_SET_HASH_ALGORITHM,
+    CANDIDATE_SET_HASH_CONTRACT_ID,
     RankedCandidate,
     evaluate_ranked_prefix_allocation,
 )
@@ -66,6 +67,7 @@ def historical(
     candidate_count=1,
     historical_hash=None,
     historical_algorithm=None,
+    historical_contract_id=None,
     **overrides,
 ) -> HistoricalLineageEvidence:
     values = {
@@ -81,6 +83,7 @@ def historical(
         "allocation_quantities": tuple(quantities),
         "historical_candidate_set_hash": historical_hash,
         "historical_hash_algorithm": historical_algorithm,
+        "historical_hash_contract_id": historical_contract_id,
     }
     values.update(overrides)
     return HistoricalLineageEvidence(**values)
@@ -131,6 +134,7 @@ class MaterializedLineageReplayTests(unittest.TestCase):
             (("SRC-A", 100),),
         )
         self.assertEqual(result.hash_status, HASH_MISSING)
+        self.assertFalse(result.cryptographic_hash_match_proven)
 
     def test_prior_out_reconstruction_matches(self) -> None:
         sources = (
@@ -333,12 +337,14 @@ class MaterializedLineageReplayTests(unittest.TestCase):
         evidence = historical(
             historical_hash=digest,
             historical_algorithm=CANDIDATE_SET_HASH_ALGORITHM,
+            historical_contract_id=CANDIDATE_SET_HASH_CONTRACT_ID,
         )
         result = replay_materialized_lineage(
             snapshot(tx=tx, sources=sources, evidence=evidence)
         )
         self.assertEqual(result.status, MATCH)
         self.assertEqual(result.hash_status, HASH_MATCH)
+        self.assertTrue(result.cryptographic_hash_match_proven)
 
     def test_comparable_candidate_hash_mismatch_holds(self) -> None:
         result = replay_materialized_lineage(
@@ -346,6 +352,7 @@ class MaterializedLineageReplayTests(unittest.TestCase):
                 evidence=historical(
                     historical_hash="0" * 64,
                     historical_algorithm=CANDIDATE_SET_HASH_ALGORITHM,
+                    historical_contract_id=CANDIDATE_SET_HASH_CONTRACT_ID,
                 )
             )
         )
@@ -355,6 +362,7 @@ class MaterializedLineageReplayTests(unittest.TestCase):
             "LINEAGE_REPLAY:CANDIDATE_SET_HASH_MISMATCH",
             result.blocking_reasons,
         )
+        self.assertFalse(result.cryptographic_hash_match_proven)
 
     def test_noncomparable_hash_does_not_claim_hash_match(self) -> None:
         result = replay_materialized_lineage(
@@ -368,12 +376,50 @@ class MaterializedLineageReplayTests(unittest.TestCase):
         self.assertEqual(result.status, MATCH)
         self.assertEqual(result.hash_status, HASH_NOT_COMPARABLE)
 
+    def test_same_algorithm_without_contract_id_is_not_comparable(self) -> None:
+        tx = transaction()
+        sources = (source("SRC-A"),)
+        digest = canonical_hash(tx, sources)
+        result = replay_materialized_lineage(
+            snapshot(
+                tx=tx,
+                sources=sources,
+                evidence=historical(
+                    historical_hash=digest,
+                    historical_algorithm=CANDIDATE_SET_HASH_ALGORITHM,
+                ),
+            )
+        )
+        self.assertEqual(result.status, MATCH)
+        self.assertEqual(result.hash_status, HASH_NOT_COMPARABLE)
+        self.assertFalse(result.cryptographic_hash_match_proven)
+
+    def test_wrong_hash_contract_id_is_not_comparable(self) -> None:
+        tx = transaction()
+        sources = (source("SRC-A"),)
+        digest = canonical_hash(tx, sources)
+        result = replay_materialized_lineage(
+            snapshot(
+                tx=tx,
+                sources=sources,
+                evidence=historical(
+                    historical_hash=digest,
+                    historical_algorithm=CANDIDATE_SET_HASH_ALGORITHM,
+                    historical_contract_id="OTHER_CONTRACT",
+                ),
+            )
+        )
+        self.assertEqual(result.status, MATCH)
+        self.assertEqual(result.hash_status, HASH_NOT_COMPARABLE)
+        self.assertFalse(result.cryptographic_hash_match_proven)
+
     def test_malformed_comparable_hash_is_not_replayable(self) -> None:
         result = replay_materialized_lineage(
             snapshot(
                 evidence=historical(
                     historical_hash="not-a-sha256",
                     historical_algorithm=CANDIDATE_SET_HASH_ALGORITHM,
+                    historical_contract_id=CANDIDATE_SET_HASH_CONTRACT_ID,
                 )
             )
         )

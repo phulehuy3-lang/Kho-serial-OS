@@ -131,7 +131,7 @@ Responsibilities include:
 - canonical NEAREST-PRIOR ranking;
 - ranked-prefix allocation;
 - independent verifier on a separate implementation path;
-- deterministic candidate-set hashing;
+- deterministic candidate-set hashing with a versioned hash contract ID;
 - source-rank lineage;
 - allocation-plan lineage;
 - canonical allocation-plan hashing after lineage PASS.
@@ -179,7 +179,8 @@ Responsibilities include:
 - validating replayability of historical lineage evidence;
 - replaying canonical ranking/allocation through Control 09;
 - comparing ranked sources, selected sources, allocation quantities, and
-  comparable candidate-set hashes;
+  candidate-set hashes only when both hash algorithm and hash contract IDs are
+  compatible;
 - distinguishing `NOT_REPLAYABLE` evidence defects from `HOLD` semantic
   mismatches.
 
@@ -198,6 +199,10 @@ The following duplication is currently intentional:
 
 - local `PASS` / `HOLD` labels inside domain controls;
 - canonical-JSON/SHA-256 helpers inside Controls 01, 02, 08, 09, and 10.
+
+Control 09 additionally publishes distinct hash contract IDs for candidate-set
+and allocation-plan payloads. Digest algorithm identity alone is not treated as
+payload-schema compatibility.
 
 Reason: forcing a shared common-core module now would introduce coupling before
 the schemas are proven stable. Consolidation should occur only when a shared
