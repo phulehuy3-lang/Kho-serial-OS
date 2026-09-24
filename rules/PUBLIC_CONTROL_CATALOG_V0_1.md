@@ -383,6 +383,39 @@ Authority remains:
 - Production writer = HOLD;
 - MASTER LIVE unchanged.
 
+## Inbound evidence materialization package
+
+### INBOUND_EVIDENCE_MATERIALIZATION_PACKAGE_V0_1
+
+Pure warehouse-specific package boundary selected after the read-only
+implementation-readiness audit returned
+`HOLD_IMPLEMENTATION_NOT_READY`.
+
+The validator accepts only opaque/materialized evidence and locks:
+
+- scenario `INBOUND_SERIAL_QUERY_DERIVED_V1`;
+- exact task/scope binding;
+- target-authority, permission, surface-registry and zero-write evidence
+  ID/hash pairs;
+- warehouse schema, provider version and capture markers;
+- Control 10 target/snapshot hashes;
+- exactly five locked inbound surface hashes;
+- explicit native-boolean completeness proof for active serial and HOLD
+  universes;
+- deterministic mapping/source/formula evidence bindings;
+- receipt ID/hash;
+- deterministic canonical package hash;
+- `LiveReadAuthorized=False`;
+- `ProductionWriteAuthorized=False`.
+
+A package PASS means structural/materialized evidence coherence only. It does
+not prove upstream authenticity or authorize a live read, and it must not be
+converted directly into `INBOUND_CONTROL_READY`.
+
+The package remains pure, in-memory, synthetic, non-networked and non-writing.
+Production acquisition and writer capabilities remain outside the current
+public repository boundary.
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
