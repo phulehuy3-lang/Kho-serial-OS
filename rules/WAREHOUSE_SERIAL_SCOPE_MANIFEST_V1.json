@@ -314,6 +314,26 @@
       "rationale": "Conformance review of Phase A Drive authority-boundary evidence; verifies exact topology, owner-only/private permissions, fresh provider read-back, public redaction and continued PRG-01 no-live/no-write HOLD invariants."
     },
     {
+      "path": "rules/PHASE_B_TARGET_LOCATOR_AND_DRAFT_RECORD_READINESS_REVIEW_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Conformance review of Phase B locator/DRAFT readiness; confirms current private target uniqueness and public-safe alias/identifier rules while retaining HOLD for missing exact warehouse schema and five-surface registry bindings."
+    },
+    {
+      "path": "rules/PHASE_B_TARGET_LOCATOR_AND_DRAFT_RECORD_READINESS_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Readiness audit for Phase B target locator and DRAFT authority-record materialization; excludes stale historical target evidence and identifies exact warehouse schema-version and five-surface registry ID/hash as the remaining authority-bearing prerequisites."
+    },
+    {
       "path": "rules/POST_MATERIALIZATION_EXTERNAL_ACQUISITION_READINESS_AUDIT_V0_1.md",
       "capabilities": [
         "INBOUND",
