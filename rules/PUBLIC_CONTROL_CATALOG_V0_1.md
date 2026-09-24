@@ -564,6 +564,45 @@ Current state remains:
 - `ExecutableAcquisitionAuthorized=False`;
 - `ProductionWriteAuthorized=False`.
 
+## PRG-01 external materialization readiness
+
+### PRG01_TARGET_AUTHORITY_EXTERNAL_MATERIALIZATION_READINESS_AUDIT_V0_1
+
+Verdict:
+
+`HOLD_PRG01_EXTERNAL_MATERIALIZATION_NOT_READY`
+
+The target-authority materialization plan is complete, but no independently
+evidenced external authority store has been selected.
+
+Current blockers include:
+
+- external authority store not selected;
+- store ownership/admin boundary undefined;
+- external target locator not materialized;
+- governance role assignments not materialized;
+- no materialized record exists for independent hash read-back;
+- no authoritative warehouse schema binding;
+- no materialized five-surface registry ID/hash;
+- no independent read-back path;
+- no selected external evidence-retention store.
+
+Drive searches for target-authority terms resolve only to current
+journal/checkpoint/spec artifacts and unrelated historical files, not to an
+authoritative warehouse target registry.
+
+Next permitted artifact:
+
+`EXTERNAL_TARGET_AUTHORITY_STORE_SELECTION_V0_1`
+
+Authority remains:
+
+- `PRG-01 = HOLD_TARGET_AUTHORITY_NOT_MATERIALIZED`;
+- `LiveReadAuthorized=False`;
+- `ExecutableAcquisitionAuthorized=False`;
+- `ProductionWriteAuthorized=False`;
+- Production writer = HOLD.
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
