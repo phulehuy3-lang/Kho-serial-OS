@@ -350,6 +350,39 @@ Current authority state:
 - `ProductionWriteAuthorized=False`;
 - no live client, credential, target ID or MASTER LIVE mutation.
 
+## Inbound read-only implementation readiness
+
+### INBOUND_READONLY_EVIDENCE_IMPLEMENTATION_READINESS_AUDIT_V0_1
+
+Verdict:
+
+`HOLD_IMPLEMENTATION_NOT_READY`
+
+The evidence-boundary design is coherent, but executable live acquisition is
+not ready because target authority, effective read-only permission, exact
+Production surface bindings, interval/HOLD universe completeness, provider
+version semantics, runtime zero-write enforcement and tamper-evident receipt
+storage are not yet materialized.
+
+The current trusted public boundary also intentionally prohibits normal
+network/provider clients in production scripts. That policy must not be
+weakened merely to make a live reader fit.
+
+Next safe step:
+
+`INBOUND_EVIDENCE_MATERIALIZATION_PACKAGE_V0_1`
+
+This next artifact must remain pure, in-memory, synthetic and non-writing. It
+will define/validate the exact materialized package a future external
+read-only acquisition boundary would have to provide.
+
+Authority remains:
+
+- `LiveReadAuthorized=False`;
+- `ProductionWriteAuthorized=False`;
+- Production writer = HOLD;
+- MASTER LIVE unchanged.
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:

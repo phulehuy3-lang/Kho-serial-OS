@@ -101,6 +101,16 @@
       "rationale": "Warehouse-specific design for a future read-only inbound evidence materialization boundary feeding the locked seven-gate inbound serial profile while keeping live read and write authority disabled."
     },
     {
+      "path": "rules/INBOUND_READONLY_EVIDENCE_IMPLEMENTATION_READINESS_AUDIT_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Warehouse-specific readiness audit that keeps executable inbound live evidence acquisition on HOLD and selects a pure materialization-package contract as the next safe step."
+    },
+    {
       "path": "rules/INBOUND_SERIAL_ACCEPTANCE_PROFILE_DESIGN_V0_1.md",
       "capabilities": [
         "INBOUND",
