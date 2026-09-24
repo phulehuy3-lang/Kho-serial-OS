@@ -17,6 +17,13 @@
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
     },
     {
+      "path": ".github/workflows/trusted-public-boundary-v3.yml",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Additive trusted-base workflow for V3 static and Git-history repository-safety checks; retains V1/V2 enforcement."
+    },
+    {
       "path": ".github/workflows/trusted-public-boundary.yml",
       "capabilities": [
         "REPOSITORY_SAFETY"
@@ -635,6 +642,13 @@
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
     },
     {
+      "path": "rules/TRUSTED_PUBLIC_BOUNDARY_V3_MIGRATION.md",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Governed activation and fail-closed enforcement-readback procedure for additive Trusted Public Boundary V3."
+    },
+    {
       "path": "rules/WAREHOUSE_INBOUND_SCHEMA_CONTRACT_V1.json",
       "capabilities": [
         "INBOUND",
@@ -694,6 +708,13 @@
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
     },
     {
+      "path": "scripts/check_git_history_boundary_v3.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Additive V3 Git-history scanner using NUL-delimited paths and blob object IDs with explicit delete/read-failure separation."
+    },
+    {
       "path": "scripts/check_git_history_boundary.py",
       "capabilities": [
         "REPOSITORY_SAFETY"
@@ -713,6 +734,13 @@
         "REPOSITORY_SAFETY"
       ],
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": "scripts/check_static_quality_v3.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Additive V3 static scanner for positional Path.open write modes and simple write-method aliases."
     },
     {
       "path": "scripts/check_static_quality.py",
@@ -899,6 +927,20 @@
         "SERIAL_IDENTITY_RANGE"
       ],
       "rationale": "Required for the warehouse-serial control baseline: SOURCE_ALLOCATION, SERIAL_IDENTITY_RANGE."
+    },
+    {
+      "path": "tests/test_check_git_history_boundary_v3.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Synthetic in-memory regression coverage for additive Trusted Public Boundary V3 NUL-safe Git path/blob scanning."
+    },
+    {
+      "path": "tests/test_check_static_quality_v3.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Synthetic inert-text regression coverage for additive Trusted Public Boundary V3 static alias/Path.open write detection."
     },
     {
       "path": "tests/test_cross_year_authority_v0_1.py",
