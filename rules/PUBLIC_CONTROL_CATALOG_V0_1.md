@@ -648,6 +648,53 @@ Next permitted artifact:
 
 `EXTERNAL_TARGET_AUTHORITY_DRIVE_MATERIALIZATION_READINESS_V0_1`
 
+## External target-authority Drive materialization readiness
+
+### EXTERNAL_TARGET_AUTHORITY_DRIVE_MATERIALIZATION_READINESS_V0_1
+
+Verdict:
+
+`HOLD_DRIVE_AUTHORITY_MATERIALIZATION_NOT_READY`
+
+The selected Drive authority-store architecture is now fully specified at
+readiness-design level:
+
+- dedicated `PRG01_TARGET_AUTHORITY_V1` logical root;
+- separated REGISTRY / LOCATOR / EVIDENCE / RECOVERY containers;
+- least-privilege permission matrix;
+- canonical raw UTF-8 JSON serialization;
+- SHA-256 registry and locator hashing;
+- explicit lifecycle evidence;
+- full-registry ACTIVE uniqueness evaluation;
+- independent external read-back;
+- recovery revalidation;
+- public Production-ID leakage prohibition.
+
+Independent review:
+
+`EXTERNAL_TARGET_AUTHORITY_DRIVE_MATERIALIZATION_READINESS_REVIEW_V0_1`
+
+One material prerequisite remains unresolved:
+
+`HOLD_INDEPENDENT_REVIEWER_IDENTITY_NOT_BOUND`
+
+No distinct external identity has yet been evidenced for
+`TARGET_AUTHORITY_INDEPENDENT_REVIEWER`, so the owner cannot independently
+prove read-back.
+
+Next permitted artifact:
+
+`TARGET_AUTHORITY_INDEPENDENT_REVIEWER_IDENTITY_BINDING_V0_1`
+
+Current authority remains:
+
+- `PRG-01 = HOLD_TARGET_AUTHORITY_NOT_MATERIALIZED`;
+- `LiveReadAuthorized=False`;
+- `ExecutableAcquisitionAuthorized=False`;
+- `ProductionWriteAuthorized=False`;
+- Production writer = HOLD;
+- MASTER LIVE unchanged.
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
