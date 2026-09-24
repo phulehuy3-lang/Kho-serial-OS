@@ -295,6 +295,29 @@ Composition policy:
 This profile is not a live adapter, production release decision, mutation
 executor, or general-purpose scenario framework.
 
+## Post-profile boundary decision
+
+### POST_PROFILE_BOUNDARY_AUDIT_V0_1
+
+After closure of `INBOUND_SERIAL_QUERY_DERIVED_V1`, the remaining gap is not
+another generic control. It is the warehouse-specific boundary between future
+approved read-only evidence acquisition and the already-materialized producer
+inputs consumed by the inbound profile.
+
+Current decision:
+
+- pure inbound profile: CLOSED;
+- executable live read: HOLD;
+- production writer: HOLD;
+- next permitted artifact:
+  `INBOUND_READONLY_EVIDENCE_BOUNDARY_DESIGN_V0_1`;
+- next artifact is design-only, non-live and non-writing;
+- no production identifiers, credentials, permissions, network client or
+  MASTER LIVE mutation may be introduced.
+
+See `rules/POST_PROFILE_BOUNDARY_AUDIT_V0_1.md` for the full boundary matrix
+and promotion rule.
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
