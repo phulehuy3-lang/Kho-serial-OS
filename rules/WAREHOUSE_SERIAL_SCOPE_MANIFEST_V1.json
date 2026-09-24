@@ -324,6 +324,26 @@
       "rationale": "Conformance review of Phase A Drive authority-boundary evidence; verifies exact topology, owner-only/private permissions, fresh provider read-back, public redaction and continued PRG-01 no-live/no-write HOLD invariants."
     },
     {
+      "path": "rules/PHASE_B_LOCATOR_DRAFT_MATERIALIZATION_ACTION_READINESS_REVIEW_V0_2.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Conformance review for Phase B locator/DRAFT materialization-action readiness; proves prerequisites are current while creating no external authority object."
+    },
+    {
+      "path": "rules/PHASE_B_LOCATOR_DRAFT_MATERIALIZATION_ACTION_READINESS_V0_2.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Public-safe Phase B re-readiness decision after schema/surface binding materialization; revalidates private authority boundary/current target, canonical hashes, opaque-ID rules and no-live/no-write invariants."
+    },
+    {
       "path": "rules/PHASE_B_TARGET_LOCATOR_AND_DRAFT_RECORD_READINESS_REVIEW_V0_1.md",
       "capabilities": [
         "INBOUND",
