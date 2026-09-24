@@ -1,6 +1,6 @@
 # Inbound Serial Acceptance Profile — Design v0.1
 
-Status: **DESIGN SELECTED — IMPLEMENTATION HOLD**
+Status: **PURE PROFILE IMPLEMENTED — NO LIVE / NO PRODUCTION AUTHORITY**
 
 ## Why this is the next roadmap item
 
@@ -63,9 +63,9 @@ No gate may be inferred from another gate's PASS.
 | formula_health | Control 06 | available |
 | formula_semantics | Control 12 | available |
 
-After SOURCE_READBACK_V0_1 merges, all seven declared inbound gate producers
-exist in the public pure-control layer. The full inbound profile may then move
-from producer-blocked HOLD to a separate implementation review. This still does
+All seven declared inbound gate producers exist in the public pure-control
+layer, and INBOUND_SERIAL_QUERY_DERIVED_V1 now composes them through Control 13
+and Control 07. This completes only the synthetic/public control chain. It does
 not authorize live reads, production writes, or any MASTER LIVE mutation.
 
 ## Composition order
@@ -127,23 +127,21 @@ Implementation must prove at least:
 
 All fixtures use synthetic short identifiers and serial ranges only.
 
-## Smallest next implementation step
+## Implementation state
 
-Do **not** implement the whole profile yet.
+The pure profile implementation is:
 
-The smallest missing prerequisite is a pure,
-side-effect-free `SOURCE_ROLE_BOUNDARY_V0_1` evaluator that turns an explicit
-region classification and requested operation into a native boolean/HOLD-safe
-result:
+- `rules/INBOUND_SERIAL_QUERY_DERIVED_V1.md`
+- `scripts/inbound_serial_query_derived_v1.py`
+- `tests/test_inbound_serial_query_derived_v1.py`
 
-- business write intent is permitted only for `SOURCE_OF_TRUTH`;
-- `DERIVED_READ_ONLY` always blocks business write intent;
-- unknown, blank, malformed, or unsupported classifications fail closed;
-- no workbook mapping, connector, live target, or writer is allowed.
+It hard-codes this scenario and the seven-gate universe, materializes producer
+outcomes, requires Control 13 structural PASS, then invokes Control 07.
+`INBOUND_CONTROL_READY` remains a public control-chain state only.
 
-After SOURCE_READBACK_V0_1 is independently merged, re-audit all seven
-producer contracts together and only then implement the pure inbound profile
-composition.
+Any move toward live evidence acquisition, provider integration, or mutation
+requires a separate roadmap/audit decision and must not be inferred from this
+profile's PASS.
 
 ## Repository scope decision
 
