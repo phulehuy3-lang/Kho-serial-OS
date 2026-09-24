@@ -695,6 +695,55 @@ Current authority remains:
 - Production writer = HOLD;
 - MASTER LIVE unchanged.
 
+## Target-authority solo-operator review model
+
+### TARGET_AUTHORITY_SOLO_OPERATOR_REVIEW_MODEL_V0_1
+
+Current operating model:
+
+`SOLO_OPERATOR_SELF_REVIEW_WITH_INDEPENDENT_EVIDENCE_PATH`
+
+The project is operated by one human.
+
+The governance model therefore does **not** claim independent human review or
+segregation of duties. It permits the same external identity to fulfill owner,
+approver and read-back responsibilities only under compensating controls:
+
+- materialization and verification are distinct evidence events;
+- verification reacquires authoritative objects from Drive;
+- cached/in-memory authoring payloads are invalid read-back evidence;
+- hashes are recomputed from newly retrieved canonical bytes;
+- registry-wide ACTIVE uniqueness is recomputed;
+- verification may not repair authority data in place;
+- provider revision/version markers are recorded where available;
+- evidence explicitly records `human_separation_of_duties=false`;
+- fake second accounts are not treated as independent reviewers.
+
+Conformance review:
+
+`TARGET_AUTHORITY_SOLO_OPERATOR_REVIEW_MODEL_REVIEW_V0_1`
+
+This explicit governance decision supersedes the prior current blocker:
+
+`HOLD_INDEPENDENT_REVIEWER_IDENTITY_NOT_BOUND`
+
+for this one-person operating model only.
+
+Historical readiness artifacts remain unchanged as historical evidence.
+
+Current authority remains:
+
+- `PRG-01 = HOLD_TARGET_AUTHORITY_NOT_MATERIALIZED`;
+- `LiveReadAuthorized=False`;
+- `ExecutableAcquisitionAuthorized=False`;
+- `ProductionWriteAuthorized=False`;
+- Production writer = HOLD;
+- MASTER LIVE unchanged.
+
+Next safe step:
+
+`PHASE_A_DRIVE_AUTHORITY_BOUNDARY_MATERIALIZATION_V0_1`
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
