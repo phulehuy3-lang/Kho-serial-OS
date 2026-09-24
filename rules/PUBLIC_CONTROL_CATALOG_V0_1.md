@@ -1136,6 +1136,48 @@ Conformance review:
 
 `TARGET_AUTHORITY_APPROVED_READBACK_FINALIZATION_READINESS_REVIEW_V0_1`
 
+## Target authority APPROVED read-back finalization
+
+### TARGET_AUTHORITY_APPROVED_READBACK_FINALIZATION_EVIDENCE_V0_1
+
+Verdict:
+
+`PASS_APPROVED_READBACK_FINALIZED`
+
+Current state:
+
+- lifecycle = `APPROVED`;
+- independent read-back state = `PASS`;
+- ACTIVE count = 0;
+- target resolution eligibility = FALSE;
+- current authority hash =
+  `d39a53b0463e69420c92c9050b984b32e6e64c3745f310ad6aca3e39d3fe9bb2`;
+- final verification evidence =
+  `EVD-TAA-RB-POSTVERIFY-d8f12f82199f6bc8ac91`;
+- final verification evidence hash =
+  `5430550cce88b99f1932c38bf9004545b426c4ae25f6208071255ae7cbec7dd4`.
+
+The finalization preserved an exact APPROVED/PENDING snapshot, used fresh
+pre-finalization provider verification, changed exactly four permitted fields,
+kept lifecycle and activation invariant, and completed with a distinct
+provider-read post-finalization verification event.
+
+APPROVED/PASS remains non-resolvable.
+
+Locked:
+
+- `LiveReadAuthorized=False`
+- `ExecutableAcquisitionAuthorized=False`
+- `ProductionWriteAuthorized=False`
+- Production writer = HOLD
+- MASTER LIVE unchanged.
+
+Next safe step: APPROVED -> ACTIVE readiness audit.
+
+Conformance review:
+
+`TARGET_AUTHORITY_APPROVED_READBACK_FINALIZATION_REVIEW_V0_1`
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
