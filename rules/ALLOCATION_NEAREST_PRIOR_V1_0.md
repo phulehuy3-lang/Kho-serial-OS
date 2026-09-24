@@ -32,6 +32,25 @@ The tie-breakers are deterministic:
 - earlier source-row position first;
 - then lower serial-start value first.
 
+
+## Serial text safety contract
+
+`SERIAL_START` remains an identifier represented as text.
+
+For ordering, an accepted serial must:
+
+- be a non-empty native string;
+- contain ASCII decimal digits `0`–`9` only;
+- contain at most **4096 digits**.
+
+The implementation must not depend on converting the full serial to a Python
+integer. Numeric ordering is derived from significant-digit length plus
+lexicographic digit order, while the original serial text is retained unchanged
+for identity and hashing. Leading zeroes are therefore preserved.
+
+Non-ASCII digit characters and overlong digit strings are malformed input and
+must fail closed before numeric ordering.
+
 ## Required post-allocation controls
 
 An allocation result is not releasable merely because the ordering rule was followed. It must still pass the applicable controls for:
