@@ -81,6 +81,16 @@
       "rationale": "Required for the warehouse-serial control baseline: HOLD_QUARANTINE, INVENTORY."
     },
     {
+      "path": "rules/INBOUND_EVIDENCE_MATERIALIZATION_PACKAGE_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Warehouse-specific pure contract for validating the opaque materialized evidence package required before the locked inbound serial controls consume evidence; no live read or write authority."
+    },
+    {
       "path": "rules/INBOUND_READONLY_EVIDENCE_BOUNDARY_DESIGN_REVIEW_V0_1.md",
       "capabilities": [
         "INBOUND",
@@ -411,6 +421,16 @@
       "rationale": "Required for the warehouse-serial control baseline: HOLD_QUARANTINE, INVENTORY."
     },
     {
+      "path": "scripts/inbound_evidence_materialization_package_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Pure in-memory validator for exact five-surface inbound evidence package bindings, completeness proofs, deterministic hashing and no-authority invariants."
+    },
+    {
       "path": "scripts/inbound_serial_query_derived_v1.py",
       "capabilities": [
         "INBOUND",
@@ -570,6 +590,16 @@
         "INVENTORY"
       ],
       "rationale": "Required for the warehouse-serial control baseline: HOLD_QUARANTINE, INVENTORY."
+    },
+    {
+      "path": "tests/test_inbound_evidence_materialization_package_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Synthetic adversarial regression coverage for exact surface set, evidence hashes, completeness, binding, deterministic hashing and no-live/no-write invariants."
     },
     {
       "path": "tests/test_inbound_serial_query_derived_v1.py",
