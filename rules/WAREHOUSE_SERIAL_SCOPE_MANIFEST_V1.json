@@ -164,6 +164,16 @@
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY, OUTBOUND, INVENTORY."
     },
     {
+      "path": "rules/POST_PROFILE_BOUNDARY_AUDIT_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Warehouse-specific post-profile audit that identifies the unresolved read-only evidence boundary after pure inbound serial control closure while keeping live execution and production write authority on HOLD."
+    },
+    {
       "path": "rules/PUBLIC_CONTROL_CATALOG_V0_1.md",
       "capabilities": [
         "REPOSITORY_SAFETY",
