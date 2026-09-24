@@ -540,6 +540,26 @@
       "rationale": "Conformance review of read-back finalization, exact four-field mutation scope, lifecycle/activation invariants, evidence-path verification and continued no-live/no-write controls."
     },
     {
+      "path": "rules/TARGET_AUTHORITY_APPROVED_TO_ACTIVE_READINESS_REVIEW_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Conformance review of APPROVED-to-ACTIVE readiness, new activation evidence semantics, exact three-field mutation scope, registry-wide ACTIVE uniqueness, post-activation verification and strict runtime-authorization separation."
+    },
+    {
+      "path": "rules/TARGET_AUTHORITY_APPROVED_TO_ACTIVE_READINESS_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Readiness contract for a future separately authorized APPROVED/PASS-to-ACTIVE authority transition with fresh preverification, exact history preservation, non-circular activation evidence hashing and fail-closed uniqueness controls."
+    },
+    {
       "path": "rules/TARGET_AUTHORITY_DRAFT_TO_APPROVED_LIFECYCLE_MATERIALIZATION_EVIDENCE_V0_1.md",
       "capabilities": [
         "INBOUND",

@@ -1178,6 +1178,53 @@ Conformance review:
 
 `TARGET_AUTHORITY_APPROVED_READBACK_FINALIZATION_REVIEW_V0_1`
 
+
+## Target authority APPROVED -> ACTIVE readiness
+
+### TARGET_AUTHORITY_APPROVED_TO_ACTIVE_READINESS_V0_1
+
+Verdict:
+
+`PASS_FOR_APPROVED_TO_ACTIVE_ACTION_ONLY`
+
+Current authority remains:
+
+- lifecycle = `APPROVED`;
+- independent read-back state = `PASS`;
+- ACTIVE count = 0;
+- target resolution eligibility = FALSE;
+- current authority canonical hash =
+  `d39a53b0463e69420c92c9050b984b32e6e64c3745f310ad6aca3e39d3fe9bb2`.
+
+The readiness design requires:
+
+- fresh pre-activation verification;
+- exact APPROVED/PASS history snapshot before mutation;
+- a new private `TargetAuthorityActivationDecisionEvidenceV1`;
+- replacement of the historical DRAFT/NOT_ACTIVE `activation_epoch_ref`
+  with a new activation-event ref;
+- non-circular evidence/hash ordering;
+- exactly three permitted authority-field changes:
+  `lifecycle_state`, `activation_epoch_ref`, and `authority_record_hash`;
+- full-REGISTRY ACTIVE uniqueness: 0 before, exactly 1 after;
+- distinct read-only post-activation verification;
+- fail-closed HOLD and separately authorized remediation/revocation if a
+  materialized ACTIVE state fails verification;
+- strict separation between authority-layer ACTIVE and runtime/live-read/write
+  authorization.
+
+Locked:
+
+- `LiveReadAuthorized=False`
+- `ExecutableAcquisitionAuthorized=False`
+- `ProductionWriteAuthorized=False`
+- Production writer = HOLD
+- MASTER LIVE unchanged.
+
+Conformance review:
+
+`TARGET_AUTHORITY_APPROVED_TO_ACTIVE_READINESS_REVIEW_V0_1`
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
