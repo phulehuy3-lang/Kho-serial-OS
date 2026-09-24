@@ -528,6 +528,42 @@ Authority remains:
 - Production writer = HOLD;
 - MASTER LIVE unchanged.
 
+## Target-authority registry materialization planning
+
+### INBOUND_TARGET_AUTHORITY_REGISTRY_MATERIALIZATION_PLAN_V0_1
+
+Non-live plan for PRG-01, the dependency root of the external inbound
+acquisition promotion chain.
+
+The plan defines:
+
+- exact external registry record schema;
+- PRODUCTION_SHADOW-only environment binding;
+- DRAFT / APPROVED / ACTIVE / REVOKED / SUPERSEDED lifecycle;
+- one-ACTIVE-record uniqueness semantics;
+- opaque public references while actual Production target locators remain
+  outside GitHub;
+- logical owner/approver/independent-reviewer roles;
+- deterministic canonical SHA-256 authority-record hashing;
+- exact warehouse schema-version binding;
+- exact five-surface registry ID/hash binding;
+- independent external read-back and hash recomputation;
+- evidence checklist required to move PRG-01 only to READY_FOR_REVIEW;
+- external actions that require separate human authorization.
+
+Conformance review:
+
+`INBOUND_TARGET_AUTHORITY_REGISTRY_MATERIALIZATION_PLAN_REVIEW_V0_1`
+
+Current state remains:
+
+- plan conformance = PASS;
+- PRG-01 materialization = NOT PERFORMED;
+- `PRG-01 = HOLD_TARGET_AUTHORITY_NOT_MATERIALIZED`;
+- `LiveReadAuthorized=False`;
+- `ExecutableAcquisitionAuthorized=False`;
+- `ProductionWriteAuthorized=False`.
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
