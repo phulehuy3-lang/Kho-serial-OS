@@ -29,10 +29,10 @@ Fresh GitHub read-back before R4 publication:
 
 Evidence links:
 
-- [PR #97 — R1 type/producer/malformed input](../../pull/97)
-- [PR #98 — R2 Formula Semantic Identity V2](../../pull/98)
-- [PR #99 — R3 Trusted Public Boundary V3](../../pull/99)
-- [Issue #96 — read-only runtime identity materialization readiness](../../issues/96)
+- [PR #97 — R1 type/producer/malformed input](https://github.com/phulehuy3-lang/Kho-serial-OS/pull/97)
+- [PR #98 — R2 Formula Semantic Identity V2](https://github.com/phulehuy3-lang/Kho-serial-OS/pull/98)
+- [PR #99 — R3 Trusted Public Boundary V3](https://github.com/phulehuy3-lang/Kho-serial-OS/pull/99)
+- [Issue #96 — read-only runtime identity materialization readiness](https://github.com/phulehuy3-lang/Kho-serial-OS/issues/96)
 - [R3 V3 migration status](rules/TRUSTED_PUBLIC_BOUNDARY_V3_MIGRATION.md)
 
 ## Documentation state at checkpoint
