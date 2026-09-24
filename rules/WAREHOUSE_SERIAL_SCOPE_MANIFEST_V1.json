@@ -153,6 +153,14 @@
       "rationale": "Required for the warehouse-serial control baseline: RECONCILIATION, INVENTORY."
     },
     {
+      "path": "rules/FORMULA_SEMANTIC_IDENTITY_V0_2.md",
+      "capabilities": [
+        "RECONCILIATION",
+        "INVENTORY"
+      ],
+      "rationale": "Current conservative Formula Semantic Identity V2 contract and explicit V1-to-V2 migration boundary."
+    },
+    {
       "path": "rules/HOLD_LIFECYCLE_CONTROL_V0_1.md",
       "capabilities": [
         "HOLD_QUARANTINE",
@@ -761,6 +769,14 @@
         "INVENTORY"
       ],
       "rationale": "Required for the warehouse-serial control baseline: RECONCILIATION, INVENTORY."
+    },
+    {
+      "path": "scripts/formula_semantic_identity_v0_2.py",
+      "capabilities": [
+        "RECONCILIATION",
+        "INVENTORY"
+      ],
+      "rationale": "Pure conservative Formula Semantic Identity V2 implementation preserving literal and identifier identity and failing closed on unsupported syntax."
     },
     {
       "path": "scripts/hold_lifecycle_v0_1.py",
