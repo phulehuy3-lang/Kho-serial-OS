@@ -451,3 +451,292 @@ Until all ten are evidenced:
 **Production writer = HOLD**
 
 **MASTER LIVE unchanged**
+
+
+---
+
+## READ_ONLY_RUNTIME_IDENTITY_SELECTION_V0_1 — 2026-09-25
+
+Issue: #94
+
+Status:
+
+**`PASS_READONLY_RUNTIME_IDENTITY_SELECTION_DESIGN`**
+
+This section selects the canonical identity class for PRG-02. It is design-only.
+It does not create an identity, credential, permission, provider session, live
+read, or Production write path.
+
+### 1. Canonical provider identity class
+
+The only permitted PRG-02 runtime principal class is:
+
+`GOOGLE_CLOUD_USER_MANAGED_SERVICE_ACCOUNT`
+
+The principal represents the acquisition workload, not a human operator.
+
+Prohibited substitutes:
+
+- operator/personal Google account;
+- shared human account;
+- generic Workspace user used interactively;
+- group identity as runtime principal;
+- service account with domain-wide delegation;
+- service account impersonating a Workspace user;
+- any writer-capable fallback identity.
+
+### 2. Authentication posture
+
+Authentication policy:
+
+`KEYLESS_ONLY`
+
+User-managed service-account private keys are prohibited in v0.1.
+
+Permitted future authentication mechanisms are limited to provider-managed
+short-lived credentials:
+
+- attached service-account identity when the runtime is hosted on an approved
+  Google Cloud workload; or
+- Workload Identity Federation followed by service-account impersonation when
+  the approved runtime is external to Google Cloud.
+
+The selected authentication path is a deployment decision and must be recorded
+before executable acquisition is authorized.
+
+Long-lived JSON/P12 keys, downloaded private keys and embedded secrets are not
+permitted.
+
+### 3. Domain-wide delegation and user impersonation
+
+Locked values:
+
+- `domain_wide_delegation = PROHIBITED`
+- `workspace_user_impersonation = PROHIBITED`
+
+The runtime identity must never obtain authority by impersonating an owner,
+administrator or warehouse operator.
+
+### 4. Identity authority record
+
+A future private external identity authority store must hold exactly one
+canonical record with at least:
+
+- `identity_authority_id`
+- `provider_class = GOOGLE_CLOUD`
+- `identity_class = GOOGLE_CLOUD_USER_MANAGED_SERVICE_ACCOUNT`
+- `environment = PRODUCTION_SHADOW`
+- `target_authority_id`
+- `target_authority_hash`
+- `principal_locator_ref`
+- `authentication_policy = KEYLESS_ONLY`
+- `domain_wide_delegation = PROHIBITED`
+- `workspace_user_impersonation = PROHIBITED`
+- `user_managed_key_state = PROHIBITED`
+- `credential_boundary_ref`
+- `owner_authority_ref`
+- `custodian_authority_ref`
+- `rotation_authority_ref`
+- `revocation_authority_ref`
+- `independent_reviewer_authority_ref`
+- `effective_permission_proof_state = PENDING`
+- `independent_readback_state`
+- `lifecycle_state`
+- `identity_record_hash`
+
+The actual service-account email, project identifier and provider locator remain
+outside GitHub.
+
+Only opaque IDs and non-sensitive hashes may cross the public boundary.
+
+### 5. Lifecycle
+
+Allowed lifecycle states:
+
+1. `DRAFT`
+2. `APPROVED`
+3. `MATERIALIZED`
+4. `REVOKED`
+5. `SUPERSEDED`
+
+Rules:
+
+- DRAFT and APPROVED are non-runtime states;
+- MATERIALIZED proves identity existence/read-back only;
+- MATERIALIZED does not prove effective target permission;
+- REVOKED cannot return to MATERIALIZED;
+- replacement requires a new identity authority ID;
+- at most one non-revoked canonical PRG-02 identity may be designated for one
+  target/environment at a time.
+
+### 6. Governance authorities
+
+Logical authorities:
+
+- owner: `READONLY_RUNTIME_IDENTITY_OWNER`
+- custodian: `READONLY_RUNTIME_IDENTITY_CUSTODIAN`
+- rotation: `READONLY_RUNTIME_IDENTITY_ROTATION_AUTHORITY`
+- revocation: `READONLY_RUNTIME_IDENTITY_REVOCATION_AUTHORITY`
+- independent reviewer:
+  `READONLY_RUNTIME_IDENTITY_INDEPENDENT_REVIEWER`
+
+For the current solo-operator model:
+
+`human_separation_of_duties = false`
+
+No false human separation is asserted. Independent review is evidence-path
+separation: fresh provider reacquisition, deterministic hashing and read-back
+rather than a claim that a second human reviewed the action.
+
+### 7. Credential issuance and storage boundary
+
+Credential policy:
+
+`NO_PERSISTED_PRIVATE_CREDENTIAL`
+
+Requirements:
+
+- no service-account key creation;
+- no credential file in GitHub;
+- no credential file in warehouse Drive;
+- no token in logs, evidence packages or operational journal;
+- short-lived access tokens are runtime-memory-only;
+- federation/attached-identity configuration is held outside warehouse business
+  data and outside this public repository;
+- secret-bearing fallback authentication is prohibited.
+
+Any future requirement for a user-managed key invalidates this v0.1 selection
+and requires a new design review.
+
+### 8. Target binding
+
+The identity authority record binds to the existing ACTIVE target authority by
+opaque target authority ID/hash.
+
+Identity materialization must not itself grant target access.
+
+A later separately authorized reader-grant action may grant only the exact
+canonical target resource:
+
+`Drive ACL role = reader`
+
+No parent-folder grant, domain grant, group grant, wildcard discovery or
+domain-wide delegation is permitted.
+
+The reader grant is not PRG-03 proof. PRG-03 must independently verify the
+effective permission state after the grant.
+
+### 9. Effective permission proof remains separate
+
+PRG-03 remains mandatory and separate from PRG-02.
+
+Future PRG-03 evidence must independently prove, against the exact canonical
+target:
+
+- reader access exists for the dedicated service account;
+- no writer/editor role;
+- no resource-creation capability through the target boundary;
+- no share/permission-management capability;
+- no inherited or alternative write-capable path;
+- no write-capable fallback identity;
+- approved read-only API scope/capability set only.
+
+A configuration flag, screenshot or declared `read_only=true` is insufficient.
+
+### 10. Independent identity read-back
+
+A PRG-02 materialization action may close only after a distinct read-back event
+reacquires provider state and verifies:
+
+- exactly one selected service-account principal exists;
+- principal identity matches the private authority locator;
+- principal is not disabled;
+- no user-managed service-account key exists;
+- domain-wide delegation is absent;
+- no Workspace user impersonation is configured;
+- identity authority target binding matches the current target authority
+  ID/hash;
+- lifecycle and independent-readback state are coherent;
+- deterministic identity-record hash recomputes exactly.
+
+This event must not read warehouse Production payload.
+
+### 11. Deterministic record hash
+
+`identity_record_hash` is SHA-256 over canonical UTF-8 JSON of the complete
+identity authority record excluding only the hash field itself.
+
+Rules:
+
+- keys sorted lexicographically;
+- exact native booleans;
+- no default insertion;
+- no pseudo-booleans;
+- no provider secret or credential material;
+- any unknown required field -> HOLD.
+
+### 12. Evidence required before materialization action
+
+A later materialization action is not authorized by this design.
+
+A separate readiness audit must confirm at minimum:
+
+1. current target authority remains ACTIVE/PASS and unique;
+2. canonical identity class remains
+   `GOOGLE_CLOUD_USER_MANAGED_SERVICE_ACCOUNT`;
+3. a private identity authority store/location is selected;
+4. owner/custodian/rotation/revocation authorities are bound;
+5. keyless authentication path is selected for the intended runtime placement;
+6. key creation remains prohibited;
+7. domain-wide delegation remains prohibited;
+8. exact provider read-back method is available;
+9. no target permission change occurs during identity creation;
+10. four repository checks remain required.
+
+Allowed future readiness verdicts:
+
+- `PASS_FOR_READONLY_IDENTITY_MATERIALIZATION_ACTION_ONLY`
+- `HOLD_READONLY_IDENTITY_MATERIALIZATION_NOT_READY`
+
+Neither verdict authorizes live access.
+
+### 13. Fail-closed states
+
+Canonical blockers include:
+
+- `HOLD_IDENTITY_CLASS_DRIFT`
+- `HOLD_IDENTITY_AUTHORITY_UNBOUND`
+- `HOLD_KEYLESS_AUTH_PATH_UNRESOLVED`
+- `HOLD_USER_MANAGED_KEY_PRESENT`
+- `HOLD_DOMAIN_WIDE_DELEGATION_PRESENT`
+- `HOLD_USER_IMPERSONATION_PRESENT`
+- `HOLD_IDENTITY_READBACK_FAILED`
+- `HOLD_TARGET_AUTHORITY_DRIFT`
+- `HOLD_EFFECTIVE_PERMISSION_NOT_MATERIALIZED`
+
+Unknown identity/security state is HOLD, never warning-only.
+
+### 14. Design decision
+
+Selected identity:
+
+**`GOOGLE_CLOUD_USER_MANAGED_SERVICE_ACCOUNT / KEYLESS_ONLY`**
+
+PRG-02 state after this design:
+
+**`DESIGN_SELECTED_NOT_MATERIALIZED`**
+
+Next safe step:
+
+**`READ_ONLY_RUNTIME_IDENTITY_MATERIALIZATION_ACTION_READINESS_V0_1`**
+
+Locked invariants remain:
+
+- `LiveReadAuthorized=False`
+- `ExecutableAcquisitionAuthorized=False`
+- `ProductionWriteAuthorized=False`
+- Production writer = HOLD
+- no credential creation
+- no permission change
+- no live provider call
+- MASTER LIVE unchanged
