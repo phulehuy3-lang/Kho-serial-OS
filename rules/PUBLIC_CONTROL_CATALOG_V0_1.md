@@ -318,6 +318,38 @@ Current decision:
 See `rules/POST_PROFILE_BOUNDARY_AUDIT_V0_1.md` for the full boundary matrix
 and promotion rule.
 
+## Inbound read-only evidence boundary
+
+### INBOUND_READONLY_EVIDENCE_BOUNDARY_DESIGN_V0_1
+
+Design-only specification for the future warehouse-specific boundary between an
+approved read-only Production-shadow capture and the already-materialized
+inputs consumed by `INBOUND_SERIAL_QUERY_DERIVED_V1`.
+
+The design locks:
+
+- logical target authority without Production resource IDs in GitHub;
+- dedicated read-only identity and effective-permission proof;
+- five exact inbound evidence surfaces, including complete serial and HOLD
+  interval universes;
+- runtime zero-write attestation;
+- provider version/capture/atomicity semantics compatible with Control 10;
+- deterministic mapping into the seven existing inbound producers plus separate
+  `hold_conflict`;
+- evidence receipt/tamper boundary.
+
+Conformance review:
+
+`INBOUND_READONLY_EVIDENCE_BOUNDARY_DESIGN_REVIEW_V0_1`
+
+Current authority state:
+
+- design conformance = PASS;
+- implementation = HOLD;
+- `LiveReadAuthorized=False`;
+- `ProductionWriteAuthorized=False`;
+- no live client, credential, target ID or MASTER LIVE mutation.
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
