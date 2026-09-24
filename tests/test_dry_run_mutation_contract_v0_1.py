@@ -427,5 +427,21 @@ class DryRunMutationContractTests(unittest.TestCase):
         )
 
 
+    def test_source_pool_ready_and_verified_require_native_true(self) -> None:
+        for field in ("ready", "verified"):
+            with self.subTest(field=field):
+                kwargs = {field: "False"}
+                result = assess(pool=source_pool(**kwargs))
+                self.assertEqual(result.status, HOLD)
+                self.assertFalse(result.dry_run_contract_ready)
+                self.assertFalse(result.production_write_authorized)
+
+    def test_malformed_source_pool_resolution_holds_without_exception(self) -> None:
+        result = assess(pool=True)  # type: ignore[arg-type]
+        self.assertEqual(result.status, HOLD)
+        self.assertFalse(result.dry_run_contract_ready)
+        self.assertFalse(result.production_write_authorized)
+
+
 if __name__ == "__main__":
     unittest.main()
