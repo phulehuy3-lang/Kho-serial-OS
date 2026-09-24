@@ -12,6 +12,7 @@ import json
 from typing import Iterable, Sequence
 
 from scripts.allocation_nearest_prior import (
+    SERIAL_START_MAX_DIGITS,
     SourceLot,
     eligible_sources_nearest_prior,
 )
@@ -86,12 +87,28 @@ def _positive_int(value: object) -> bool:
     return isinstance(value, int) and not isinstance(value, bool) and value > 0
 
 
-def _serial_key(serial_start: object) -> int | None:
-    if not isinstance(serial_start, str):
+def _serial_key(serial_start: object) -> tuple[int, str] | None:
+    if type(serial_start) is not str or not serial_start:
         return None
-    if not serial_start or not serial_start.isdigit():
+    if len(serial_start) > SERIAL_START_MAX_DIGITS:
         return None
-    return int(serial_start)
+    if any(char < "0" or char > "9" for char in serial_start):
+        return None
+    significant = serial_start.lstrip("0") or "0"
+    return (len(significant), significant)
+
+
+def _independent_serial_key(serial_start: object) -> tuple[int, str] | None:
+    """Independent verifier copy of the serial-text contract."""
+
+    if type(serial_start) is not str or not serial_start:
+        return None
+    if len(serial_start) > SERIAL_START_MAX_DIGITS:
+        return None
+    if any(char < "0" or char > "9" for char in serial_start):
+        return None
+    significant = serial_start.lstrip("0") or "0"
+    return (len(significant), significant)
 
 
 def _candidate_blockers(
@@ -135,7 +152,7 @@ def _duplicate_id_blockers(
 def _ambiguous_rank_blockers(
     candidates: Sequence[RankedCandidate],
 ) -> tuple[str, ...]:
-    keys: dict[tuple[int, int, int], list[str]] = {}
+    keys: dict[tuple[int, int, tuple[int, str]], list[str]] = {}
     for candidate in candidates:
         serial_key = _serial_key(candidate.serial_start)
         if type(candidate.source_date) is not date or serial_key is None:
@@ -358,7 +375,8 @@ def verify_ranked_prefix_allocation(
         blockers.append("RANKED_PREFIX:CANDIDATES_EMPTY")
 
     seen: set[str] = set()
-    rank_keys: dict[tuple[int, int, int], list[str]] = {}
+    rank_keys: dict[tuple[int, int, tuple[int, str]], list[str]] = {}
+    serial_keys: dict[str, tuple[int, str]] = {}
 
     if type(target_date) is date:
         for candidate in materialized:
@@ -384,15 +402,11 @@ def verify_ranked_prefix_allocation(
             ):
                 blockers.append(f"RANKED_PREFIX:SOURCE_ROW_INVALID:{label}")
 
-            if (
-                not isinstance(candidate.serial_start, str)
-                or not candidate.serial_start
-                or not candidate.serial_start.isdigit()
-            ):
+            serial_key = _independent_serial_key(candidate.serial_start)
+            if serial_key is None:
                 blockers.append(f"RANKED_PREFIX:SERIAL_START_INVALID:{label}")
-                serial_key = None
             else:
-                serial_key = int(candidate.serial_start)
+                serial_keys[candidate.candidate_id] = serial_key
 
             if (
                 not isinstance(candidate.available_qty, int)
@@ -433,7 +447,7 @@ def verify_ranked_prefix_allocation(
         key=lambda candidate: (
             -candidate.source_date.toordinal(),
             candidate.source_row,
-            int(candidate.serial_start),
+            serial_keys[candidate.candidate_id],
         ),
     )
 
