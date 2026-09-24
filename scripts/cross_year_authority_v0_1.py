@@ -162,15 +162,29 @@ def resolve_cross_year_authority(
             blocking_reasons=("CROSS_YEAR:SNAPSHOT_MISSING",),
             authority=None,
         )
+    if type(snapshot) is not CrossYearAuthorityRegistrySnapshot:
+        return CrossYearAuthorityResolution(
+            status=HOLD,
+            ready=False,
+            blocking_reasons=("CROSS_YEAR:SNAPSHOT_INVALID",),
+            authority=None,
+        )
 
-    if not snapshot.source_present:
+    if snapshot.source_present is False:
         blockers.append("CROSS_YEAR:REGISTRY_MISSING")
+    elif snapshot.source_present is not True:
+        blockers.append("CROSS_YEAR:SOURCE_PRESENT_INVALID")
     if snapshot.source_identity_status != CANONICAL_SOURCE_IDENTITY_STATUS:
         blockers.append("CROSS_YEAR:SOURCE_NOT_CANONICAL")
     if snapshot.schema_id != CANONICAL_AUTHORITY_SCHEMA_ID:
         blockers.append("CROSS_YEAR:SCHEMA_MISMATCH")
     if snapshot.readback_status != PASS:
         blockers.append("CROSS_YEAR:REGISTRY_READBACK_NOT_PASS")
+    if (
+        type(snapshot.records) is not tuple
+        or any(type(record) is not CrossYearAuthorityRecord for record in snapshot.records)
+    ):
+        blockers.append("CROSS_YEAR:RECORDS_INVALID")
 
     if blockers:
         return CrossYearAuthorityResolution(
@@ -215,7 +229,8 @@ def resolve_cross_year_authority(
 
     years = record.permitted_source_years
     if (
-        not years
+        type(years) is not tuple
+        or not years
         or any(not _valid_positive_int(year) for year in years)
         or len(set(years)) != len(years)
         or document_year in years
