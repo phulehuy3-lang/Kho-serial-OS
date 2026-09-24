@@ -135,6 +135,16 @@
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY, OUTBOUND, INVENTORY."
     },
     {
+      "path": "rules/FIVE_SURFACE_REGISTRY_V1.json",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Canonical public-safe five-surface registry payload for PRG-01 binding; exactly five logical inbound evidence surfaces, deterministic order and no Production locator identifiers."
+    },
+    {
       "path": "rules/FORMULA_SEMANTIC_IDENTITY_V0_1.md",
       "capabilities": [
         "RECONCILIATION",
@@ -475,6 +485,36 @@
         "REPOSITORY_SAFETY"
       ],
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": "rules/WAREHOUSE_INBOUND_SCHEMA_CONTRACT_V1.json",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Canonical public-safe normalized warehouse inbound schema contract bound as WAREHOUSE_INBOUND_SCHEMA_V1; exact logical types/cardinality/roles without Production worksheet inspection."
+    },
+    {
+      "path": "rules/WAREHOUSE_SCHEMA_AND_FIVE_SURFACE_REGISTRY_BINDING_REVIEW_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Conformance review proving exact schema version, five-surface uniqueness/order, canonical hash recomputation, public redaction and continued no-live/no-write invariants."
+    },
+    {
+      "path": "rules/WAREHOUSE_SCHEMA_AND_FIVE_SURFACE_REGISTRY_BINDING_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Authority-bearing public-safe binding that materializes the exact warehouse_schema_version and surface_registry_id/hash required before Phase B locator/DRAFT readiness can be reconsidered."
     },
     {
       "path": "rules/WAREHOUSE_SERIAL_REPOSITORY_SCOPE_V1.md",
