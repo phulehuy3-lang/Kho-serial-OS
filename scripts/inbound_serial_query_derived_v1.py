@@ -12,7 +12,7 @@ from scripts.fail_closed_release_gates_v0_1 import (
     READY_FOR_RELEASE,
     evaluate_release_gates,
 )
-from scripts.formula_semantic_identity_v0_1 import (
+from scripts.formula_semantic_identity_v0_2 import (
     FormulaSemanticAssessment,
     HOLD as FORMULA_HOLD,
     PASS as FORMULA_PASS,
