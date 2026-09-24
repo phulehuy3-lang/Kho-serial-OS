@@ -38,13 +38,6 @@
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
     },
     {
-      "path": "CURRENT_STATUS.md",
-      "capabilities": [
-        "REPOSITORY_SAFETY"
-      ],
-      "rationale": "Dated current-status index separating direct provider read-back, historical checkpoint documentation, history/privacy findings, license state and next action."
-    },
-    {
       "path": "rules/ALLOCATION_NEAREST_PRIOR_V1_0.md",
       "capabilities": [
         "SOURCE_ALLOCATION",
