@@ -219,35 +219,43 @@ Dependency policy:
 - must not import private outbound replay kernels, production adapters, live
   readers, connected-service clients, or mutation code.
 
-### Control 12 — FORMULA_SEMANTIC_IDENTITY_V0_1
+### Control 12 — FORMULA_SEMANTIC_IDENTITY
 
-Validates exact semantics of an already-materialized QUERY formula against an
-explicit, hashed contract.
+Current-main implementation:
+
+- `rules/FORMULA_SEMANTIC_IDENTITY_V0_2.md`
+- `scripts/formula_semantic_identity_v0_2.py`
+
+Historical/frozen V1 compatibility artifacts remain:
+
+- `rules/FORMULA_SEMANTIC_IDENTITY_V0_1.md`
+- `scripts/formula_semantic_identity_v0_1.py`
+
+V2 validates exact semantics of an already-materialized QUERY formula against a
+conservative, versioned contract.
 
 Responsibilities include:
 
-- generic QUERY semantic contracts;
-- deterministic contract hashing;
-- normalized source/query semantics;
-- exact header-row binding;
-- verified native QUERY parsing;
-- verified OOXML-export wrapper parsing;
-- exact exported fallback binding;
-- deterministic versioned semantic hashing;
-- fail-closed detection of semantic drift.
+- preserving identifier case and exact single-quoted literal text;
+- preserving meaningful whitespace in literals and quoted sheet names;
+- normalizing only verified query keywords and insignificant supported syntax;
+- failing closed for unsupported query/source structures;
+- exact header-row and exported-fallback binding;
+- deterministic V2 semantic and contract hashes;
+- explicit V1/V2 compatibility separation.
 
-Dependency policy:
+Compatibility policy:
 
-- standalone pure in-memory primitive;
-- complements Control 06 but does not import it;
-- Control 06 proves presence/error health; Control 12 proves semantic identity;
-- when both gates are applicable, higher-level composition must require both to
-  pass independently before release aggregation can be ready;
-- a public regression composes Controls 06 and 12 only through explicit native
-  booleans into Control 07; the production control modules remain decoupled;
-- neither control implies cached-value freshness or source↔derived parity;
-- must not import workbook adapters, live mapping constants, connectors, or
-  mutation code.
+- V1 semantic/hash golden vectors remain unchanged;
+- V2 uses `SHA256_CONSERVATIVE_QUERY_SEMANTICS_V2` and
+  `FORMULA_QUERY_SEMANTIC_HASH_V2`;
+- V1 and V2 hashes are different compatibility domains;
+- current inbound formula-semantic producer assessments use V2;
+- the frozen `v0.2.0` tag is not rewritten.
+
+Dependency policy remains pure/in-memory and non-writing. Formula semantic
+identity complements Control 06 formula health and never grants Production
+write authority.
 
 ## Phase 3 control
 
