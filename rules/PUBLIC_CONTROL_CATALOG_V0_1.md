@@ -744,6 +744,54 @@ Next safe step:
 
 `PHASE_A_DRIVE_AUTHORITY_BOUNDARY_MATERIALIZATION_V0_1`
 
+## Phase A Drive authority-boundary materialization
+
+### PHASE_A_DRIVE_AUTHORITY_BOUNDARY_MATERIALIZATION_EVIDENCE_V0_1
+
+Verdict:
+
+`PASS_PHASE_A_DRIVE_AUTHORITY_BOUNDARY_MATERIALIZED`
+
+The restricted external Drive control-plane boundary is now materialized with
+the exact logical topology:
+
+- `PRG01_TARGET_AUTHORITY_V1`
+- `REGISTRY`
+- `LOCATOR`
+- `EVIDENCE`
+- `RECOVERY`
+
+Fresh provider read-back confirmed exact topology, private sharing state and
+owner-only permission metadata.
+
+Creation and verification used distinct evidence events under:
+
+`SOLO_OPERATOR_SELF_REVIEW_WITH_INDEPENDENT_EVIDENCE_PATH`
+
+Public evidence exposes only opaque evidence refs and SHA-256 hashes. Actual
+Drive IDs remain in private external evidence.
+
+Conformance review:
+
+`PHASE_A_DRIVE_AUTHORITY_BOUNDARY_MATERIALIZATION_REVIEW_V0_1`
+
+Phase A did not create:
+
+- a Production target locator;
+- a target-authority registry record;
+- an ACTIVE authority;
+- live provider acquisition;
+- Production write authority.
+
+Current authority remains:
+
+- `PRG-01 = HOLD_TARGET_AUTHORITY_NOT_MATERIALIZED`;
+- `LiveReadAuthorized=False`;
+- `ExecutableAcquisitionAuthorized=False`;
+- `ProductionWriteAuthorized=False`;
+- Production writer = HOLD;
+- MASTER LIVE unchanged.
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:

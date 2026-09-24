@@ -294,6 +294,26 @@
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY, OUTBOUND, INVENTORY."
     },
     {
+      "path": "rules/PHASE_A_DRIVE_AUTHORITY_BOUNDARY_MATERIALIZATION_EVIDENCE_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Public redacted evidence proving Phase A restricted Drive authority-boundary materialization, fresh provider topology/permission read-back, solo-operator event separation and private evidence hash recomputation without Production locator or registry materialization."
+    },
+    {
+      "path": "rules/PHASE_A_DRIVE_AUTHORITY_BOUNDARY_MATERIALIZATION_REVIEW_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Conformance review of Phase A Drive authority-boundary evidence; verifies exact topology, owner-only/private permissions, fresh provider read-back, public redaction and continued PRG-01 no-live/no-write HOLD invariants."
+    },
+    {
       "path": "rules/POST_MATERIALIZATION_EXTERNAL_ACQUISITION_READINESS_AUDIT_V0_1.md",
       "capabilities": [
         "INBOUND",
