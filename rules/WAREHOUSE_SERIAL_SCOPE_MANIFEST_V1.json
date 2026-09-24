@@ -218,6 +218,16 @@
       "rationale": "Required for the warehouse-serial control baseline: SOURCE_ALLOCATION, SERIAL_IDENTITY_RANGE."
     },
     {
+      "path": "rules/SOURCE_ROLE_BOUNDARY_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Warehouse-specific SOURCE_OF_TRUTH / DERIVED_READ_ONLY business-write boundary for inbound serial acceptance."
+    },
+    {
       "path": "rules/TRUSTED_PUBLIC_BOUNDARY_V2_MIGRATION.md",
       "capabilities": [
         "REPOSITORY_SAFETY"
@@ -403,6 +413,16 @@
       "rationale": "Required for the warehouse-serial control baseline: SOURCE_ALLOCATION, SERIAL_IDENTITY_RANGE."
     },
     {
+      "path": "scripts/source_role_boundary_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Pure fail-closed evaluator for the warehouse source-role write-intent boundary; no live I/O or mutation."
+    },
+    {
       "path": "tests/test_allocation_nearest_prior.py",
       "capabilities": [
         "SOURCE_ALLOCATION",
@@ -551,6 +571,16 @@
         "SERIAL_IDENTITY_RANGE"
       ],
       "rationale": "Required for the warehouse-serial control baseline: SOURCE_ALLOCATION, SERIAL_IDENTITY_RANGE."
+    },
+    {
+      "path": "tests/test_source_role_boundary_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Synthetic adversarial coverage for warehouse source-role boundary semantics and fail-closed behavior."
     },
     {
       "path": "tests/test_static_quality_v2.py",

@@ -55,7 +55,7 @@ No gate may be inferred from another gate's PASS.
 
 | Gate | Existing public producer | Current state |
 | --- | --- | --- |
-| source_role_boundary | RULE-0099 defines SOURCE_OF_TRUTH / DERIVED_READ_ONLY semantics | **MISSING executable pure evaluator** |
+| source_role_boundary | SOURCE_ROLE_BOUNDARY_V0_1 implements RULE-0099 write-intent boundary | available after this primitive merges |
 | source_readback | No dedicated public producer | **MISSING executable pure evaluator** |
 | serial_range_quantity | Control 04 | available |
 | serial_overlap_free | Control 04, over the caller-supplied canonical comparison set | available, scope authority remains upstream |
@@ -63,9 +63,11 @@ No gate may be inferred from another gate's PASS.
 | formula_health | Control 06 | available |
 | formula_semantics | Control 12 | available |
 
-Because two mandatory gates have no public pure producer, implementation of the
-full inbound profile remains HOLD. This design must not fake those gates as
-constant True values or collapse them into free-text approval.
+After SOURCE_ROLE_BOUNDARY_V0_1 merges, one mandatory gate still has no public
+pure producer: `source_readback`. Full inbound profile implementation remains
+HOLD until that producer is separately designed and verified. This design must
+not fake missing gates as constant True values or collapse them into free-text
+approval.
 
 ## Composition order
 
@@ -140,7 +142,7 @@ result:
 - unknown, blank, malformed, or unsupported classifications fail closed;
 - no workbook mapping, connector, live target, or writer is allowed.
 
-After that primitive is independently designed, tested, and merged, audit the
+After SOURCE_ROLE_BOUNDARY_V0_1 is independently merged, audit and design the
 remaining `source_readback` producer before implementing this inbound profile.
 
 ## Repository scope decision

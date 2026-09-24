@@ -27,15 +27,20 @@ Responsibility:
 
 ### SOURCE_OF_TRUTH / DERIVED_READ_ONLY boundary
 
-Artifact:
+Artifacts:
 
 - `rules/RULE_0099_SOURCE_OF_TRUTH_DERIVED_READ_ONLY.md`
+- `rules/SOURCE_ROLE_BOUNDARY_V0_1.md`
+- `scripts/source_role_boundary_v0_1.py`
 
 Responsibility:
 
-- only authoritative source regions are writable in an external implementation;
-- derived/read-model regions are treated as read-only;
-- release requires applicable source/read-model integrity controls to pass.
+- only authoritative source regions may pass the business-write role boundary;
+- derived/read-model regions are treated as read-only and block business-write intent;
+- classification must be explicit and exactly one allowed role;
+- malformed, contradictory, missing, or unsupported classification fails closed;
+- release still requires separate applicable source read-back and read-model integrity controls to pass;
+- this pure boundary never grants production write authority.
 
 ## Phase 2 controls
 
