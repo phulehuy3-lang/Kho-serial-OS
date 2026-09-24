@@ -38,6 +38,13 @@
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
     },
     {
+      "path": "CURRENT_STATUS.md",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Dated current-status index separating direct provider read-back, historical checkpoint documentation, history/privacy findings, license state and next action."
+    },
+    {
       "path": "rules/ALLOCATION_NEAREST_PRIOR_V1_0.md",
       "capabilities": [
         "SOURCE_ALLOCATION",
@@ -257,6 +264,13 @@
         "REPOSITORY_SAFETY"
       ],
       "rationale": "Warehouse-specific non-live plan for materializing the canonical inbound Production-shadow target-authority registry required before read-only identity, permission and exact surface bindings can be evidenced."
+    },
+    {
+      "path": "rules/LICENSE_DECISION_PROPOSAL_V0_1.md",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Owner-controlled license decision proposal; does not select or grant a repository license."
     },
     {
       "path": "rules/MATERIALIZED_LINEAGE_REPLAY_V0_1.md",
