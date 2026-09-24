@@ -551,5 +551,36 @@ class LineageTests(unittest.TestCase):
             )
 
 
+    def test_non_ascii_digit_serial_holds_without_exception(self) -> None:
+        decision = evaluate((candidate("A", serial_start="²"),))
+        self.assertEqual(decision.status, HOLD)
+        self.assertIn(
+            "RANKED_PREFIX:SERIAL_START_INVALID:A",
+            decision.blocking_reasons,
+        )
+
+    def test_overlong_serial_holds_without_integer_conversion(self) -> None:
+        decision = evaluate((candidate("A", serial_start="9" * 5000),))
+        self.assertEqual(decision.status, HOLD)
+        self.assertIn(
+            "RANKED_PREFIX:SERIAL_START_INVALID:A",
+            decision.blocking_reasons,
+        )
+
+    def test_independent_verifier_holds_for_overlong_serial(self) -> None:
+        result = verify_ranked_prefix_allocation(
+            task_id="TASK-SYNTH-A",
+            target_date=TARGET,
+            requested_qty=1,
+            candidates=(candidate("A", serial_start="9" * 5000, available_qty=1),),
+            proposed_allocation=(),
+        )
+        self.assertEqual(result.status, HOLD)
+        self.assertIn(
+            "RANKED_PREFIX:SERIAL_START_INVALID:A",
+            result.blocking_reasons,
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
