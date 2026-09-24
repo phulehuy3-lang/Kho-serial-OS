@@ -56,6 +56,26 @@
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY, OUTBOUND, INVENTORY."
     },
     {
+      "path": "rules/EXTERNAL_INBOUND_ACQUISITION_ADAPTER_DESIGN_REVIEW_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Independent design conformance review of the external inbound acquisition adapter against exact five-surface scope, materialization package, Control 10, zero-write, receipt and repository-safety invariants."
+    },
+    {
+      "path": "rules/EXTERNAL_INBOUND_ACQUISITION_ADAPTER_DESIGN_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Warehouse-specific design for a future external read-only inbound acquisition runtime that emits the locked materialization package while keeping executable provider access and write authority disabled."
+    },
+    {
       "path": "rules/FAIL_CLOSED_RELEASE_GATES_V0_1.md",
       "capabilities": [
         "REPOSITORY_SAFETY",
