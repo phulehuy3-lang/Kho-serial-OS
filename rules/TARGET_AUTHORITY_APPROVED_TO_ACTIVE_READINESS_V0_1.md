@@ -419,3 +419,66 @@ It must not authorize runtime/live-read acquisition or Production writes.
 **Production writer = HOLD**
 
 **MASTER LIVE unchanged**
+
+
+---
+
+## Post-readiness action record — Issue #90
+
+Status: **PASS_APPROVED_TO_ACTIVE_MATERIALIZED**
+
+The separately authorized action permitted by this readiness artifact has now
+been executed and independently post-verified.
+
+Public-safe resulting state:
+
+- lifecycle = `ACTIVE`;
+- independent read-back state = `PASS`;
+- ACTIVE count = 1;
+- authority-layer target resolution eligibility = TRUE;
+- pre-activation authority hash =
+  `d39a53b0463e69420c92c9050b984b32e6e64c3745f310ad6aca3e39d3fe9bb2`;
+- resulting ACTIVE authority hash =
+  `18d82986492840594d6e9eea82df4daeb024140d49c308b66fe22da098a17151`.
+
+Private evidence chain, referenced only by public-safe opaque IDs/hashes:
+
+- pre-activation verification:
+  `EVD-TAA-ACT-PREVERIFY-5c25209f5b0395bc8ef6`
+  / `622e03d713478de73a90de9d845146572f0168850b1642dc42e9370d0f211d1e`;
+- exact APPROVED/PASS snapshot:
+  `EVD-TAA-ACT-SNAPSHOT-18e3faee8a9d9423630b`
+  / manifest hash
+  `a7e7ce33acb5e8d1c8de4369f8f2f8d44e84a9d914a0932b574bc504673a0919`;
+- activation decision:
+  `EVD-TAA-ACT-DECISION-1b2ce52654d312fc0b18`
+  / `3ab13ae24748b694438e90bf98894a092452e7cbce5c2c3e20593d38109ce1e4`;
+- materialization:
+  `EVD-TAA-ACT-MAT-53debc388307a1294ad4`
+  / `1666d336ffbf23b8ef3c44d32795aa3059a1ebe7ef3d6be97012f64f86a9aa7c`;
+- post-activation verification:
+  `EVD-TAA-ACT-POSTVERIFY-9abcdf8a543c09280881`
+  / `535883f5d340bb68a0cbf0cec1334e1d84268db7ad8e97efab938c54092d33af`.
+
+Exact REGISTRY mutation was limited to:
+
+1. `lifecycle_state`;
+2. `activation_epoch_ref`;
+3. `authority_record_hash`.
+
+Full REGISTRY uniqueness was 0 ACTIVE before and exactly 1 ACTIVE after.
+Target, authority, locator and retained evidence remained private owner-only.
+
+A content-transfer copy remains retained only in private RECOVERY. It is outside
+REGISTRY and LOCATOR and has no authority or resolution semantics.
+
+Locked after activation:
+
+- `LiveReadAuthorized=False`;
+- `ExecutableAcquisitionAuthorized=False`;
+- `ProductionWriteAuthorized=False`;
+- Production writer = HOLD;
+- MASTER LIVE unchanged.
+
+ACTIVE remains an authority-layer state only. Runtime identity, credential
+binding, live provider acquisition and Production write remain separately gated.
