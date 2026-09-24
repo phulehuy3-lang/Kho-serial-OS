@@ -1,8 +1,14 @@
 # FORMULA_SEMANTIC_IDENTITY_V0_1
 
-Status: **PUBLIC BASELINE — IN-MEMORY / READ-ONLY**
+Status: **STATE AT V0.1 CHECKPOINT — FROZEN V1 HASH DOMAIN / IN-MEMORY / READ-ONLY**
 
 ## Purpose
+
+
+> Current-main migration note (2026-09-25): V1 hash/canonicalization remains
+> frozen for historical compatibility. Current callers use
+> `FORMULA_SEMANTIC_IDENTITY_V0_2`. V1 hashes must not be silently
+> reinterpreted as V2 hashes.
 
 Define a pure contract for validating whether a materialized QUERY formula still
 has the exact semantics approved by an explicit contract.
