@@ -452,6 +452,42 @@ Authority remains:
 - Production writer = HOLD;
 - MASTER LIVE unchanged.
 
+## External inbound acquisition adapter design
+
+### EXTERNAL_INBOUND_ACQUISITION_ADAPTER_DESIGN_V0_1
+
+Design-only warehouse-specific architecture for a future external runtime that
+would acquire exactly five inbound evidence surfaces and emit one validated
+`INBOUND_EVIDENCE_MATERIALIZATION_PACKAGE_V1`.
+
+The design locks:
+
+- external runtime separation from the public pure-control code path;
+- opaque target-authority lookup;
+- dedicated read-only identity and independent effective-permission proof;
+- exact five-surface acquisition with no wildcard discovery;
+- provider consistency/version fail-closed decision table;
+- explicit serial/HOLD universe completeness proof;
+- zero-write runtime attestation;
+- deterministic package transformation;
+- append-only or independently tamper-evident receipt boundary;
+- abort-on-ambiguity semantics;
+- ten promotion gates before any executable adapter issue.
+
+Conformance review:
+
+`EXTERNAL_INBOUND_ACQUISITION_ADAPTER_DESIGN_REVIEW_V0_1`
+
+Current authority:
+
+- design conformance = PASS;
+- executable acquisition readiness = HOLD;
+- `LiveReadAuthorized=False`;
+- `ExecutableAcquisitionAuthorized=False`;
+- `ProductionWriteAuthorized=False`;
+- Production writer = HOLD;
+- MASTER LIVE unchanged.
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
