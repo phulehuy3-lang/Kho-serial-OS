@@ -106,7 +106,7 @@ def _convert_source_role(value: object) -> object:
     if value is None:
         return None
     if type(value) is not SourceRoleBoundaryResult:
-        return value
+        return None
     if value.production_write_authorized is not False:
         return None
     if (
@@ -129,7 +129,7 @@ def _convert_source_readback(value: object) -> object:
     if value is None:
         return None
     if type(value) is not SourceReadbackResult:
-        return value
+        return None
     if value.production_write_authorized is not False:
         return None
     if (
@@ -152,7 +152,7 @@ def _convert_formula_semantics(value: object) -> object:
     if value is None:
         return None
     if type(value) is not FormulaSemanticAssessment:
-        return value
+        return None
     if (
         value.status == FORMULA_PASS
         and value.ready is True
