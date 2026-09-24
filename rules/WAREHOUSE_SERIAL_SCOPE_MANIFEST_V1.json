@@ -344,6 +344,26 @@
       "rationale": "Public-safe Phase B re-readiness decision after schema/surface binding materialization; revalidates private authority boundary/current target, canonical hashes, opaque-ID rules and no-live/no-write invariants."
     },
     {
+      "path": "rules/PHASE_B_TARGET_LOCATOR_AND_DRAFT_RECORD_MATERIALIZATION_EVIDENCE_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Public-redacted Phase B evidence preserving HOLD-remediation-PASS history for one private target locator and one verified DRAFT target-authority record, with no Production identifiers."
+    },
+    {
+      "path": "rules/PHASE_B_TARGET_LOCATOR_AND_DRAFT_RECORD_MATERIALIZATION_REVIEW_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Conformance review of Phase B locator/DRAFT materialization, canonical byte/hash read-back, BOM fail-closed remediation, exact DRAFT lifecycle and continued no-live/no-write invariants."
+    },
+    {
       "path": "rules/PHASE_B_TARGET_LOCATOR_AND_DRAFT_RECORD_READINESS_REVIEW_V0_1.md",
       "capabilities": [
         "INBOUND",

@@ -941,6 +941,63 @@ Locked:
 - Production writer = HOLD
 - MASTER LIVE unchanged
 
+## Phase B target locator + DRAFT authority materialization
+
+### PHASE_B_TARGET_LOCATOR_AND_DRAFT_RECORD_MATERIALIZATION_EVIDENCE_V0_1
+
+Verdict:
+
+`PASS_PHASE_B_LOCATOR_DRAFT_MATERIALIZED`
+
+Materialized public-safe refs:
+
+- target authority:
+  `TA1_d597fd30cfeeefc01ca9d28f71a98e0f`
+- external locator ref:
+  `LOC1_a18c6d759273701cfcf0942b505409af`
+- locator SHA-256:
+  `91e8b5c59e6c1a9d299badc1edddc97d0c24859229a8661760504c195af9cd07`
+- DRAFT authority-record SHA-256:
+  `6990f08a39a2087986c8845a2549a381dbd4dba9f442d55f7caa66edc3647cc4`
+
+The first verification correctly HOLDed on
+`HOLD_CANONICAL_STORAGE_BOM_PRESENT`.
+
+A separately recorded remediation event quarantined the defective BOM-bearing
+objects into RECOVERY and rewrote BOM-free canonical JSON.
+
+Fresh verification then PASSed with:
+
+- exact locator/record hash recomputation;
+- lifecycle = DRAFT;
+- ACTIVE count = 0;
+- REGISTRY current object count = 1;
+- LOCATOR current object count = 1;
+- current target/locator/record private owner-only;
+- no Production identifier published.
+
+Private verification evidence hash:
+
+`6fa71c2e978ce97038a49424a97a392781914250a38ae1e5292eb299ab661e9a`
+
+Current authority state:
+
+`DRAFT_TARGET_AUTHORITY_MATERIALIZED_NOT_ACTIVE`
+
+Locked:
+
+- `LiveReadAuthorized=False`
+- `ExecutableAcquisitionAuthorized=False`
+- `ProductionWriteAuthorized=False`
+- Production writer = HOLD
+- MASTER LIVE unchanged
+
+Conformance review:
+
+`PHASE_B_TARGET_LOCATOR_AND_DRAFT_RECORD_MATERIALIZATION_REVIEW_V0_1`
+
+No lifecycle promotion is authorized.
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
