@@ -344,5 +344,24 @@ class InboundSerialProfileTests(unittest.TestCase):
         self.assertIn("PROFILE_CONTEXT_INVALID", result.blocking_reasons)
 
 
+    def test_structured_producers_reject_raw_true(self):
+        for name in (
+            "source_role_boundary",
+            "source_readback",
+            "formula_semantics",
+        ):
+            with self.subTest(name=name):
+                result = evaluate_inbound_profile(
+                    self.context(),
+                    replace(self.valid_outcomes(), **{name: True}),
+                    hold_conflict=False,
+                )
+                self.assert_hold(result)
+                self.assertIn(
+                    f"release:{name}:UNKNOWN",
+                    result.blocking_reasons,
+                )
+
+
 if __name__ == "__main__":
     unittest.main()

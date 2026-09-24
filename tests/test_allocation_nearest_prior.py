@@ -86,5 +86,20 @@ class NearestPriorTests(unittest.TestCase):
         self.assertEqual(eligible_sources_nearest_prior((), date(2026, 1, 10)), ())
 
 
+    def test_non_ascii_digit_serial_fails_closed_before_conversion(self) -> None:
+        with self.assertRaisesRegex(ValueError, "ASCII decimal"):
+            eligible_sources_nearest_prior(
+                (lot("BAD", 2026, 1, 9, 1, "²"),),
+                date(2026, 1, 10),
+            )
+
+    def test_overlong_serial_fails_closed_before_conversion(self) -> None:
+        with self.assertRaisesRegex(ValueError, "maximum length"):
+            eligible_sources_nearest_prior(
+                (lot("BAD", 2026, 1, 9, 1, "9" * 5000),),
+                date(2026, 1, 10),
+            )
+
+
 if __name__ == "__main__":
     unittest.main()

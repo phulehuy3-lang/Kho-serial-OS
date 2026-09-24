@@ -10,6 +10,9 @@ from datetime import date
 from typing import Iterable
 
 
+SERIAL_START_MAX_DIGITS = 4096
+
+
 @dataclass(frozen=True, slots=True)
 class SourceLot:
     source_id: str
@@ -18,10 +21,24 @@ class SourceLot:
     serial_start: str
 
 
-def _serial_key(serial_start: str) -> int:
-    if not isinstance(serial_start, str) or not serial_start or not serial_start.isdigit():
-        raise ValueError("serial_start must be non-empty numeric text")
-    return int(serial_start)
+def _serial_key(serial_start: object) -> tuple[int, str]:
+    """Return a numeric-order key without converting the serial to int.
+
+    Serial identifiers remain text so leading zeroes are preserved. Only
+    non-empty ASCII decimal text up to the explicit safety bound is accepted.
+    """
+
+    if type(serial_start) is not str or not serial_start:
+        raise ValueError("serial_start must be non-empty ASCII decimal text")
+    if len(serial_start) > SERIAL_START_MAX_DIGITS:
+        raise ValueError(
+            f"serial_start exceeds maximum length of {SERIAL_START_MAX_DIGITS} digits"
+        )
+    if any(char < "0" or char > "9" for char in serial_start):
+        raise ValueError("serial_start must be non-empty ASCII decimal text")
+
+    significant = serial_start.lstrip("0") or "0"
+    return (len(significant), significant)
 
 
 def _validate_source(source: SourceLot) -> None:

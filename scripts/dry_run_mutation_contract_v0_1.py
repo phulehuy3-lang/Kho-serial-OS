@@ -132,7 +132,7 @@ def _clean(value: object) -> str:
 
 
 def _valid_source_ids(values: object) -> bool:
-    if not isinstance(values, tuple) or not values:
+    if type(values) is not tuple or not values:
         return False
     if any(not _clean(value) for value in values):
         return False
@@ -655,29 +655,34 @@ def assess_dry_run_mutation_contract(
     if compute_approval_hash(approval) != approval.record_hash:
         blockers.append("DRY_RUN_MUTATION:APPROVAL_HASH_MISMATCH")
 
-    if (
-        source_pool_resolution.status != SOURCE_POOL_PASS
-        or not source_pool_resolution.ready
-        or not source_pool_resolution.candidate_scope_verified
-    ):
-        blockers.append("DRY_RUN_MUTATION:SOURCE_POOL_AUTHORITY_NOT_VERIFIED")
-    if source_pool_resolution.blocking_reasons:
-        blockers.append("DRY_RUN_MUTATION:SOURCE_POOL_RESOLUTION_HAS_BLOCKERS")
-    if (
-        source_pool_resolution.authority_id
-        != manifest.source_pool_authority_id
-    ):
-        blockers.append("DRY_RUN_MUTATION:SOURCE_POOL_AUTHORITY_ID_MISMATCH")
-    if not _valid_source_ids(source_pool_resolution.permitted_source_ids):
-        blockers.append(
-            "DRY_RUN_MUTATION:SOURCE_POOL_PERMITTED_SOURCE_SET_INVALID"
-        )
-    elif (
-        _valid_source_ids(manifest.candidate_source_ids)
-        and set(source_pool_resolution.permitted_source_ids)
-        != set(manifest.candidate_source_ids)
-    ):
-        blockers.append("DRY_RUN_MUTATION:SOURCE_POOL_SOURCE_SET_MISMATCH")
+    if type(source_pool_resolution) is not SourcePoolAuthorityResolution:
+        blockers.append("DRY_RUN_MUTATION:SOURCE_POOL_RESOLUTION_SHAPE_INVALID")
+    else:
+        if (
+            source_pool_resolution.status != SOURCE_POOL_PASS
+            or source_pool_resolution.ready is not True
+            or source_pool_resolution.candidate_scope_verified is not True
+        ):
+            blockers.append("DRY_RUN_MUTATION:SOURCE_POOL_AUTHORITY_NOT_VERIFIED")
+        if type(source_pool_resolution.blocking_reasons) is not tuple:
+            blockers.append("DRY_RUN_MUTATION:SOURCE_POOL_RESOLUTION_SHAPE_INVALID")
+        elif source_pool_resolution.blocking_reasons:
+            blockers.append("DRY_RUN_MUTATION:SOURCE_POOL_RESOLUTION_HAS_BLOCKERS")
+        if (
+            source_pool_resolution.authority_id
+            != manifest.source_pool_authority_id
+        ):
+            blockers.append("DRY_RUN_MUTATION:SOURCE_POOL_AUTHORITY_ID_MISMATCH")
+        if not _valid_source_ids(source_pool_resolution.permitted_source_ids):
+            blockers.append(
+                "DRY_RUN_MUTATION:SOURCE_POOL_PERMITTED_SOURCE_SET_INVALID"
+            )
+        elif (
+            _valid_source_ids(manifest.candidate_source_ids)
+            and set(source_pool_resolution.permitted_source_ids)
+            != set(manifest.candidate_source_ids)
+        ):
+            blockers.append("DRY_RUN_MUTATION:SOURCE_POOL_SOURCE_SET_MISMATCH")
 
     readback = manifest.readback_contract
     if not _clean(readback.contract_id):

@@ -102,5 +102,12 @@ class SourceRoleBoundaryTests(unittest.TestCase):
         self.assertFalse(result.production_write_authorized)
 
 
+    def test_malformed_request_holds_without_exception(self):
+        for request in (None, True, {}, "SOURCE_OF_TRUTH"):
+            with self.subTest(request=request):
+                result = evaluate_source_role_boundary(request)  # type: ignore[arg-type]
+                self.assert_hold(result, "REQUEST_INVALID")
+
+
 if __name__ == "__main__":
     unittest.main()
