@@ -69,7 +69,7 @@ def _valid_date(value: object) -> bool:
 
 
 def _valid_source_ids(values: object) -> bool:
-    if not isinstance(values, tuple) or not values:
+    if type(values) is not tuple or not values:
         return False
     if any(not _clean(value) for value in values):
         return False
@@ -204,15 +204,31 @@ def resolve_source_pool_authority(
             candidate_scope_verified=False,
             permitted_source_ids=(),
         )
+    if type(snapshot) is not SourcePoolAuthorityRegistrySnapshot:
+        return SourcePoolAuthorityResolution(
+            status=HOLD,
+            ready=False,
+            blocking_reasons=("SOURCE_POOL:SNAPSHOT_INVALID",),
+            authority_id=None,
+            candidate_scope_verified=False,
+            permitted_source_ids=(),
+        )
 
-    if not snapshot.source_present:
+    if snapshot.source_present is False:
         blockers.append("SOURCE_POOL:REGISTRY_MISSING")
+    elif snapshot.source_present is not True:
+        blockers.append("SOURCE_POOL:SOURCE_PRESENT_INVALID")
     if snapshot.source_identity_status != CANONICAL_SOURCE_IDENTITY_STATUS:
         blockers.append("SOURCE_POOL:SOURCE_NOT_CANONICAL")
     if snapshot.schema_id != CANONICAL_SOURCE_POOL_SCHEMA_ID:
         blockers.append("SOURCE_POOL:SCHEMA_MISMATCH")
     if snapshot.readback_status != PASS:
         blockers.append("SOURCE_POOL:REGISTRY_READBACK_NOT_PASS")
+    if (
+        type(snapshot.records) is not tuple
+        or any(type(record) is not SourcePoolAuthorityRecord for record in snapshot.records)
+    ):
+        blockers.append("SOURCE_POOL:RECORDS_INVALID")
 
     if blockers:
         return SourcePoolAuthorityResolution(
@@ -251,11 +267,15 @@ def resolve_source_pool_authority(
         blockers.append("SOURCE_POOL:TASK_MISMATCH")
     if record.line_key != line_key:
         blockers.append("SOURCE_POOL:LINE_MISMATCH")
-    if record.document_date != document_date:
+    if type(record.document_date) is not date:
+        blockers.append("SOURCE_POOL:RECORD_DOCUMENT_DATE_INVALID")
+    elif record.document_date != document_date:
         blockers.append("SOURCE_POOL:DOCUMENT_DATE_MISMATCH")
     if record.carrier != carrier:
         blockers.append("SOURCE_POOL:CARRIER_MISMATCH")
-    if record.denomination != denomination:
+    if not _positive_int(record.denomination):
+        blockers.append("SOURCE_POOL:RECORD_DENOMINATION_INVALID")
+    elif record.denomination != denomination:
         blockers.append("SOURCE_POOL:DENOMINATION_MISMATCH")
     if record.scope_mode != EXACT_SOURCE_SET:
         blockers.append("SOURCE_POOL:SCOPE_MODE_UNSUPPORTED")
@@ -270,8 +290,9 @@ def resolve_source_pool_authority(
     if not _valid_source_ids(record.permitted_source_ids):
         blockers.append("SOURCE_POOL:PERMITTED_SOURCE_SET_INVALID")
 
-    if record.record_hash != compute_source_pool_record_hash(record):
-        blockers.append("SOURCE_POOL:HASH_MISMATCH")
+    if type(record.document_date) is date:
+        if record.record_hash != compute_source_pool_record_hash(record):
+            blockers.append("SOURCE_POOL:HASH_MISMATCH")
 
     if (
         _valid_source_ids(record.permitted_source_ids)
