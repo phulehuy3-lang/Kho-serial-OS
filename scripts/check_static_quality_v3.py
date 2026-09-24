@@ -111,7 +111,7 @@ def scan_static_quality_v3(root: Path) -> tuple[StaticIssueV3, ...]:
             issues.append(
                 StaticIssueV3(
                     rel,
-                    getattr(exc, "lineno", 0) or 0,
+                    exc.lineno if isinstance(exc, SyntaxError) and exc.lineno else 0,
                     "V3_PYTHON_PARSE_FAIL",
                     str(exc),
                 )
