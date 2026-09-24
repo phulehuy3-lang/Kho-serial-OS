@@ -434,3 +434,197 @@ design `INBOUND_TARGET_AUTHORITY_REGISTRY_MATERIALIZATION_PLAN_V0_1`**
 **Production writer = HOLD**
 
 **MASTER LIVE unchanged**
+
+
+---
+
+## Targeted PRG-02 readiness follow-up — 2026-09-24
+
+Issue: #92
+
+Targeted readiness:
+`READ_ONLY_RUNTIME_IDENTITY_MATERIALIZATION_READINESS_V0_1`
+
+Verdict:
+
+**`HOLD_READONLY_IDENTITY_MATERIALIZATION_NOT_READY`**
+
+This follow-up is readiness-only. It does not create an identity, credential,
+permission grant, provider client, live read, or Production write path.
+
+### A. PRG-01 dependency re-evaluation
+
+**PASS**
+
+Fresh provider evidence now shows that the target-authority dependency root is
+materialized and independently verified:
+
+- one current authority record exists;
+- lifecycle = `ACTIVE`;
+- independent read-back state = `PASS`;
+- ACTIVE count = 1;
+- target resolution is unique at the authority layer;
+- target, authority and locator remain private under the expected boundary.
+
+This resolves the former PRG-01 blocker for purposes of sequencing PRG-02.
+
+It does not authorize live acquisition.
+
+### B. Dedicated identity existence
+
+**HOLD**
+
+Current target permission read-back shows only the existing owner boundary.
+No separate dedicated runtime principal is materialized.
+
+A personal/operator identity is not acceptable as the PRG-02 runtime identity.
+
+Blocker:
+
+`HOLD_READONLY_IDENTITY_NOT_MATERIALIZED`
+
+### C. Canonical provider identity class
+
+**HOLD**
+
+The current design states the required properties of a dedicated identity but
+does not select one canonical provider identity class for this target.
+
+The repository does not yet lock whether the materialized principal is, for
+example, a dedicated Workspace principal, service principal, or another
+provider-native principal class.
+
+Without one selected identity class, the following cannot be made deterministic:
+
+- creation/materialization authority;
+- principal ownership;
+- revocation semantics;
+- rotation semantics;
+- credential issuance/storage boundary;
+- provider-side reader grant procedure;
+- independent identity read-back procedure.
+
+Blocker:
+
+`HOLD_READONLY_IDENTITY_CLASS_UNSELECTED`
+
+### D. Ownership, rotation and revocation
+
+**HOLD**
+
+The design requires revocation/rotation support but no PRG-02-specific authority
+record currently binds:
+
+- identity authority ID;
+- owner/custodian;
+- rotation owner;
+- revocation owner;
+- lifecycle state;
+- deterministic identity-record hash;
+- independent identity read-back evidence.
+
+A future materialization action must not invent these fields ad hoc.
+
+Blocker:
+
+`HOLD_READONLY_IDENTITY_GOVERNANCE_UNBOUND`
+
+### E. Credential boundary
+
+**HOLD**
+
+The design correctly requires credential material to remain outside GitHub, but
+the concrete storage/issuance boundary is not yet selected for PRG-02.
+
+Readiness therefore cannot authorize credential creation.
+
+Blocker:
+
+`HOLD_READONLY_IDENTITY_CREDENTIAL_BOUNDARY_UNSELECTED`
+
+### F. Effective permission proof separation
+
+**PASS AT DESIGN LEVEL ONLY**
+
+PRG-03 remains a distinct gate.
+
+Identity materialization alone must not be interpreted as proof that the
+effective permission set is read-only.
+
+A later PRG-03 proof must independently verify against the exact ACTIVE target:
+
+- no write/edit capability;
+- no resource creation;
+- no share/permission-management capability;
+- no write-capable fallback identity.
+
+A `read_only=true` flag, configuration statement or screenshot remains
+insufficient.
+
+### G. Public boundary
+
+**PASS**
+
+The readiness design can proceed without publishing Production resource IDs,
+credential material, provider account identity or permission secrets.
+
+Only opaque authority/evidence references and non-sensitive hashes may cross the
+public boundary.
+
+### H. Repository governance
+
+**PASS**
+
+The exact current main baseline still has all four required checks PASS:
+
+- `unit-tests`;
+- `trusted-public-boundary`;
+- `trusted-public-boundary-v2`;
+- `trusted-warehouse-serial-scope`.
+
+No repository control may be weakened to materialize PRG-02.
+
+## Readiness decision
+
+PRG-01 is now satisfied, but PRG-02 is not ready for a materialization action.
+
+A materialization action would currently have to invent the provider identity
+class, governance ownership, rotation/revocation model and credential boundary.
+That is not permitted.
+
+Therefore:
+
+`READ_ONLY_RUNTIME_IDENTITY_MATERIALIZATION_READINESS_V0_1 =
+HOLD_READONLY_IDENTITY_MATERIALIZATION_NOT_READY`
+
+## Smallest next safe step
+
+The next permitted artifact is design-only:
+
+`READ_ONLY_RUNTIME_IDENTITY_SELECTION_V0_1`
+
+It must select and review exactly one canonical provider identity class and
+define, without creating any credential or permission:
+
+- identity authority record schema;
+- lifecycle states;
+- owner/custodian authority;
+- rotation owner and process;
+- revocation owner and process;
+- credential issuance/storage boundary;
+- target-binding semantics;
+- reader-grant action boundary;
+- independent identity read-back;
+- deterministic identity-record hashing;
+- exact evidence required before a later materialization action may open.
+
+## Locked state
+
+- `LiveReadAuthorized=False`
+- `ExecutableAcquisitionAuthorized=False`
+- `ProductionWriteAuthorized=False`
+- Production writer = HOLD
+- no credential creation
+- no provider permission change
+- no live provider call
+- MASTER LIVE unchanged
