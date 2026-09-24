@@ -3,9 +3,9 @@ from __future__ import annotations
 from dataclasses import replace
 import unittest
 
-from scripts.formula_semantic_identity_v0_1 import (
-    assess_formula_semantic_identity,
-    with_computed_formula_contract_hash,
+from scripts.formula_semantic_identity_v0_2 import (
+    assess_formula_semantic_identity_v2,
+    with_computed_formula_contract_hash_v2,
 )
 from scripts.inbound_serial_query_derived_v1 import (
     HOLD,
@@ -68,7 +68,7 @@ class InboundSerialProfileTests(unittest.TestCase):
         )
 
     def formula_assessment(self, query_text="select A"):
-        contract = with_computed_formula_contract_hash(
+        contract = with_computed_formula_contract_hash_v2(
             contract_id="QUERY-INBOUND-1",
             source="A1:B10",
             query_text="select A",
@@ -76,7 +76,7 @@ class InboundSerialProfileTests(unittest.TestCase):
             exported_fallback_literal="",
         )
         formula = f'=QUERY(A1:B10,"{query_text}",1)'
-        return assess_formula_semantic_identity(
+        return assess_formula_semantic_identity_v2(
             formula=formula,
             contract=contract,
         )
