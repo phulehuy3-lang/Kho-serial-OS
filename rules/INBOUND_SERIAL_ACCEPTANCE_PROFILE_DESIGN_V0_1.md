@@ -56,18 +56,17 @@ No gate may be inferred from another gate's PASS.
 | Gate | Existing public producer | Current state |
 | --- | --- | --- |
 | source_role_boundary | SOURCE_ROLE_BOUNDARY_V0_1 implements RULE-0099 write-intent boundary | available after this primitive merges |
-| source_readback | No dedicated public producer | **MISSING executable pure evaluator** |
+| source_readback | SOURCE_READBACK_V0_1 validates expected vs already-materialized source read-back | available after this primitive merges |
 | serial_range_quantity | Control 04 | available |
 | serial_overlap_free | Control 04, over the caller-supplied canonical comparison set | available, scope authority remains upstream |
 | source_derived_reconciliation | Control 06 | available |
 | formula_health | Control 06 | available |
 | formula_semantics | Control 12 | available |
 
-After SOURCE_ROLE_BOUNDARY_V0_1 merges, one mandatory gate still has no public
-pure producer: `source_readback`. Full inbound profile implementation remains
-HOLD until that producer is separately designed and verified. This design must
-not fake missing gates as constant True values or collapse them into free-text
-approval.
+After SOURCE_READBACK_V0_1 merges, all seven declared inbound gate producers
+exist in the public pure-control layer. The full inbound profile may then move
+from producer-blocked HOLD to a separate implementation review. This still does
+not authorize live reads, production writes, or any MASTER LIVE mutation.
 
 ## Composition order
 
@@ -142,8 +141,9 @@ result:
 - unknown, blank, malformed, or unsupported classifications fail closed;
 - no workbook mapping, connector, live target, or writer is allowed.
 
-After SOURCE_ROLE_BOUNDARY_V0_1 is independently merged, audit and design the
-remaining `source_readback` producer before implementing this inbound profile.
+After SOURCE_READBACK_V0_1 is independently merged, re-audit all seven
+producer contracts together and only then implement the pure inbound profile
+composition.
 
 ## Repository scope decision
 
