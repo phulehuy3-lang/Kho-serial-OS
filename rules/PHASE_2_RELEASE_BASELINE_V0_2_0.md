@@ -2,13 +2,13 @@
 
 Release name: **Phase 2 Public Controls Baseline**
 
-Status: **release candidate until merged, post-merge checks pass, and the tag is verified**.
+Status: **FROZEN PHASE 2 TAG — `v0.2.0` verified at canonical commit `218c8030252ea0fb23489a5631678925b2572978`**.
 
 ## Exact commit and tag policy
 
-The `v0.2.0` tag must be created only after this manifest is merged. It must
-point to the post-merge canonical `main` commit, verified by direct read-back.
-The pre-merge parent and PR head are not release tag targets.
+The `v0.2.0` tag is the immutable Phase 2 twelve-control baseline and has
+been read back at `218c8030252ea0fb23489a5631678925b2572978`.
+Later Phase 3 artifacts on `main` do not alter that frozen tag.
 
 This is an engineering-control baseline. It is not production authority,
 does not authorize live writes, and does not prove MASTER LIVE correctness.
