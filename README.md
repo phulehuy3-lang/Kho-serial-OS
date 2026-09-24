@@ -33,7 +33,7 @@ PHÚ OS, finance, fiction, communications, or general personal-automation logic.
 - separate engineering validation from production authorization;
 - keep control modules side-effect-free;
 - use synthetic data in tests;
-- require both repository-boundary checks before merge.
+- require repository-boundary V1/V2 and warehouse-serial scope checks before merge.
 
 ## Public control baseline
 
