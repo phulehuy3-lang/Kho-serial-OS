@@ -42,6 +42,27 @@ Responsibility:
 - release still requires separate applicable source read-back and read-model integrity controls to pass;
 - this pure boundary never grants production write authority.
 
+## Inbound source verification primitives
+
+### SOURCE_ROLE_BOUNDARY_V0_1
+
+Implements the RULE-0099 SOURCE_OF_TRUTH / DERIVED_READ_ONLY business-write
+role boundary as a pure fail-closed evaluator. It does not authorize a write.
+
+### SOURCE_READBACK_V0_1
+
+Validates one already-materialized expected source record against one
+already-materialized read-back record with exact task/scope/capture binding,
+exact field-set equality, exact scalar type equality and exact value equality.
+
+Dependency policy:
+
+- pure in-memory primitive;
+- no live read, provider, connector, target discovery or credential;
+- does not replace Control 10 snapshot integrity or Control 06 reconciliation;
+- produces only source-readback evidence for an explicitly scoped workflow;
+- PASS never grants production write authority.
+
 ## Phase 2 controls
 
 ### Control 01 — CROSS_YEAR_AUTHORITY_V0_1
