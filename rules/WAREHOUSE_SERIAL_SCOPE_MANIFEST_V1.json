@@ -81,6 +81,17 @@
       "rationale": "Required for the warehouse-serial control baseline: HOLD_QUARANTINE, INVENTORY."
     },
     {
+      "path": "rules/INBOUND_SERIAL_ACCEPTANCE_PROFILE_DESIGN_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION",
+        "HOLD_QUARANTINE"
+      ],
+      "rationale": "Warehouse-specific design for fail-closed inbound serial acceptance; directly governs inbound inventory, interval integrity, reconciliation, formula safety, and HOLD handling."
+    },
+    {
       "path": "rules/MATERIALIZED_LINEAGE_REPLAY_V0_1.md",
       "capabilities": [
         "SOURCE_ALLOCATION",
@@ -236,14 +247,14 @@
       "rationale": "Required for the warehouse-serial control baseline: SOURCE_ALLOCATION, SERIAL_IDENTITY_RANGE."
     },
     {
-      "path": "scripts/check_git_history_boundary.py",
+      "path": "scripts/check_git_history_boundary_v2.py",
       "capabilities": [
         "REPOSITORY_SAFETY"
       ],
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
     },
     {
-      "path": "scripts/check_git_history_boundary_v2.py",
+      "path": "scripts/check_git_history_boundary.py",
       "capabilities": [
         "REPOSITORY_SAFETY"
       ],
@@ -257,14 +268,14 @@
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
     },
     {
-      "path": "scripts/check_static_quality.py",
+      "path": "scripts/check_static_quality_v2.py",
       "capabilities": [
         "REPOSITORY_SAFETY"
       ],
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
     },
     {
-      "path": "scripts/check_static_quality_v2.py",
+      "path": "scripts/check_static_quality.py",
       "capabilities": [
         "REPOSITORY_SAFETY"
       ],
@@ -542,14 +553,14 @@
       "rationale": "Required for the warehouse-serial control baseline: SOURCE_ALLOCATION, SERIAL_IDENTITY_RANGE."
     },
     {
-      "path": "tests/test_static_quality.py",
+      "path": "tests/test_static_quality_v2.py",
       "capabilities": [
         "REPOSITORY_SAFETY"
       ],
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
     },
     {
-      "path": "tests/test_static_quality_v2.py",
+      "path": "tests/test_static_quality.py",
       "capabilities": [
         "REPOSITORY_SAFETY"
       ],
