@@ -10,6 +10,12 @@ dependencies for frozen Phase 2 Controls 01–12 and the later Phase 3 addition.
 This catalog is descriptive governance for the public repository. It does not
 create production authority or a write path.
 
+> Status interpretation: lifecycle and authority statements below preserve the
+> state recorded at their historical checkpoint unless a section explicitly
+> says it is a fresh provider read-back. For current repository/provider status,
+> use [../CURRENT_STATUS.md](../CURRENT_STATUS.md).
+
+
 ## Bootstrap controls
 
 ### NEAREST-PRIOR allocation ordering
@@ -312,7 +318,7 @@ another generic control. It is the warehouse-specific boundary between future
 approved read-only evidence acquisition and the already-materialized producer
 inputs consumed by the inbound profile.
 
-Current decision:
+Decision at checkpoint:
 
 - pure inbound profile: CLOSED;
 - executable live read: HOLD;
@@ -350,7 +356,7 @@ Conformance review:
 
 `INBOUND_READONLY_EVIDENCE_BOUNDARY_DESIGN_REVIEW_V0_1`
 
-Current authority state:
+State at checkpoint:
 
 - design conformance = PASS;
 - implementation = HOLD;
@@ -506,7 +512,7 @@ Verdict:
 
 Promotion requires ten independently evidenced gates.
 
-Current result:
+Result at checkpoint:
 
 - PRG-01 target-authority registry — HOLD;
 - PRG-02 dedicated read-only identity — HOLD;
@@ -563,7 +569,7 @@ Conformance review:
 
 `INBOUND_TARGET_AUTHORITY_REGISTRY_MATERIALIZATION_PLAN_REVIEW_V0_1`
 
-Current state remains:
+State at checkpoint:
 
 - plan conformance = PASS;
 - PRG-01 materialization = NOT PERFORMED;
@@ -640,7 +646,7 @@ Conformance review:
 
 `EXTERNAL_TARGET_AUTHORITY_STORE_SELECTION_REVIEW_V0_1`
 
-Current state remains:
+State at checkpoint:
 
 - store-selection conformance = PASS;
 - external registry materialization = NOT PERFORMED;
@@ -694,7 +700,7 @@ Next permitted artifact:
 
 `TARGET_AUTHORITY_INDEPENDENT_REVIEWER_IDENTITY_BINDING_V0_1`
 
-Current authority remains:
+State at checkpoint:
 
 - `PRG-01 = HOLD_TARGET_AUTHORITY_NOT_MATERIALIZED`;
 - `LiveReadAuthorized=False`;
@@ -739,7 +745,7 @@ for this one-person operating model only.
 
 Historical readiness artifacts remain unchanged as historical evidence.
 
-Current authority remains:
+State at checkpoint:
 
 - `PRG-01 = HOLD_TARGET_AUTHORITY_NOT_MATERIALIZED`;
 - `LiveReadAuthorized=False`;
@@ -791,7 +797,7 @@ Phase A did not create:
 - live provider acquisition;
 - Production write authority.
 
-Current authority remains:
+State at checkpoint:
 
 - `PRG-01 = HOLD_TARGET_AUTHORITY_NOT_MATERIALIZED`;
 - `LiveReadAuthorized=False`;
@@ -836,7 +842,7 @@ Next safe step:
 
 No Production locator or target-authority record has been created.
 
-Current authority remains:
+State at checkpoint:
 
 - `PRG-01 = HOLD_TARGET_AUTHORITY_NOT_MATERIALIZED`;
 - `LiveReadAuthorized=False`;
@@ -988,7 +994,7 @@ Private verification evidence hash:
 
 `6fa71c2e978ce97038a49424a97a392781914250a38ae1e5292eb299ab661e9a`
 
-Current authority state:
+State at checkpoint:
 
 `DRAFT_TARGET_AUTHORITY_MATERIALIZED_NOT_ACTIVE`
 
@@ -1055,7 +1061,7 @@ Verdict:
 
 `PASS_DRAFT_TO_APPROVED_LIFECYCLE_MATERIALIZED`
 
-Current public-safe state:
+State at checkpoint:
 
 - target authority:
   `TA1_d597fd30cfeeefc01ca9d28f71a98e0f`
@@ -1109,7 +1115,7 @@ Verdict:
 
 `PASS_FOR_APPROVED_READBACK_FINALIZATION_ACTION_ONLY`
 
-Current authority remains:
+State at checkpoint:
 
 - lifecycle = `APPROVED`;
 - independent read-back state = `PENDING`;
@@ -1152,7 +1158,7 @@ Verdict:
 
 `PASS_APPROVED_READBACK_FINALIZED`
 
-Current state:
+State at checkpoint:
 
 - lifecycle = `APPROVED`;
 - independent read-back state = `PASS`;
@@ -1195,7 +1201,7 @@ Verdict:
 
 `PASS_FOR_APPROVED_TO_ACTIVE_ACTION_ONLY`
 
-Current authority remains:
+State at checkpoint:
 
 - lifecycle = `APPROVED`;
 - independent read-back state = `PASS`;
