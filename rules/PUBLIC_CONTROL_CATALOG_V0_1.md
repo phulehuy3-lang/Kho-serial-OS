@@ -894,6 +894,53 @@ Locked:
 Next safe step: rerun Phase B locator/DRAFT materialization-action readiness
 against these exact bindings.
 
+## Phase B locator/DRAFT materialization-action re-readiness
+
+### PHASE_B_LOCATOR_DRAFT_MATERIALIZATION_ACTION_READINESS_V0_2
+
+Verdict:
+
+`PASS_FOR_PHASE_B_LOCATOR_DRAFT_MATERIALIZATION_ACTION_ONLY`
+
+Fresh provider metadata revalidation confirms:
+
+- the Phase A authority boundary remains private;
+- REGISTRY and LOCATOR remain empty;
+- the current canonical target resolves uniquely and remains private;
+- stale/historical target identity remains excluded.
+
+Previously missing authority bindings now exist and recompute exactly:
+
+- `warehouse_schema_version = WAREHOUSE_INBOUND_SCHEMA_V1`
+- warehouse schema SHA-256:
+  `75aff780d0caa1050e81e9cc913a501ccb54767c0706622763d5f1e4d34552c1`
+- `surface_registry_id = SR1_HCM_SERIAL_INBOUND_V1`
+- `surface_registry_hash =
+  d06d7297abcc460b3672e9ad4280f4bc5ca309e73933d5c22fae64048b30ca9a`
+
+The public logical target alias remains:
+
+`HCM_SERIAL_MASTER_PRIMARY`
+
+Conformance review:
+
+`PHASE_B_LOCATOR_DRAFT_MATERIALIZATION_ACTION_READINESS_REVIEW_V0_2`
+
+This readiness PASS permits only a separately authorized locator/DRAFT
+materialization action.
+
+It does not create an external locator or authority record and does not make
+PRG-01 PASS.
+
+Locked:
+
+- `PRG-01 = HOLD_TARGET_AUTHORITY_NOT_MATERIALIZED`
+- `LiveReadAuthorized=False`
+- `ExecutableAcquisitionAuthorized=False`
+- `ProductionWriteAuthorized=False`
+- Production writer = HOLD
+- MASTER LIVE unchanged
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
