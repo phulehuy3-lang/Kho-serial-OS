@@ -79,7 +79,7 @@ def _canonical_range_text(value: str) -> str | None:
         or _SINGLE_CELL_PATTERN.fullmatch(value)
     ):
         return None
-    without_absolute = value.replace("$", "")
+    without_absolute = "".join(char for char in value if char != "$")
     return re.sub(
         r"[A-Za-z]+",
         lambda match: match.group(0).upper(),
