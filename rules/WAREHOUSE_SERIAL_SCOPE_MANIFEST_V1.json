@@ -92,6 +92,18 @@
       "rationale": "Warehouse-specific design for fail-closed inbound serial acceptance; directly governs inbound inventory, interval integrity, reconciliation, formula safety, and HOLD handling."
     },
     {
+      "path": "rules/INBOUND_SERIAL_QUERY_DERIVED_V1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION",
+        "HOLD_QUARANTINE",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Warehouse-specific locked inbound serial composition profile requiring all seven source/serial/reconciliation/formula gates before profile readiness."
+    },
+    {
       "path": "rules/MATERIALIZED_LINEAGE_REPLAY_V0_1.md",
       "capabilities": [
         "SOURCE_ALLOCATION",
@@ -359,6 +371,18 @@
       "rationale": "Required for the warehouse-serial control baseline: HOLD_QUARANTINE, INVENTORY."
     },
     {
+      "path": "scripts/inbound_serial_query_derived_v1.py",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION",
+        "HOLD_QUARANTINE",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Pure composition of already-materialized inbound warehouse control outcomes through exact-set preflight and fail-closed aggregation; no live I/O or write authority."
+    },
+    {
       "path": "scripts/materialized_lineage_replay_v0_1.py",
       "capabilities": [
         "SOURCE_ALLOCATION",
@@ -506,6 +530,18 @@
         "INVENTORY"
       ],
       "rationale": "Required for the warehouse-serial control baseline: HOLD_QUARANTINE, INVENTORY."
+    },
+    {
+      "path": "tests/test_inbound_serial_query_derived_v1.py",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION",
+        "HOLD_QUARANTINE",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Synthetic adversarial regression coverage for exact seven-gate inbound serial composition, binding tamper, HOLD conflict and no-write-authority invariants."
     },
     {
       "path": "tests/test_materialized_lineage_replay_v0_1.py",

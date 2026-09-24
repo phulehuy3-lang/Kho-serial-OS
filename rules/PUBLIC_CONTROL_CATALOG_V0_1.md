@@ -265,6 +265,36 @@ authority. It imports no business controls or connected-service client.
 The frozen `v0.2.0` release remains the twelve-control Phase 2 baseline;
 Control 13 is a later main-branch addition.
 
+## Warehouse scenario profiles
+
+### INBOUND_SERIAL_QUERY_DERIVED_V1
+
+A locked, warehouse-specific pure composition profile for inbound serial-range
+acceptance when a QUERY-derived read-model surface is applicable.
+
+Exact required gate universe:
+
+- source_role_boundary;
+- source_readback;
+- serial_range_quantity;
+- serial_overlap_free;
+- source_derived_reconciliation;
+- formula_health;
+- formula_semantics.
+
+Composition policy:
+
+- producer outcomes are already-materialized;
+- all seven records are bound to one scenario/task/scope/capture marker;
+- Control 13 must PASS exact-set/binding preflight before Control 07 is called;
+- `hold_conflict` remains a separate native boolean/unknown input;
+- only all-seven-True plus `hold_conflict=False` maps to
+  `INBOUND_CONTROL_READY`;
+- every path preserves `production_write_authorized=False`.
+
+This profile is not a live adapter, production release decision, mutation
+executor, or general-purpose scenario framework.
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
