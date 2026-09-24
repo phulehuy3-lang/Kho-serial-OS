@@ -500,6 +500,26 @@
       "rationale": "Warehouse-specific SOURCE_OF_TRUTH / DERIVED_READ_ONLY business-write boundary for inbound serial acceptance."
     },
     {
+      "path": "rules/TARGET_AUTHORITY_APPROVED_READBACK_FINALIZATION_READINESS_REVIEW_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Conformance review of read-back finalization readiness, exact four-field mutation scope, activation invariance, post-finalization verification and continued no-live/no-write controls."
+    },
+    {
+      "path": "rules/TARGET_AUTHORITY_APPROVED_READBACK_FINALIZATION_READINESS_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Readiness contract for future APPROVED/PENDING-to-APPROVED/PASS record-level finalization with fresh preverification, exact history snapshot, non-circular evidence hashing and no activation."
+    },
+    {
       "path": "rules/TARGET_AUTHORITY_DRAFT_TO_APPROVED_LIFECYCLE_MATERIALIZATION_EVIDENCE_V0_1.md",
       "capabilities": [
         "INBOUND",

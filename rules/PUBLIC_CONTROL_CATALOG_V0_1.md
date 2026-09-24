@@ -1093,6 +1093,49 @@ Conformance review:
 
 `TARGET_AUTHORITY_DRAFT_TO_APPROVED_LIFECYCLE_MATERIALIZATION_REVIEW_V0_1`
 
+## Target authority APPROVED read-back finalization readiness
+
+### TARGET_AUTHORITY_APPROVED_READBACK_FINALIZATION_READINESS_V0_1
+
+Verdict:
+
+`PASS_FOR_APPROVED_READBACK_FINALIZATION_ACTION_ONLY`
+
+Current authority remains:
+
+- lifecycle = `APPROVED`;
+- independent read-back state = `PENDING`;
+- ACTIVE count = 0;
+- target resolution eligibility = FALSE.
+
+The finalization design requires:
+
+- a new fresh provider-read pre-finalization verification event;
+- an exact APPROVED/PENDING snapshot fresh-verified before mutation;
+- canonical record-level finalization evidence;
+- non-circular evidence/hash ordering;
+- exactly four permitted field changes for PENDING -> PASS;
+- lifecycle remains APPROVED;
+- activation epoch remains unchanged;
+- a distinct post-finalization provider verification event;
+- no authority write during verification;
+- APPROVED/PASS remains non-resolvable.
+
+The previous Issue #82 verification is retained as a chain anchor but is not
+sufficient by itself to authorize the later write.
+
+Locked:
+
+- `LiveReadAuthorized=False`
+- `ExecutableAcquisitionAuthorized=False`
+- `ProductionWriteAuthorized=False`
+- Production writer = HOLD
+- MASTER LIVE unchanged.
+
+Conformance review:
+
+`TARGET_AUTHORITY_APPROVED_READBACK_FINALIZATION_READINESS_REVIEW_V0_1`
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
