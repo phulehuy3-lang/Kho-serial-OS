@@ -204,6 +204,16 @@
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY, OUTBOUND, INVENTORY."
     },
     {
+      "path": "rules/POST_MATERIALIZATION_EXTERNAL_ACQUISITION_READINESS_AUDIT_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Warehouse-specific audit proving only external adapter design readiness after materialization-package closure while keeping executable live acquisition and production write authority disabled."
+    },
+    {
       "path": "rules/POST_PROFILE_BOUNDARY_AUDIT_V0_1.md",
       "capabilities": [
         "INBOUND",

@@ -416,6 +416,42 @@ The package remains pure, in-memory, synthetic, non-networked and non-writing.
 Production acquisition and writer capabilities remain outside the current
 public repository boundary.
 
+## Post-materialization external acquisition readiness
+
+### POST_MATERIALIZATION_EXTERNAL_ACQUISITION_READINESS_AUDIT_V0_1
+
+Verdict:
+
+`PASS_FOR_EXTERNAL_ADAPTER_DESIGN_ONLY`
+
+The materialization package now creates a stable handoff between a future
+external read-only acquisition boundary and the existing pure warehouse
+controls.
+
+This is sufficient to design, but not implement, an external adapter.
+
+The adapter design must remain outside executable provider capability and keep
+the current public boundary intact. Runtime blockers remain independently open:
+
+- target authority not materialized;
+- effective read-only permission not materialized;
+- exact Production surface bindings not materialized;
+- serial/HOLD universe completeness unproven;
+- provider version/capture semantics unproven;
+- zero-write runtime unproven;
+- tamper-evident receipt store not materialized.
+
+Next permitted artifact:
+
+`EXTERNAL_INBOUND_ACQUISITION_ADAPTER_DESIGN_V0_1`
+
+Authority remains:
+
+- `LiveReadAuthorized=False`;
+- `ProductionWriteAuthorized=False`;
+- Production writer = HOLD;
+- MASTER LIVE unchanged.
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
