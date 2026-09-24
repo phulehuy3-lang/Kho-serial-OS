@@ -39,6 +39,13 @@ def evaluate_source_role_boundary(
 ) -> SourceRoleBoundaryResult:
     """Return PASS only for exact SOURCE_OF_TRUTH business-write intent."""
 
+    if type(request) is not SourceRoleBoundaryRequest:
+        return SourceRoleBoundaryResult(
+            status="HOLD",
+            boundary_pass=False,
+            blocking_reasons=("REQUEST_INVALID",),
+        )
+
     reasons: set[str] = set()
 
     if request.contract_id != CONTRACT_ID:
