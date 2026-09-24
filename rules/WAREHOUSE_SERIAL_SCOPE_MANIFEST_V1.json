@@ -259,6 +259,13 @@
       "rationale": "Warehouse-specific non-live plan for materializing the canonical inbound Production-shadow target-authority registry required before read-only identity, permission and exact surface bindings can be evidenced."
     },
     {
+      "path": "rules/LICENSE_DECISION_PROPOSAL_V0_1.md",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Owner-controlled license decision proposal; does not select or grant a repository license."
+    },
+    {
       "path": "rules/MATERIALIZED_LINEAGE_REPLAY_V0_1.md",
       "capabilities": [
         "SOURCE_ALLOCATION",
@@ -1088,6 +1095,13 @@
         "REPOSITORY_SAFETY"
       ],
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": "tests/test_repository_status_documentation_v0_1.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Regression coverage for current-status indexing, checkpoint labeling, privacy-history disclosure and owner-controlled license decision."
     },
     {
       "path": "tests/test_required_gate_set_preflight_v0_1.py",

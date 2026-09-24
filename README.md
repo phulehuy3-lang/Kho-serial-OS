@@ -1,5 +1,11 @@
 # Kho Serial OS
 
+## Current status
+
+For the dated current repository status, exact verification SHA, audit-remediation state, history/privacy split, license state and next action, see [CURRENT_STATUS.md](CURRENT_STATUS.md).
+
+Historical lifecycle documents record their own checkpoints and must not be read as current provider state unless the status index says they were freshly verified.
+
 Public, sanitized engineering controls for serial-range warehouse workflows.
 
 ## Scope
