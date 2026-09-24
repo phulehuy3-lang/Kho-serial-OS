@@ -792,6 +792,51 @@ Current authority remains:
 - Production writer = HOLD;
 - MASTER LIVE unchanged.
 
+## Phase B target-locator / DRAFT-record readiness
+
+### PHASE_B_TARGET_LOCATOR_AND_DRAFT_RECORD_READINESS_V0_1
+
+Verdict:
+
+`HOLD_PHASE_B_LOCATOR_DRAFT_MATERIALIZATION_NOT_READY`
+
+Phase A is complete.
+
+Private live provider metadata identifies one current canonical target and
+excludes a stale historical target reference.
+
+The public logical target alias is now fixed as:
+
+`HCM_SERIAL_MASTER_PRIMARY`
+
+Opaque target-authority and locator-reference generation rules, canonical
+serialization/hashing, solo-operator provider read-back and DRAFT
+non-resolvable semantics are locked.
+
+Two prerequisites remain:
+
+- `HOLD_PHASE_B_WAREHOUSE_SCHEMA_VERSION_NOT_BOUND`
+- `HOLD_PHASE_B_FIVE_SURFACE_REGISTRY_BINDING_NOT_BOUND`
+
+Conformance review:
+
+`PHASE_B_TARGET_LOCATOR_AND_DRAFT_RECORD_READINESS_REVIEW_V0_1`
+
+Next safe step:
+
+`WAREHOUSE_SCHEMA_AND_FIVE_SURFACE_REGISTRY_BINDING_V0_1`
+
+No Production locator or target-authority record has been created.
+
+Current authority remains:
+
+- `PRG-01 = HOLD_TARGET_AUTHORITY_NOT_MATERIALIZED`;
+- `LiveReadAuthorized=False`;
+- `ExecutableAcquisitionAuthorized=False`;
+- `ProductionWriteAuthorized=False`;
+- Production writer = HOLD;
+- MASTER LIVE unchanged.
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
