@@ -218,6 +218,16 @@
       "rationale": "Required for the warehouse-serial control baseline: SOURCE_ALLOCATION, SERIAL_IDENTITY_RANGE."
     },
     {
+      "path": "rules/SOURCE_READBACK_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Warehouse-specific already-materialized source read-back contract for inbound serial acceptance; exact expected/read-back binding and parity only."
+    },
+    {
       "path": "rules/SOURCE_ROLE_BOUNDARY_V0_1.md",
       "capabilities": [
         "INBOUND",
@@ -413,6 +423,16 @@
       "rationale": "Required for the warehouse-serial control baseline: SOURCE_ALLOCATION, SERIAL_IDENTITY_RANGE."
     },
     {
+      "path": "scripts/source_readback_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Pure fail-closed expected-vs-read-back evaluator with exact task/scope/capture, field-set, type and value parity; no live I/O."
+    },
+    {
       "path": "scripts/source_role_boundary_v0_1.py",
       "capabilities": [
         "INBOUND",
@@ -571,6 +591,16 @@
         "SERIAL_IDENTITY_RANGE"
       ],
       "rationale": "Required for the warehouse-serial control baseline: SOURCE_ALLOCATION, SERIAL_IDENTITY_RANGE."
+    },
+    {
+      "path": "tests/test_source_readback_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Synthetic adversarial coverage for warehouse source read-back missing evidence, binding, field, type and value drift."
     },
     {
       "path": "tests/test_source_role_boundary_v0_1.py",
