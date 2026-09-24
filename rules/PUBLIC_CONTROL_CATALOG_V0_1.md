@@ -603,6 +603,51 @@ Authority remains:
 - `ProductionWriteAuthorized=False`;
 - Production writer = HOLD.
 
+## External target-authority store selection
+
+### EXTERNAL_TARGET_AUTHORITY_STORE_SELECTION_V0_1
+
+Selected external store class:
+
+`RESTRICTED_GOOGLE_DRIVE_WORKSPACE`
+
+Architecture:
+
+- one restricted external service boundary;
+- separate registry container;
+- separate Production locator container/object;
+- separate evidence-retention area;
+- opaque public refs/hashes only;
+- deterministic canonical record/locator hashing;
+- independent external read-back;
+- fail-closed ACTIVE uniqueness validation;
+- revision/history plus cryptographic tamper evidence.
+
+The private Git-repository candidate was not selected because the current
+private-repository conditions do not provide usable repository-ruleset
+enforcement and because Production locator identities are unsuitable for
+durable Git history.
+
+Conformance review:
+
+`EXTERNAL_TARGET_AUTHORITY_STORE_SELECTION_REVIEW_V0_1`
+
+Current state remains:
+
+- store-selection conformance = PASS;
+- external registry materialization = NOT PERFORMED;
+- target locator materialization = NOT PERFORMED;
+- `PRG-01 = HOLD_TARGET_AUTHORITY_NOT_MATERIALIZED`;
+- `LiveReadAuthorized=False`;
+- `ExecutableAcquisitionAuthorized=False`;
+- `ProductionWriteAuthorized=False`;
+- Production writer = HOLD;
+- MASTER LIVE unchanged.
+
+Next permitted artifact:
+
+`EXTERNAL_TARGET_AUTHORITY_DRIVE_MATERIALIZATION_READINESS_V0_1`
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:

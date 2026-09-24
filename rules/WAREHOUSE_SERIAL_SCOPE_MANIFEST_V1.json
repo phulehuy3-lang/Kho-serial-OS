@@ -86,6 +86,26 @@
       "rationale": "Warehouse-specific promotion audit for the external inbound acquisition adapter; verifies ten runtime evidence gates and keeps executable acquisition on HOLD until independently materialized."
     },
     {
+      "path": "rules/EXTERNAL_TARGET_AUTHORITY_STORE_SELECTION_REVIEW_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Independent conformance review of the external target-authority store-selection decision; validates store boundary, locator separation, read-back, tamper evidence and no-live/no-write invariants while PRG-01 remains HOLD."
+    },
+    {
+      "path": "rules/EXTERNAL_TARGET_AUTHORITY_STORE_SELECTION_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Warehouse-specific decision selecting restricted Google Drive/Workspace with separated registry, locator and evidence containers as the external PRG-01 authority-store class without materializing Production authority."
+    },
+    {
       "path": "rules/FAIL_CLOSED_RELEASE_GATES_V0_1.md",
       "capabilities": [
         "REPOSITORY_SAFETY",
