@@ -4,12 +4,26 @@ Public, sanitized engineering controls for serial-range warehouse workflows.
 
 ## Scope
 
-This repository contains only generic control rules, side-effect-free Python
-logic, synthetic tests, and CI.
+**Sole mission:** this repository exists only for serial-range warehouse controls.
+It must not evolve into a general-purpose control framework.
+
+Every rule, script, test, design document, and CI capability must directly
+support inbound, outbound, inventory, serial identity/range, source allocation,
+HOLD/quarantine, reconciliation, warehouse-document integrity, or repository
+safety for those warehouse-serial functions.
+
+The canonical scope rule is
+`rules/WAREHOUSE_SERIAL_REPOSITORY_SCOPE_V1.md`; exact-set registration is
+enforced by `rules/WAREHOUSE_SERIAL_SCOPE_MANIFEST_V1.json` and
+`scripts/check_warehouse_serial_scope_v1.py`.
+
+This repository contains only sanitized, side-effect-free engineering controls,
+synthetic tests, and CI serving that sole mission.
 
 It intentionally excludes operational warehouse data, real serial inventories,
 invoices, delivery documents, workbook exports, connected Drive/Sheets
-identifiers, credentials, secrets, and production write capability.
+identifiers, credentials, secrets, production write capability, and unrelated
+PHÚ OS, finance, fiction, communications, or general personal-automation logic.
 
 ## Safety model
 

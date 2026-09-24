@@ -33,6 +33,9 @@ jobs:
       - name: Enforce public repository boundary
         run: python scripts/check_repo_boundary.py .
 
+      - name: Enforce warehouse serial sole-mission scope
+        run: python scripts/check_warehouse_serial_scope_v1.py .
+
       - name: Enforce introduced Git history boundary
         shell: bash
         run: |

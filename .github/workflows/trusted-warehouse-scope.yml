@@ -1,0 +1,51 @@
+name: Trusted Warehouse Serial Scope
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  trusted-warehouse-serial-scope:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout trusted base scope policy
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.base.sha || github.sha }}
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Validate PR head with trusted base scope policy
+        if: github.event_name == 'pull_request_target'
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$HEAD_SHA"
+          changed="$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")"
+          for frozen in \
+            .github/workflows/trusted-warehouse-scope.yml \
+            scripts/check_warehouse_serial_scope_v1.py \
+            rules/WAREHOUSE_SERIAL_REPOSITORY_SCOPE_V1.md; do
+            if grep -Fxq "$frozen" <<<"$changed"; then
+              echo "FROZEN_SCOPE_POLICY_CHANGED: $frozen"
+              exit 1
+            fi
+          done
+          git worktree add --detach "$RUNNER_TEMP/pr-head" "$HEAD_SHA"
+          python scripts/check_warehouse_serial_scope_v1.py "$RUNNER_TEMP/pr-head"
+
+      - name: Main self-check
+        if: github.event_name == 'push'
+        run: python scripts/check_warehouse_serial_scope_v1.py .

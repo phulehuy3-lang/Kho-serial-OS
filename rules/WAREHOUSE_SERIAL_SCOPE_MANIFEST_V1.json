@@ -1,0 +1,566 @@
+{
+  "schema_id": "WAREHOUSE_SERIAL_SCOPE_MANIFEST_V1",
+  "mission": "WAREHOUSE_SERIAL_ONLY",
+  "artifacts": [
+    {
+      "path": ".github/workflows/control-tests.yml",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": ".github/workflows/trusted-public-boundary-v2.yml",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": ".github/workflows/trusted-public-boundary.yml",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": ".github/workflows/trusted-warehouse-scope.yml",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": "rules/ALLOCATION_NEAREST_PRIOR_V1_0.md",
+      "capabilities": [
+        "SOURCE_ALLOCATION",
+        "SERIAL_IDENTITY_RANGE"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: SOURCE_ALLOCATION, SERIAL_IDENTITY_RANGE."
+    },
+    {
+      "path": "rules/CROSS_YEAR_AUTHORITY_V0_1.md",
+      "capabilities": [
+        "SOURCE_ALLOCATION",
+        "SERIAL_IDENTITY_RANGE"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: SOURCE_ALLOCATION, SERIAL_IDENTITY_RANGE."
+    },
+    {
+      "path": "rules/DRY_RUN_MUTATION_CONTRACT_V0_1.md",
+      "capabilities": [
+        "REPOSITORY_SAFETY",
+        "OUTBOUND",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY, OUTBOUND, INVENTORY."
+    },
+    {
+      "path": "rules/FAIL_CLOSED_RELEASE_GATES_V0_1.md",
+      "capabilities": [
+        "REPOSITORY_SAFETY",
+        "OUTBOUND",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY, OUTBOUND, INVENTORY."
+    },
+    {
+      "path": "rules/FORMULA_SEMANTIC_IDENTITY_V0_1.md",
+      "capabilities": [
+        "RECONCILIATION",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: RECONCILIATION, INVENTORY."
+    },
+    {
+      "path": "rules/HOLD_LIFECYCLE_CONTROL_V0_1.md",
+      "capabilities": [
+        "HOLD_QUARANTINE",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: HOLD_QUARANTINE, INVENTORY."
+    },
+    {
+      "path": "rules/MATERIALIZED_LINEAGE_REPLAY_V0_1.md",
+      "capabilities": [
+        "SOURCE_ALLOCATION",
+        "SERIAL_IDENTITY_RANGE"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: SOURCE_ALLOCATION, SERIAL_IDENTITY_RANGE."
+    },
+    {
+      "path": "rules/NEGATIVE_STOCK_PREVENTION_V0_1.md",
+      "capabilities": [
+        "INVENTORY",
+        "OUTBOUND"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: INVENTORY, OUTBOUND."
+    },
+    {
+      "path": "rules/PHASE_2_RELEASE_BASELINE_V0_2_0.md",
+      "capabilities": [
+        "REPOSITORY_SAFETY",
+        "INVENTORY",
+        "OUTBOUND"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY, INVENTORY, OUTBOUND."
+    },
+    {
+      "path": "rules/PHASE_3_EVIDENCE_COMPLETENESS_DESIGN_REVIEW_V0_1.md",
+      "capabilities": [
+        "REPOSITORY_SAFETY",
+        "OUTBOUND",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY, OUTBOUND, INVENTORY."
+    },
+    {
+      "path": "rules/PHASE_3_FORMULA_GATE_CALLER_CONTRACT_V0_1.md",
+      "capabilities": [
+        "RECONCILIATION",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: RECONCILIATION, INVENTORY."
+    },
+    {
+      "path": "rules/PHASE_3_PUBLIC_SCOPE_GATE_V0_1.md",
+      "capabilities": [
+        "REPOSITORY_SAFETY",
+        "OUTBOUND",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY, OUTBOUND, INVENTORY."
+    },
+    {
+      "path": "rules/PHASE_3_REQUIRED_GATE_SET_PREFLIGHT_DESIGN_V0_1.md",
+      "capabilities": [
+        "REPOSITORY_SAFETY",
+        "OUTBOUND",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY, OUTBOUND, INVENTORY."
+    },
+    {
+      "path": "rules/PUBLIC_CONTROL_CATALOG_V0_1.md",
+      "capabilities": [
+        "REPOSITORY_SAFETY",
+        "OUTBOUND",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY, OUTBOUND, INVENTORY."
+    },
+    {
+      "path": "rules/RANKED_PREFIX_ALLOCATION_LINEAGE_V0_1.md",
+      "capabilities": [
+        "SOURCE_ALLOCATION",
+        "SERIAL_IDENTITY_RANGE"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: SOURCE_ALLOCATION, SERIAL_IDENTITY_RANGE."
+    },
+    {
+      "path": "rules/READONLY_SHADOW_SNAPSHOT_INTEGRITY_V0_1.md",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": "rules/RECONCILIATION_FORMULA_HEALTH_V0_1.md",
+      "capabilities": [
+        "RECONCILIATION",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: RECONCILIATION, INVENTORY."
+    },
+    {
+      "path": "rules/REQUIRED_GATE_SET_PREFLIGHT_V0_1.md",
+      "capabilities": [
+        "REPOSITORY_SAFETY",
+        "OUTBOUND",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY, OUTBOUND, INVENTORY."
+    },
+    {
+      "path": "rules/RULE_0099_SOURCE_OF_TRUTH_DERIVED_READ_ONLY.md",
+      "capabilities": [
+        "REPOSITORY_SAFETY",
+        "INVENTORY",
+        "RECONCILIATION"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY, INVENTORY, RECONCILIATION."
+    },
+    {
+      "path": "rules/SERIAL_INTERVAL_INTEGRITY_V0_1.md",
+      "capabilities": [
+        "SERIAL_IDENTITY_RANGE",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: SERIAL_IDENTITY_RANGE, INVENTORY."
+    },
+    {
+      "path": "rules/SOURCE_POOL_AUTHORITY_V0_1.md",
+      "capabilities": [
+        "SOURCE_ALLOCATION",
+        "SERIAL_IDENTITY_RANGE"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: SOURCE_ALLOCATION, SERIAL_IDENTITY_RANGE."
+    },
+    {
+      "path": "rules/TRUSTED_PUBLIC_BOUNDARY_V2_MIGRATION.md",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": "rules/WAREHOUSE_SERIAL_REPOSITORY_SCOPE_V1.md",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": "rules/WAREHOUSE_SERIAL_SCOPE_MANIFEST_V1.json",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": "scripts/allocation_nearest_prior.py",
+      "capabilities": [
+        "SOURCE_ALLOCATION",
+        "SERIAL_IDENTITY_RANGE"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: SOURCE_ALLOCATION, SERIAL_IDENTITY_RANGE."
+    },
+    {
+      "path": "scripts/check_git_history_boundary.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": "scripts/check_git_history_boundary_v2.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": "scripts/check_repo_boundary.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": "scripts/check_static_quality.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": "scripts/check_static_quality_v2.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": "scripts/check_warehouse_serial_scope_v1.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": "scripts/cross_year_authority_v0_1.py",
+      "capabilities": [
+        "SOURCE_ALLOCATION",
+        "SERIAL_IDENTITY_RANGE"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: SOURCE_ALLOCATION, SERIAL_IDENTITY_RANGE."
+    },
+    {
+      "path": "scripts/dry_run_mutation_contract_v0_1.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY",
+        "OUTBOUND",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY, OUTBOUND, INVENTORY."
+    },
+    {
+      "path": "scripts/fail_closed_release_gates_v0_1.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY",
+        "OUTBOUND",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY, OUTBOUND, INVENTORY."
+    },
+    {
+      "path": "scripts/formula_gate_preview_v0_1.py",
+      "capabilities": [
+        "RECONCILIATION",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: RECONCILIATION, INVENTORY."
+    },
+    {
+      "path": "scripts/formula_semantic_identity_v0_1.py",
+      "capabilities": [
+        "RECONCILIATION",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: RECONCILIATION, INVENTORY."
+    },
+    {
+      "path": "scripts/hold_lifecycle_v0_1.py",
+      "capabilities": [
+        "HOLD_QUARANTINE",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: HOLD_QUARANTINE, INVENTORY."
+    },
+    {
+      "path": "scripts/materialized_lineage_replay_v0_1.py",
+      "capabilities": [
+        "SOURCE_ALLOCATION",
+        "SERIAL_IDENTITY_RANGE"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: SOURCE_ALLOCATION, SERIAL_IDENTITY_RANGE."
+    },
+    {
+      "path": "scripts/negative_stock_prevention_v0_1.py",
+      "capabilities": [
+        "INVENTORY",
+        "OUTBOUND"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: INVENTORY, OUTBOUND."
+    },
+    {
+      "path": "scripts/ranked_prefix_allocation_lineage_v0_1.py",
+      "capabilities": [
+        "SOURCE_ALLOCATION",
+        "SERIAL_IDENTITY_RANGE"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: SOURCE_ALLOCATION, SERIAL_IDENTITY_RANGE."
+    },
+    {
+      "path": "scripts/readonly_shadow_snapshot_integrity_v0_1.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": "scripts/reconciliation_formula_health_v0_1.py",
+      "capabilities": [
+        "RECONCILIATION",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: RECONCILIATION, INVENTORY."
+    },
+    {
+      "path": "scripts/required_gate_set_preflight_v0_1.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY",
+        "OUTBOUND",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY, OUTBOUND, INVENTORY."
+    },
+    {
+      "path": "scripts/serial_interval_integrity_v0_1.py",
+      "capabilities": [
+        "SERIAL_IDENTITY_RANGE",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: SERIAL_IDENTITY_RANGE, INVENTORY."
+    },
+    {
+      "path": "scripts/source_pool_authority_v0_1.py",
+      "capabilities": [
+        "SOURCE_ALLOCATION",
+        "SERIAL_IDENTITY_RANGE"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: SOURCE_ALLOCATION, SERIAL_IDENTITY_RANGE."
+    },
+    {
+      "path": "tests/test_allocation_nearest_prior.py",
+      "capabilities": [
+        "SOURCE_ALLOCATION",
+        "SERIAL_IDENTITY_RANGE"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: SOURCE_ALLOCATION, SERIAL_IDENTITY_RANGE."
+    },
+    {
+      "path": "tests/test_cross_year_authority_v0_1.py",
+      "capabilities": [
+        "SOURCE_ALLOCATION",
+        "SERIAL_IDENTITY_RANGE"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: SOURCE_ALLOCATION, SERIAL_IDENTITY_RANGE."
+    },
+    {
+      "path": "tests/test_dry_run_mutation_contract_v0_1.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY",
+        "OUTBOUND",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY, OUTBOUND, INVENTORY."
+    },
+    {
+      "path": "tests/test_fail_closed_release_gates_v0_1.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY",
+        "OUTBOUND",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY, OUTBOUND, INVENTORY."
+    },
+    {
+      "path": "tests/test_formula_gate_preview_v0_1.py",
+      "capabilities": [
+        "RECONCILIATION",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: RECONCILIATION, INVENTORY."
+    },
+    {
+      "path": "tests/test_formula_semantic_identity_v0_1.py",
+      "capabilities": [
+        "RECONCILIATION",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: RECONCILIATION, INVENTORY."
+    },
+    {
+      "path": "tests/test_git_history_boundary.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": "tests/test_hold_lifecycle_v0_1.py",
+      "capabilities": [
+        "HOLD_QUARANTINE",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: HOLD_QUARANTINE, INVENTORY."
+    },
+    {
+      "path": "tests/test_materialized_lineage_replay_v0_1.py",
+      "capabilities": [
+        "SOURCE_ALLOCATION",
+        "SERIAL_IDENTITY_RANGE"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: SOURCE_ALLOCATION, SERIAL_IDENTITY_RANGE."
+    },
+    {
+      "path": "tests/test_negative_stock_prevention_v0_1.py",
+      "capabilities": [
+        "INVENTORY",
+        "OUTBOUND"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: INVENTORY, OUTBOUND."
+    },
+    {
+      "path": "tests/test_phase2_contract_chain.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": "tests/test_phase2_primitive_composition.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": "tests/test_ranked_prefix_allocation_lineage_v0_1.py",
+      "capabilities": [
+        "SOURCE_ALLOCATION",
+        "SERIAL_IDENTITY_RANGE"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: SOURCE_ALLOCATION, SERIAL_IDENTITY_RANGE."
+    },
+    {
+      "path": "tests/test_readonly_shadow_snapshot_integrity_v0_1.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": "tests/test_reconciliation_formula_health_v0_1.py",
+      "capabilities": [
+        "RECONCILIATION",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: RECONCILIATION, INVENTORY."
+    },
+    {
+      "path": "tests/test_repo_boundary.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": "tests/test_required_gate_set_preflight_v0_1.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY",
+        "OUTBOUND",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY, OUTBOUND, INVENTORY."
+    },
+    {
+      "path": "tests/test_serial_interval_integrity_v0_1.py",
+      "capabilities": [
+        "SERIAL_IDENTITY_RANGE",
+        "INVENTORY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: SERIAL_IDENTITY_RANGE, INVENTORY."
+    },
+    {
+      "path": "tests/test_source_pool_authority_v0_1.py",
+      "capabilities": [
+        "SOURCE_ALLOCATION",
+        "SERIAL_IDENTITY_RANGE"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: SOURCE_ALLOCATION, SERIAL_IDENTITY_RANGE."
+    },
+    {
+      "path": "tests/test_static_quality.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": "tests/test_static_quality_v2.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": "tests/test_warehouse_serial_scope_v1.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    }
+  ]
+}
