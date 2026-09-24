@@ -209,5 +209,48 @@ class SourcePoolAuthorityTests(unittest.TestCase):
         self.assertFalse(result.candidate_scope_verified)
 
 
+    def test_source_present_requires_native_true(self) -> None:
+        for value in ("False", "UNKNOWN", 1, [False]):
+            with self.subTest(value=value):
+                result = resolve(snap=snapshot(source_present=value))
+                self.assertEqual(result.status, HOLD)
+                self.assertFalse(result.ready)
+                self.assertFalse(result.candidate_scope_verified)
+
+    def test_record_boolean_denomination_does_not_equal_integer_one(self) -> None:
+        result = resolve_source_pool_authority(
+            authority_id="AUTH-SYNTH-POOL-A",
+            task_id="TASK-SYNTH-A",
+            line_key="LINE-SYNTH-A",
+            document_date=DOC_DATE,
+            carrier="CARRIER-SYNTH-A",
+            denomination=1,
+            materialized_source_ids=("SOURCE-SYNTH-A", "SOURCE-SYNTH-B"),
+            snapshot=snapshot(records=(record(denomination=True),)),
+        )
+        self.assertEqual(result.status, HOLD)
+        self.assertFalse(result.ready)
+        self.assertFalse(result.candidate_scope_verified)
+
+    def test_malformed_snapshot_and_record_shape_hold(self) -> None:
+        malformed_snapshot = resolve_source_pool_authority(
+            authority_id="AUTH-SYNTH-POOL-A",
+            task_id="TASK-SYNTH-A",
+            line_key="LINE-SYNTH-A",
+            document_date=DOC_DATE,
+            carrier="CARRIER-SYNTH-A",
+            denomination=100,
+            materialized_source_ids=("SOURCE-SYNTH-A", "SOURCE-SYNTH-B"),
+            snapshot=True,  # type: ignore[arg-type]
+        )
+        self.assertEqual(malformed_snapshot.status, HOLD)
+
+        malformed_record = resolve(
+            snap=snapshot(records=(True,)),
+        )
+        self.assertEqual(malformed_record.status, HOLD)
+        self.assertFalse(malformed_record.candidate_scope_verified)
+
+
 if __name__ == "__main__":
     unittest.main()
