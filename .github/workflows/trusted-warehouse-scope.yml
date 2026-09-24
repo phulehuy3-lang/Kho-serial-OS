@@ -1,0 +1,44 @@
+name: Trusted Warehouse Serial Scope
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  trusted-warehouse-serial-scope:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout trusted base scope policy
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.base.sha || github.sha }}
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Validate PR head with trusted base checker
+        if: github.event_name == 'pull_request_target'
+        shell: bash
+        env:
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$HEAD_SHA"
+          git worktree add --detach "$RUNNER_TEMP/pr-head" "$HEAD_SHA"
+          if [[ -f scripts/check_warehouse_serial_scope_v1.py ]]; then
+            python scripts/check_warehouse_serial_scope_v1.py "$RUNNER_TEMP/pr-head"
+          else
+            python "$RUNNER_TEMP/pr-head/scripts/check_warehouse_serial_scope_v1.py" "$RUNNER_TEMP/pr-head"
+          fi
+
+      - name: Main self-check
+        if: github.event_name == 'push'
+        run: python scripts/check_warehouse_serial_scope_v1.py .
