@@ -998,6 +998,47 @@ Conformance review:
 
 No lifecycle promotion is authorized.
 
+## Target authority DRAFT -> APPROVED lifecycle readiness
+
+### TARGET_AUTHORITY_DRAFT_TO_APPROVED_LIFECYCLE_READINESS_V0_1
+
+Verdict:
+
+`PASS_FOR_DRAFT_TO_APPROVED_LIFECYCLE_ACTION_ONLY`
+
+Current authority remains DRAFT and non-resolvable.
+
+The approved transition design requires:
+
+- one current REGISTRY object per target-authority ID;
+- exact DRAFT snapshot copied to private EVIDENCE and fresh-verified before
+  lifecycle mutation;
+- separate canonical approval-decision evidence;
+- DRAFT -> APPROVED only;
+- a new transition-specific PENDING read-back evidence binding;
+- `independent_readback_state=PENDING` during the approval write;
+- no reuse of the prior DRAFT verification PASS;
+- distinct post-transition verification event;
+- no authority write during verification;
+- ACTIVE count remains zero;
+- APPROVED remains non-resolvable.
+
+A later separately authorized read-back-finalization step is required before any
+record may claim independent read-back PASS.
+
+Locked:
+
+- `PRG-01 = DRAFT_TARGET_AUTHORITY_MATERIALIZED_NOT_ACTIVE`
+- `LiveReadAuthorized=False`
+- `ExecutableAcquisitionAuthorized=False`
+- `ProductionWriteAuthorized=False`
+- Production writer = HOLD
+- MASTER LIVE unchanged
+
+Conformance review:
+
+`TARGET_AUTHORITY_DRAFT_TO_APPROVED_LIFECYCLE_READINESS_REVIEW_V0_1`
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
