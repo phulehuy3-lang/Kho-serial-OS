@@ -24,20 +24,27 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
-      - name: Validate PR head with trusted base checker
+      - name: Validate PR head with trusted base scope policy
         if: github.event_name == 'pull_request_target'
         shell: bash
         env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           set -euo pipefail
           git fetch --no-tags origin "$HEAD_SHA"
+          changed="$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")"
+          for frozen in \
+            .github/workflows/trusted-warehouse-scope.yml \
+            scripts/check_warehouse_serial_scope_v1.py \
+            rules/WAREHOUSE_SERIAL_REPOSITORY_SCOPE_V1.md; do
+            if grep -Fxq "$frozen" <<<"$changed"; then
+              echo "FROZEN_SCOPE_POLICY_CHANGED: $frozen"
+              exit 1
+            fi
+          done
           git worktree add --detach "$RUNNER_TEMP/pr-head" "$HEAD_SHA"
-          if [[ -f scripts/check_warehouse_serial_scope_v1.py ]]; then
-            python scripts/check_warehouse_serial_scope_v1.py "$RUNNER_TEMP/pr-head"
-          else
-            python "$RUNNER_TEMP/pr-head/scripts/check_warehouse_serial_scope_v1.py" "$RUNNER_TEMP/pr-head"
-          fi
+          python scripts/check_warehouse_serial_scope_v1.py "$RUNNER_TEMP/pr-head"
 
       - name: Main self-check
         if: github.event_name == 'push'
