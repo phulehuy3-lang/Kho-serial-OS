@@ -81,6 +81,26 @@
       "rationale": "Required for the warehouse-serial control baseline: HOLD_QUARANTINE, INVENTORY."
     },
     {
+      "path": "rules/INBOUND_READONLY_EVIDENCE_BOUNDARY_DESIGN_REVIEW_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Independent logical conformance review of the inbound read-only evidence-boundary design against warehouse scope, snapshot, source-role, source-readback and no-write invariants."
+    },
+    {
+      "path": "rules/INBOUND_READONLY_EVIDENCE_BOUNDARY_DESIGN_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Warehouse-specific design for a future read-only inbound evidence materialization boundary feeding the locked seven-gate inbound serial profile while keeping live read and write authority disabled."
+    },
+    {
       "path": "rules/INBOUND_SERIAL_ACCEPTANCE_PROFILE_DESIGN_V0_1.md",
       "capabilities": [
         "INBOUND",
