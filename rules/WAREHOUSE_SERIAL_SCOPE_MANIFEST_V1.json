@@ -927,6 +927,14 @@
       "rationale": "Required for the warehouse-serial control baseline: RECONCILIATION, INVENTORY."
     },
     {
+      "path": "tests/test_formula_semantic_identity_v0_2.py",
+      "capabilities": [
+        "RECONCILIATION",
+        "INVENTORY"
+      ],
+      "rationale": "Regression coverage for conservative Formula Semantic Identity V2 canonicalization and F01 fail-closed drift cases."
+    },
+    {
       "path": "tests/test_git_history_boundary.py",
       "capabilities": [
         "REPOSITORY_SAFETY"
