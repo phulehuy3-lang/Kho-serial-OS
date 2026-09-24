@@ -200,5 +200,37 @@ class CrossYearAuthorityTests(unittest.TestCase):
         self.assertFalse(result.ready)
 
 
+    def test_source_present_requires_native_true(self) -> None:
+        for value in ("False", "UNKNOWN", 1, [False]):
+            with self.subTest(value=value):
+                result = resolve_cross_year_authority(
+                    task_id="TASK-SYNTH-A",
+                    authority_id="AUTH-SYNTH-A",
+                    document_year=2026,
+                    snapshot=snapshot(source_present=value),  # type: ignore[arg-type]
+                )
+                self.assertEqual(result.status, HOLD)
+                self.assertFalse(result.ready)
+
+    def test_malformed_snapshot_and_record_shape_hold(self) -> None:
+        malformed_snapshot = resolve_cross_year_authority(
+            task_id="TASK-SYNTH-A",
+            authority_id="AUTH-SYNTH-A",
+            document_year=2026,
+            snapshot=True,  # type: ignore[arg-type]
+        )
+        self.assertEqual(malformed_snapshot.status, HOLD)
+        self.assertFalse(malformed_snapshot.ready)
+
+        malformed_record = resolve_cross_year_authority(
+            task_id="TASK-SYNTH-A",
+            authority_id="AUTH-SYNTH-A",
+            document_year=2026,
+            snapshot=snapshot(records=(True,)),
+        )
+        self.assertEqual(malformed_record.status, HOLD)
+        self.assertFalse(malformed_record.ready)
+
+
 if __name__ == "__main__":
     unittest.main()
