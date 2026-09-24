@@ -837,6 +837,63 @@ Current authority remains:
 - Production writer = HOLD;
 - MASTER LIVE unchanged.
 
+## Warehouse schema + five-surface registry binding
+
+### WAREHOUSE_SCHEMA_AND_FIVE_SURFACE_REGISTRY_BINDING_V0_1
+
+Verdict:
+
+`PASS_SCHEMA_AND_FIVE_SURFACE_BINDINGS_MATERIALIZED`
+
+Exact PRG-01 contract bindings now exist as public-safe authority artifacts.
+
+Warehouse schema:
+
+- `warehouse_schema_version = WAREHOUSE_INBOUND_SCHEMA_V1`
+- canonical payload: `WAREHOUSE_INBOUND_SCHEMA_CONTRACT_V1.json`
+- canonical SHA-256:
+  `75aff780d0caa1050e81e9cc913a501ccb54767c0706622763d5f1e4d34552c1`
+
+Five-surface registry:
+
+- `surface_registry_id = SR1_HCM_SERIAL_INBOUND_V1`
+- canonical payload: `FIVE_SURFACE_REGISTRY_V1.json`
+- `surface_registry_hash =
+  d06d7297abcc460b3672e9ad4280f4bc5ca309e73933d5c22fae64048b30ca9a`
+
+The registry contains exactly:
+
+1. `INBOUND_SOURCE_RECORD`
+2. `ACTIVE_SERIAL_INTERVAL_UNIVERSE`
+3. `INBOUND_DERIVED_QUERY_PROJECTION`
+4. `INBOUND_QUERY_FORMULA_ANCHOR`
+5. `ACTIVE_HOLD_INTERVAL_UNIVERSE`
+
+No Production workbook/resource, Drive, sheet, range or URL identifier is
+contained in these bindings.
+
+These artifacts clear only:
+
+- `HOLD_PHASE_B_WAREHOUSE_SCHEMA_VERSION_NOT_BOUND`
+- `HOLD_PHASE_B_FIVE_SURFACE_REGISTRY_BINDING_NOT_BOUND`
+
+They do not create or authorize a locator/DRAFT target-authority record.
+
+Conformance review:
+
+`WAREHOUSE_SCHEMA_AND_FIVE_SURFACE_REGISTRY_BINDING_REVIEW_V0_1`
+
+Locked:
+
+- `PRG-01 = HOLD_TARGET_AUTHORITY_NOT_MATERIALIZED`
+- `LiveReadAuthorized=False`
+- `ExecutableAcquisitionAuthorized=False`
+- `ProductionWriteAuthorized=False`
+- MASTER LIVE unchanged
+
+Next safe step: rerun Phase B locator/DRAFT materialization-action readiness
+against these exact bindings.
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
