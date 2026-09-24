@@ -500,6 +500,26 @@
       "rationale": "Warehouse-specific SOURCE_OF_TRUTH / DERIVED_READ_ONLY business-write boundary for inbound serial acceptance."
     },
     {
+      "path": "rules/TARGET_AUTHORITY_DRAFT_TO_APPROVED_LIFECYCLE_MATERIALIZATION_EVIDENCE_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Public-redacted evidence that exactly one verified DRAFT authority transitioned to APPROVED with pre-mutation snapshot preservation, new PENDING read-back binding and no ACTIVE/live-read authority."
+    },
+    {
+      "path": "rules/TARGET_AUTHORITY_DRAFT_TO_APPROVED_LIFECYCLE_MATERIALIZATION_REVIEW_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Conformance review of DRAFT-to-APPROVED lifecycle materialization, exact four-field mutation scope, canonical hash verification, PENDING read-back semantics and public redaction."
+    },
+    {
       "path": "rules/TARGET_AUTHORITY_DRAFT_TO_APPROVED_LIFECYCLE_READINESS_REVIEW_V0_1.md",
       "capabilities": [
         "INBOUND",

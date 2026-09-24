@@ -1039,6 +1039,60 @@ Conformance review:
 
 `TARGET_AUTHORITY_DRAFT_TO_APPROVED_LIFECYCLE_READINESS_REVIEW_V0_1`
 
+## Target authority DRAFT -> APPROVED lifecycle materialization
+
+### TARGET_AUTHORITY_DRAFT_TO_APPROVED_LIFECYCLE_MATERIALIZATION_EVIDENCE_V0_1
+
+Verdict:
+
+`PASS_DRAFT_TO_APPROVED_LIFECYCLE_MATERIALIZED`
+
+Current public-safe state:
+
+- target authority:
+  `TA1_d597fd30cfeeefc01ca9d28f71a98e0f`
+- locator ref:
+  `LOC1_a18c6d759273701cfcf0942b505409af`
+- prior DRAFT hash:
+  `6990f08a39a2087986c8845a2549a381dbd4dba9f442d55f7caa66edc3647cc4`
+- current APPROVED hash:
+  `724a58b4fa5f3cca04436379b0f679add26aa81210135807083260b77258d808`
+- lifecycle = `APPROVED`
+- independent read-back state = `PENDING`
+- ACTIVE count = 0.
+
+The transition preserved an exact pre-mutation DRAFT snapshot, canonical
+solo-operator approval evidence and a new transition-specific PENDING evidence
+binding.
+
+Fresh post-transition provider verification proves that exactly four permitted
+fields changed and that all target/schema/surface/locator/governance bindings
+remain unchanged.
+
+Final verification evidence:
+
+`EVD-TAA-APPROVED-VERIFY-f15653a710b1ea494331`
+
+Final verification evidence hash:
+
+`3cf03694c23682cb65d8eab1316a40156dfab7a60b0a849e32f1b272cd162699`
+
+APPROVED remains non-resolvable.
+
+Locked:
+
+- `LiveReadAuthorized=False`
+- `ExecutableAcquisitionAuthorized=False`
+- `ProductionWriteAuthorized=False`
+- Production writer = HOLD
+- MASTER LIVE unchanged.
+
+Next safe step: APPROVED read-back finalization readiness audit.
+
+Conformance review:
+
+`TARGET_AUTHORITY_DRAFT_TO_APPROVED_LIFECYCLE_MATERIALIZATION_REVIEW_V0_1`
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
