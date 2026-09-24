@@ -488,6 +488,46 @@ Current authority:
 - Production writer = HOLD;
 - MASTER LIVE unchanged.
 
+## External inbound acquisition promotion readiness
+
+### EXTERNAL_INBOUND_ACQUISITION_PROMOTION_READINESS_AUDIT_V0_1
+
+Verdict:
+
+`HOLD_EXECUTABLE_ACQUISITION_NOT_READY`
+
+Promotion requires ten independently evidenced gates.
+
+Current result:
+
+- PRG-01 target-authority registry — HOLD;
+- PRG-02 dedicated read-only identity — HOLD;
+- PRG-03 effective permission proof — HOLD;
+- PRG-04 exact five Production surface bindings — HOLD;
+- PRG-05 serial-universe completeness — HOLD;
+- PRG-06 HOLD-universe completeness — HOLD;
+- PRG-07 provider version/capture semantics — HOLD;
+- PRG-08 zero-write runtime enforcement — HOLD;
+- PRG-09 tamper-evident receipt boundary — HOLD;
+- PRG-10 repository placement/four required checks — PASS.
+
+The one governance PASS cannot offset nine missing runtime evidence gates.
+
+Next permitted artifact:
+
+`INBOUND_TARGET_AUTHORITY_REGISTRY_MATERIALIZATION_PLAN_V0_1`
+
+It must remain non-live and non-writing and may only define how PRG-01 would be
+materialized and independently reviewed.
+
+Authority remains:
+
+- `LiveReadAuthorized=False`;
+- `ExecutableAcquisitionAuthorized=False`;
+- `ProductionWriteAuthorized=False`;
+- Production writer = HOLD;
+- MASTER LIVE unchanged.
+
 ## Accepted local duplication
 
 The following duplication is currently intentional:
