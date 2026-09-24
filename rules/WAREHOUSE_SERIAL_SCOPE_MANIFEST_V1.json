@@ -86,6 +86,26 @@
       "rationale": "Warehouse-specific promotion audit for the external inbound acquisition adapter; verifies ten runtime evidence gates and keeps executable acquisition on HOLD until independently materialized."
     },
     {
+      "path": "rules/EXTERNAL_TARGET_AUTHORITY_DRIVE_MATERIALIZATION_READINESS_REVIEW_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Independent review of the Drive target-authority materialization-readiness design; confirms topology, permissions, serialization, hash, uniqueness, recovery and no-live/no-write boundaries while preserving HOLD for the missing independent reviewer identity."
+    },
+    {
+      "path": "rules/EXTERNAL_TARGET_AUTHORITY_DRIVE_MATERIALIZATION_READINESS_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Warehouse-specific readiness audit for the selected restricted Drive target-authority boundary; specifies container topology and control semantics and identifies the distinct independent reviewer identity as the remaining prerequisite before external materialization."
+    },
+    {
       "path": "rules/EXTERNAL_TARGET_AUTHORITY_STORE_SELECTION_REVIEW_V0_1.md",
       "capabilities": [
         "INBOUND",
