@@ -110,7 +110,20 @@ The following remain locked:
 
 The audit-remediation engineering and V3-enforcement stream is now CLOSED.
 
-The smallest next repository-governance task is Issue #96.
+Issue #96 materialization-action readiness has been re-audited.
 
-Issue #96 remains a readiness stream and must not be interpreted as permission
-to create credentials, grant live access or enable a Production writer.
+Current verdict:
+
+`HOLD_READONLY_IDENTITY_MATERIALIZATION_NOT_READY`
+
+The store/location and solo-operator governance bindings are now specified.
+Two blockers remain:
+
+- `HOLD_KEYLESS_AUTH_PATH_UNRESOLVED`;
+- `HOLD_IDENTITY_PROVIDER_READBACK_CAPABILITY_UNBOUND`.
+
+The smallest next repository-governance task is
+`READ_ONLY_RUNTIME_IDENTITY_RUNTIME_PLACEMENT_AND_PROVIDER_READBACK_V0_1`.
+
+This remains design/readiness work and must not be interpreted as permission to
+create credentials, grant live access or enable a Production writer.
