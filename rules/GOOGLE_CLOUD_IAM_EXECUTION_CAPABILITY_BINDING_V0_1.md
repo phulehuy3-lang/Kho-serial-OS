@@ -170,6 +170,89 @@ Section 3.
 Once such a path is actually available, re-run this binding control. Only a
 PASS result may resume #109.
 
+
+## 9. Active execution-path probing — 2026-09-25
+
+After the initial HOLD, the operating session attempted two provider-native
+execution paths rather than stopping at catalog discovery.
+
+### 9.1 Local Google Cloud CLI path
+
+Attempt:
+
+- verified Linux x86_64 / 64-bit runtime;
+- verified no existing `gcloud`;
+- attempted to download the official Google Cloud CLI Linux archive from
+  Google's documented `dl.google.com` distribution endpoint.
+
+Result:
+
+**HOLD**
+
+The execution container could not resolve `dl.google.com`, so the archive
+could not be downloaded and no CLI installation occurred.
+
+Security result:
+
+- no OAuth flow was started;
+- no Google credential was created or stored;
+- no project was selected;
+- no service-account action was attempted.
+
+This failure is an execution-network limitation, not proof that Google Cloud
+CLI itself is unsuitable.
+
+### 9.2 Google Cloud CLI Remote MCP path
+
+Google Cloud's official Cloud CLI remote MCP server was evaluated as a possible
+provider-native execution path.
+
+Google's current documentation states that the remote MCP server supports
+`gcloud` execution generally but explicitly excludes the
+`gcloud iam service-accounts` command group.
+
+Because Issue #109 requires service-account create/get plus key and IAM-policy
+read-back, the remote MCP server cannot satisfy this control.
+
+Result:
+
+**REJECTED_FOR_PRG02_SERVICE_ACCOUNT_LIFECYCLE**
+
+This is a product-capability mismatch, not an authentication failure.
+
+### 9.3 Updated blocker proof
+
+Current environment result is now stronger than discovery-only evidence:
+
+- provider-native IAM connector: ABSENT;
+- installable IAM plugin: ABSENT;
+- existing local gcloud: ABSENT;
+- attempted official CLI download: BLOCKED_BY_RUNTIME_DNS;
+- Google Cloud CLI Remote MCP: AVAILABLE IN GENERAL, but
+  `gcloud iam service-accounts` explicitly UNSUPPORTED;
+- ADC binding: ABSENT.
+
+Therefore the overall verdict remains:
+
+**`HOLD_GOOGLE_CLOUD_IAM_EXECUTION_CAPABILITY_UNAVAILABLE`**
+
+The blocker is now demonstrated by active execution-path probing.
+
+## 10. Remaining viable execution classes
+
+After active probing, the viable classes are narrowed to:
+
+1. a future provider-native Google Cloud IAM connector that exposes
+   service-account lifecycle operations; or
+2. an authenticated Google Cloud Console/Cloud Shell execution path that the
+   execution agent can directly control; or
+3. an explicitly authorized CLI/API environment where Google Cloud CLI/API
+   access is already available and provider state can be freshly reacquired.
+
+The Google Cloud CLI Remote MCP server is explicitly not sufficient for #109
+under its current command restrictions.
+
+
 ## Locked state
 
 - `LiveReadAuthorized=False`
