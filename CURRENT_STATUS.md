@@ -122,8 +122,17 @@ Two blockers remain:
 - `HOLD_KEYLESS_AUTH_PATH_UNRESOLVED`;
 - `HOLD_IDENTITY_PROVIDER_READBACK_CAPABILITY_UNBOUND`.
 
-The smallest next repository-governance task is
-`READ_ONLY_RUNTIME_IDENTITY_RUNTIME_PLACEMENT_AND_PROVIDER_READBACK_V0_1`.
+Issue #105 selected the canonical runtime/read-back design:
 
-This remains design/readiness work and must not be interpreted as permission to
-create credentials, grant live access or enable a Production writer.
+- runtime: `GITHUB_ACTIONS_EXTERNAL_WORKLOAD / DEFAULT_BRANCH_MAIN_ONLY`;
+- authentication: `OIDC -> WORKLOAD_IDENTITY_FEDERATION -> SERVICE_ACCOUNT_IMPERSONATION`;
+- target access remains a later direct Drive `reader` grant;
+- provider identity read-back is Google Cloud IAM service-account get, user-managed-key list and IAM-policy read-back;
+- Workspace DWD is not applicable to the current consumer-account target boundary.
+
+The two Issue #96 design blockers are resolved at design level.
+
+The smallest next repository-governance task is
+`READ_ONLY_RUNTIME_IDENTITY_MATERIALIZATION_ACTION_REREADINESS_V0_1`.
+
+No provider resource has been created by this design.
