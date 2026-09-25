@@ -136,12 +136,24 @@ Issue #107 re-readiness verdict:
 
 `PASS_FOR_READONLY_IDENTITY_MATERIALIZATION_ACTION_ONLY`
 
-A separately authorized `READ_ONLY_RUNTIME_IDENTITY_MATERIALIZATION_V0_1`
-action may now open, limited to the private PRG-02 authority-store boundary,
-exactly one keyless service account, one private identity authority record and
-fresh provider-native IAM read-back.
+Issue #109 materialization has started.
+
+Completed:
+
+- private `PRG02_READONLY_RUNTIME_IDENTITY_V1` authority-store topology;
+- owner-only/shared=false read-back for root and all four required children.
+
+Current materialization verdict:
+
+`PARTIAL / HOLD_GOOGLE_CLOUD_IAM_EXECUTION_CAPABILITY_UNAVAILABLE`
+
+The current operating path does not expose provider-native Google Cloud IAM
+service-account create/read-back capability, so the dedicated service account,
+private identity authority record and IAM verification have not been
+materialized.
+
+Issue #109 remains OPEN. The existing Drive topology must be reused when IAM
+capability becomes available.
 
 WIF setup, IAM impersonation binding, Drive reader grant, PRG-03, live reads and
 executable acquisition remain separate later actions.
-
-No provider resource has been created by this re-readiness audit.
