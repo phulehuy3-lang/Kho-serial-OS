@@ -463,6 +463,16 @@
       "rationale": "PRG-02 readiness audit binding identity authority store/governance while fail-closing unresolved keyless runtime placement and provider IAM/Admin read-back capability."
     },
     {
+      "path": "rules/READ_ONLY_RUNTIME_IDENTITY_RUNTIME_PLACEMENT_AND_PROVIDER_READBACK_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Design selection for GitHub Actions OIDC to Google Cloud WIF service-account impersonation, provider-native IAM read-back, and canonical target DWD inapplicability."
+    },
+    {
       "path": "rules/READONLY_SHADOW_SNAPSHOT_INTEGRITY_V0_1.md",
       "capabilities": [
         "REPOSITORY_SAFETY"
