@@ -168,6 +168,16 @@
       "rationale": "Current conservative Formula Semantic Identity V2 contract and explicit V1-to-V2 migration boundary."
     },
     {
+      "path": "rules/GOOGLE_CLOUD_IAM_EXECUTION_CAPABILITY_BINDING_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Execution-capability binding audit for provider-native Google Cloud IAM service-account lifecycle operations required to resume PRG-02 materialization."
+    },
+    {
       "path": "rules/HOLD_LIFECYCLE_CONTROL_V0_1.md",
       "capabilities": [
         "HOLD_QUARANTINE",
