@@ -16,7 +16,7 @@ class RepositoryStatusDocumentationTests(unittest.TestCase):
         self.assertIn("delta-history", status)
         self.assertIn("full-history privacy", status)
         self.assertIn("trusted-public-boundary-v3", status)
-        self.assertIn("PARTIAL/HOLD_ENFORCEMENT_NOT_PROVEN", status)
+        self.assertIn("CLOSED / ENFORCED", status)
         self.assertIn("Issue #96", status)
         self.assertIn("ProductionWriteAuthorized=False", status)
 

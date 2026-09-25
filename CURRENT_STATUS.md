@@ -23,8 +23,7 @@ Fresh GitHub read-back before R4 publication:
   - `trusted-public-boundary`;
   - `trusted-public-boundary-v2`;
   - `trusted-warehouse-serial-scope`;
-- `trusted-public-boundary-v3` workflow exists and passed on the verified main
-  SHA, but it is **not** yet a required status check;
+- `trusted-public-boundary-v3` is now present in the active Main ruleset as the fifth required status check;
 - Issue #96 remains OPEN and is a separate runtime-identity readiness issue.
 
 Evidence links:
@@ -44,7 +43,7 @@ Audit-remediation state recorded on 2026-09-25:
 | R1 — F02/F03/F04 | CLOSED | PR #97; fixed head `25cb82e72174aedca0446f033d978c12c42290b5`; squash main `4ff5060b14f68c3e647ea81aa645c1b170a2090e`; 336/336 tests; exact-head and post-merge required checks PASS |
 | R2 — F01 | CLOSED | PR #98; fixed head `f5f3b3acc7b322351a9c317c3d3a96261ae5a71c`; squash main `0a4d282c779e50a074711633cf11a1face5d0423`; 347/347 tests; V2 golden vectors PASS; tag `v0.2.0` unchanged |
 | R3 — F05/F06 engineering | CLOSED | PR #99; fixed head `6b434b1920fbe60f687053e16d50fb09699a20a2`; squash main `376b87aa5a50e5d8bacb1b935c97f47bffc115d2`; 353/353 tests; V3 workflow PASS |
-| R3 — V3 enforcement | **PARTIAL/HOLD_ENFORCEMENT_NOT_PROVEN** | Fresh ruleset read-back still requires only the four pre-V3 checks |
+| R3 — V3 enforcement | **CLOSED / ENFORCED** | Fresh Main ruleset read-back requires V3; synthetic PR #102 returned `mergeable_state=blocked` while V3 failed |
 | R4 — F07/F08/F09 | publication in PR #100 | current-status index, checkpoint relabeling, privacy-history disclosure and owner-controlled license proposal |
 
 The Phase 2 tag `v0.2.0` remains at
@@ -109,15 +108,9 @@ The following remain locked:
 
 ## Smallest next action
 
-For the audit-remediation stream, the smallest unresolved governance action is:
+The audit-remediation engineering and V3-enforcement stream is now CLOSED.
 
-1. add `trusted-public-boundary-v3` to the active Main ruleset **without
-   removing or renaming any existing required check**;
-2. read back the ruleset directly;
-3. prove V3 merge-blocking behavior with a safe synthetic failing canary;
-4. only then change V3 enforcement from
-   `PARTIAL/HOLD_ENFORCEMENT_NOT_PROVEN` to CLOSED.
+The smallest next repository-governance task is Issue #96.
 
-Issue #96 remains a separate readiness stream and must not be interpreted as
-permission to create credentials, grant live access or enable a Production
-writer.
+Issue #96 remains a readiness stream and must not be interpreted as permission
+to create credentials, grant live access or enable a Production writer.

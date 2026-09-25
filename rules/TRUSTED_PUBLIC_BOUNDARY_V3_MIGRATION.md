@@ -1,6 +1,6 @@
 # Trusted Public Boundary V3 Migration
 
-Status: **STAGED; ENFORCEMENT REQUIRES RULESET READ-BACK**
+Status: **ENFORCED / CLOSED**
 
 V3 supplements the frozen V1/V2 policy. It does not replace, rename, disable,
 or relax either existing required check.
@@ -51,9 +51,16 @@ forced blob-read failure.
    canary without merge.
 6. Only after steps 1–5 may V3 enforcement be recorded CLOSED.
 
-If ruleset mutation or merge-blocking evidence cannot be obtained safely, the
-V3 implementation may be merged but enforcement remains
-`PARTIAL/HOLD_ENFORCEMENT_NOT_PROVEN`.
+The earlier PARTIAL/HOLD checkpoint is superseded by the enforcement-closure evidence above.
+
+
+## Enforcement closure evidence — 2026-09-25
+
+Fresh Main ruleset read-back confirms `trusted-public-boundary-v3` is the fifth required status check while all four prior required checks remain present.
+
+Synthetic PR #102 was closed without merge after its exact head produced four PASS results for the pre-V3 required checks and one intentional V3 failure. Fresh PR read-back reported `mergeable_state=blocked` while V3 was failing.
+
+This satisfies the activation requirement for provider read-back plus merge-blocking canary evidence. V3 enforcement is therefore CLOSED.
 
 ## Frozen policy rule
 
