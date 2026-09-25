@@ -132,7 +132,16 @@ Issue #105 selected the canonical runtime/read-back design:
 
 The two Issue #96 design blockers are resolved at design level.
 
-The smallest next repository-governance task is
-`READ_ONLY_RUNTIME_IDENTITY_MATERIALIZATION_ACTION_REREADINESS_V0_1`.
+Issue #107 re-readiness verdict:
 
-No provider resource has been created by this design.
+`PASS_FOR_READONLY_IDENTITY_MATERIALIZATION_ACTION_ONLY`
+
+A separately authorized `READ_ONLY_RUNTIME_IDENTITY_MATERIALIZATION_V0_1`
+action may now open, limited to the private PRG-02 authority-store boundary,
+exactly one keyless service account, one private identity authority record and
+fresh provider-native IAM read-back.
+
+WIF setup, IAM impersonation binding, Drive reader grant, PRG-03, live reads and
+executable acquisition remain separate later actions.
+
+No provider resource has been created by this re-readiness audit.
