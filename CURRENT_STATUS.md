@@ -155,5 +155,16 @@ materialized.
 Issue #109 remains OPEN. The existing Drive topology must be reused when IAM
 capability becomes available.
 
+Issue #111 execution-capability binding verdict:
+
+`HOLD_GOOGLE_CLOUD_IAM_EXECUTION_CAPABILITY_UNAVAILABLE`
+
+Fresh discovery found no provider-native Google Cloud IAM connector, no
+installable IAM plugin, no local `gcloud`, and no ADC binding in the current
+execution path. The accepted future path is a provider-native IAM tool,
+authenticated Google Cloud Console/Cloud Shell execution path, or explicitly
+authorized CLI/API environment capable of service-account create/get,
+USER_MANAGED key-list read-back and service-account IAM-policy read-back.
+
 WIF setup, IAM impersonation binding, Drive reader grant, PRG-03, live reads and
 executable acquisition remain separate later actions.
