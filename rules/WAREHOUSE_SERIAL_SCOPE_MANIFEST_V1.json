@@ -928,6 +928,13 @@
       "rationale": "Pure fail-closed evaluator for the warehouse source-role write-intent boundary; no live I/O or mutation."
     },
     {
+      "path": "scripts/v3_enforcement_canary_closure_synthetic.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Synthetic non-production canary used only to prove Trusted Public Boundary V3 required-check enforcement; must never merge."
+    },
+    {
       "path": "tests/test_allocation_nearest_prior.py",
       "capabilities": [
         "SOURCE_ALLOCATION",
