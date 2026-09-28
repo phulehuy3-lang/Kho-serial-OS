@@ -137,6 +137,25 @@ class GovernanceTests(unittest.TestCase):
              "right": None, "source_quantity": 1},
         )
 
+    def test_serial_split_small_interval_oracle(self):
+        for source_start in range(8):
+            for source_end in range(source_start, 9):
+                for physical_start in range(source_start, source_end + 1):
+                    for physical_end in range(physical_start, source_end + 1):
+                        actual = exact_middle_split(
+                            *(f"{n:04d}" for n in
+                              (source_start, source_end, physical_start, physical_end))
+                        )
+                        expected_ranges = (
+                            (source_start, physical_start - 1),
+                            (physical_start, physical_end),
+                            (physical_end + 1, source_end),
+                        )
+                        for label, (first, last) in zip(("left", "out", "right"), expected_ranges):
+                            expected = (f"{first:04d}", f"{last:04d}", last - first + 1) if first <= last else None
+                            self.assertEqual(actual[label], expected)
+                        self.assertEqual(actual["source_quantity"], source_end - source_start + 1)
+
     def test_postfacto_no_reranking(self):
         good = dict(signed_range=("00001500", "00001999"), booked_range=("00001500", "00001999"),
                     unique_source=True, sufficient_stock=True, hold_clear=True, no_prior_out=True,
