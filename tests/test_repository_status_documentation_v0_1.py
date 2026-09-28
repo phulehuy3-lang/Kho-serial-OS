@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 class RepositoryStatusDocumentationTests(unittest.TestCase):
     def test_current_status_index_exists_and_is_explicit(self):
         status = (ROOT / "CURRENT_STATUS.md").read_text(encoding="utf-8")
-        self.assertRegex(status, r"Status snapshot: \\d{4}-\\d{2}-\\d{2}")
+        self.assertRegex(status, r"Status snapshot: \d{4}-\d{2}-\d{2}")
         self.assertIn("Verified repository state before this documentation PR", status)
         self.assertIn("Five required checks:", status)
         for check in (
