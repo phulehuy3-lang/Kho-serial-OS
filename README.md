@@ -8,6 +8,11 @@ Historical lifecycle documents record their own checkpoints and must not be read
 
 Public, sanitized engineering controls for serial-range warehouse workflows.
 
+The generic v1.8 inbound and session-close gate profile is documented in
+[`rules/WAREHOUSE_GOVERNANCE_CONTRACT_V1_8.md`](rules/WAREHOUSE_GOVERNANCE_CONTRACT_V1_8.md).
+It adds pure synthetic regressions without renumbering the Phase 2/3 baseline
+or authorizing Production writes.
+
 ## Scope
 
 **Sole mission:** this repository exists only for serial-range warehouse controls.

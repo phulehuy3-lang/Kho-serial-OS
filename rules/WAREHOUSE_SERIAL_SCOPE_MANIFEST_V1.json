@@ -1218,6 +1218,42 @@
         "REPOSITORY_SAFETY"
       ],
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": "rules/WAREHOUSE_GOVERNANCE_CONTRACT_V1_8.md",
+      "capabilities": [
+        "INBOUND",
+        "OUTBOUND",
+        "INVENTORY",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION",
+        "WAREHOUSE_DOCUMENT_INTEGRITY"
+      ],
+      "rationale": "Sanitized specification for inbound cells, serial split, document identity and global reconciliation."
+    },
+    {
+      "path": "scripts/warehouse_governance_v1_8.py",
+      "capabilities": [
+        "INBOUND",
+        "OUTBOUND",
+        "INVENTORY",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION",
+        "WAREHOUSE_DOCUMENT_INTEGRITY"
+      ],
+      "rationale": "Pure no-provider governance gate validators for serial-range warehouse transactions."
+    },
+    {
+      "path": "tests/test_warehouse_governance_v1_8.py",
+      "capabilities": [
+        "INBOUND",
+        "OUTBOUND",
+        "INVENTORY",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION",
+        "WAREHOUSE_DOCUMENT_INTEGRITY"
+      ],
+      "rationale": "Synthetic regressions for serial split conservation, formula preservation and close gates."
     }
   ]
 }
