@@ -70,6 +70,73 @@ class GovernanceTests(unittest.TestCase):
         with self.assertRaises(GateError):
             exact_middle_split("00001000", "00002999", "00002999", "00003000")
 
+    def test_serial_text_contract_rejects_unicode_types_and_length(self):
+        cases = (
+            ("１２", "１３", "１２", "１２"),
+            ("١٢", "١٣", "١٢", "١٢"),
+            ("१२", "१३", "१२", "१२"),
+            (True, "13", "12", "12"),
+            ("", "13", "12", "12"),
+            (12, "13", "12", "12"),
+            ("1" * 4097, "1" * 4097, "1" * 4097, "1" * 4097),
+            ("1" * 5000, "1" * 5000, "1" * 5000, "1" * 5000),
+        )
+        for values in cases:
+            with self.subTest(sample=str(values[0])[:20], length=len(str(values[0]))):
+                with self.assertRaisesRegex(GateError, "SERIAL_IDENTITY_INVALID"):
+                    exact_middle_split(*values)
+
+    def test_serial_split_4096_digits_without_integer_string_conversion(self):
+        prefix = "0" * 4092
+        result = exact_middle_split(
+            prefix + "1000", prefix + "1003", prefix + "1001", prefix + "1002"
+        )
+        self.assertEqual(result["left"], (prefix + "1000", prefix + "1000", 1))
+        self.assertEqual(result["out"], (prefix + "1001", prefix + "1002", 2))
+        self.assertEqual(result["right"], (prefix + "1003", prefix + "1003", 1))
+        self.assertEqual(result["source_quantity"], 4)
+        self.assertEqual(
+            result,
+            exact_middle_split(prefix + "1000", prefix + "1003",
+                               prefix + "1001", prefix + "1002"),
+        )
+
+    def test_serial_split_edges_singleton_and_fail_closed_intervals(self):
+        start = exact_middle_split("00001000", "00002999", "00001000", "00001000")
+        self.assertIsNone(start["left"])
+        self.assertEqual(start["out"], ("00001000", "00001000", 1))
+        self.assertEqual(start["right"], ("00001001", "00002999", 1999))
+        end = exact_middle_split("00001000", "00002999", "00002999", "00002999")
+        self.assertEqual(end["left"], ("00001000", "00002998", 1999))
+        self.assertIsNone(end["right"])
+        self.assertEqual(end["source_quantity"], 2000)
+        for values in (
+            ("00001000", "00002999", "00000999", "00001000"),
+            ("00001000", "00002999", "00002999", "00003000"),
+            ("00002000", "00001000", "00001500", "00001600"),
+            ("00001000", "00002999", "00001999", "00001500"),
+        ):
+            with self.subTest(values=values), self.assertRaisesRegex(GateError, "PHYSICAL_RANGE_OUTSIDE_SOURCE"):
+                exact_middle_split(*values)
+        with self.assertRaisesRegex(GateError, "SERIAL_IDENTITY_INVALID"):
+            exact_middle_split("001000", "00002999", "00001500", "00001999")
+
+    def test_serial_split_exact_conservation_and_zero_identity(self):
+        result = exact_middle_split("00001000", "00002999", "00001500", "00001999")
+        self.assertEqual(result, {
+            "left": ("00001000", "00001499", 500),
+            "out": ("00001500", "00001999", 500),
+            "right": ("00002000", "00002999", 1000),
+            "source_quantity": 2000,
+        })
+        self.assertEqual(result, exact_middle_split("00001000", "00002999",
+                                                     "00001500", "00001999"))
+        self.assertEqual(
+            exact_middle_split("00000000", "00000000", "00000000", "00000000"),
+            {"left": None, "out": ("00000000", "00000000", 1),
+             "right": None, "source_quantity": 1},
+        )
+
     def test_postfacto_no_reranking(self):
         good = dict(signed_range=("00001500", "00001999"), booked_range=("00001500", "00001999"),
                     unique_source=True, sufficient_stock=True, hold_clear=True, no_prior_out=True,
