@@ -76,19 +76,71 @@ def duplicate_decision(existing, candidate) -> bool:
     return True
 
 
+SERIAL_MAX_DIGITS = 4096
+
+
+def _serial_text(value) -> bool:
+    """Match the canonical ASCII serial-text bound without coercion."""
+    return (
+        type(value) is str
+        and 0 < len(value) <= SERIAL_MAX_DIGITS
+        and all("0" <= char <= "9" for char in value)
+    )
+
+
+def _serial_increment(value: str) -> str:
+    digits = list(value)
+    for index in range(len(digits) - 1, -1, -1):
+        if digits[index] != "9":
+            digits[index] = chr(ord(digits[index]) + 1)
+            return "".join(digits)
+        digits[index] = "0"
+    raise GateError("SERIAL_WIDTH_OVERFLOW")
+
+
+def _serial_decrement(value: str) -> str:
+    digits = list(value)
+    for index in range(len(digits) - 1, -1, -1):
+        if digits[index] != "0":
+            digits[index] = chr(ord(digits[index]) - 1)
+            return "".join(digits)
+        digits[index] = "9"
+    raise GateError("SERIAL_WIDTH_UNDERFLOW")
+
+
+def _inclusive_quantity(start: str, end: str) -> int:
+    """Subtract equal-width decimal text, converting only the difference to a count."""
+    borrow = 0
+    difference = []
+    for left, right in zip(reversed(start), reversed(end)):
+        digit = ord(right) - ord(left) - borrow
+        borrow = digit < 0
+        difference.append(digit + 10 if borrow else digit)
+    if borrow:
+        raise GateError("INVALID_INTERVAL")
+    quantity = 0
+    for digit in reversed(difference):
+        quantity = quantity * 10 + digit
+    return quantity + 1
+
+
 def exact_middle_split(source_start, source_end, physical_start, physical_end) -> dict:
     vals = (source_start, source_end, physical_start, physical_end)
-    if any(not isinstance(x, str) or not x.isdecimal() for x in vals) or len({len(x) for x in vals}) != 1:
+    if any(not _serial_text(value) for value in vals) or len({len(value) for value in vals}) != 1:
         raise GateError("SERIAL_IDENTITY_INVALID")
-    s, e, p, q = map(int, vals)
-    if not s <= p <= q <= e:
+    # Equal-width ASCII text has the same lexical and numeric ordering.
+    if not source_start <= physical_start <= physical_end <= source_end:
         raise GateError("PHYSICAL_RANGE_OUTSIDE_SOURCE")
-    width = len(source_start)
-    fmt = lambda a, b: (str(a).zfill(width), str(b).zfill(width), b - a + 1) if a <= b else None
-    left, out, right = fmt(s, p - 1), fmt(p, q), fmt(q + 1, e)
-    if sum(part[2] for part in (left, out, right) if part) != e - s + 1:
+    left_end = _serial_decrement(physical_start) if source_start < physical_start else None
+    left = (source_start, left_end, _inclusive_quantity(source_start, left_end)) if left_end is not None else None
+    out = (physical_start, physical_end,
+           _inclusive_quantity(physical_start, physical_end))
+    right_start = _serial_increment(physical_end) if physical_end < source_end else None
+    right = (right_start, source_end, _inclusive_quantity(right_start, source_end)) if right_start is not None else None
+    source_quantity = _inclusive_quantity(source_start, source_end)
+    if sum(part[2] for part in (left, out, right) if part) != source_quantity:
         raise GateError("CONSERVATION_FAILURE")
-    return {"left": left, "out": out, "right": right, "source_quantity": e - s + 1}
+    return {"left": left, "out": out, "right": right, "source_quantity": source_quantity}
 
 
 def validate_postfacto_physical(*, signed_range, booked_range, unique_source, sufficient_stock,
