@@ -95,6 +95,19 @@ class HoldIsolationTests(unittest.TestCase):
 
 
 class HoldReleaseReadinessTests(unittest.TestCase):
+    def test_mismatched_interval_identity_and_unknown_state_block(self) -> None:
+        for changes in ({"range_start": "3000", "range_end": "3999"},
+                        {"range_start": "BAD"}, {"status": "UNKNOWN"}):
+            with self.subTest(changes=changes):
+                self.assertEqual(evaluate_hold_release_readiness(hold(), interval(**changes)).status, HOLD)
+
+    def test_duplicate_hold_id_cannot_hide_active_peer(self) -> None:
+        peer = hold(target_id="OTHER", range_start="1500", range_end="2500")
+        self.assertEqual(evaluate_hold_release_readiness(hold(), interval(), peers=(peer,)).status, HOLD)
+
+    def test_omitted_peer_snapshot_cannot_release(self) -> None:
+        self.assertEqual(evaluate_hold_release_readiness(hold(), interval()).status, HOLD)
+
     def test_evidence_is_first_business_gate(self) -> None:
         peer = hold(
             hold_id="HOLD-SYNTH-B",

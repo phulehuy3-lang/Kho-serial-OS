@@ -11,6 +11,25 @@ from scripts.warehouse_governance_v1_8 import (
 
 
 class GovernanceTests(unittest.TestCase):
+    def test_boolean_gate_inputs_fail_closed(self):
+        for bad in ("FALSE", "TRUE", 0, 1, None, [], {}, [False]):
+            with self.subTest(value=bad):
+                with self.assertRaises(GateError):
+                    validate_transition("PREPARED", "PREWRITE_SEALED", manifest_readback=bad)
+                with self.assertRaises(GateError):
+                    validate_transition("READBACK_PASS", "CLOSED", reconciliation=bad, audit=True)
+                good = dict(signed_range=("1000", "1001"), booked_range=("1000", "1001"),
+                            unique_source=True, sufficient_stock=True, hold_clear=True,
+                            no_prior_out=True, owner_confirmed=True, reranked=False)
+                for key in ("unique_source", "sufficient_stock", "hold_clear", "no_prior_out", "owner_confirmed", "reranked"):
+                    with self.subTest(key=key), self.assertRaises(GateError):
+                        validate_postfacto_physical(**dict(good, **{key: bad}))
+
+    def test_readback_transition_and_close_require_evidence(self):
+        for previous, following in (("WRITTEN", "READBACK_PASS"), ("READBACK_PASS", "CLOSED")):
+            with self.subTest(following=following), self.assertRaises(GateError):
+                validate_transition(previous, following, reconciliation=True, audit=True)
+
     def test_generic_inbound_only_four_cells(self):
         self.assertTrue(validate_inbound_touch_set([("BUSINESS", c) for c in "ACDO"]))
 
