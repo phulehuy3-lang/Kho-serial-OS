@@ -116,8 +116,9 @@ path.
 
 ## PHU-8 release snapshot binding
 
-The synthetic interval-state contract uses HELD for an ACTIVE interval and
-ELIGIBLE for a RELEASED interval; unknown or unsupported state pairs block.
+Release readiness requires HELD interval state for an ACTIVE target; unknown
+or contradictory active state blocks. No terminal interval-status mapping is
+introduced for RELEASED, REVERSED or CANCELLED isolation records.
 Registry and interval range text must match exactly, in addition to target and
 category parity. Conflicting records sharing the target HOLD ID block; only an
 exact self record is ignored.

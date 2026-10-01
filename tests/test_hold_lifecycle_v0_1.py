@@ -71,6 +71,14 @@ class HoldIsolationTests(unittest.TestCase):
         self.assertEqual(result.status, PASS)
         self.assertTrue(result.ready)
 
+    def test_terminal_isolation_does_not_invent_interval_status_mapping(self) -> None:
+        for status, flag in (("RELEASED", False), ("REVERSED", False), ("CANCELLED", False)):
+            with self.subTest(status=status):
+                self.assertEqual(validate_hold_record(hold(status=status, hold_flag=flag),
+                                 interval(hold_flag=flag)).status, PASS)
+                self.assertEqual(release_with_snapshot(hold(status=status, hold_flag=flag),
+                                 interval(hold_flag=flag)).status, HOLD)
+
     def test_text_boolean_fails_closed(self) -> None:
         result = validate_hold_record(hold(hold_flag="TRUE"), interval())
         self.assertEqual(result.status, HOLD)

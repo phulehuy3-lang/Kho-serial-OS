@@ -104,3 +104,8 @@ Re-evaluate #111 only when a real provider-native Google Cloud IAM execution
 path exists for create/get, zero USER_MANAGED keys and IAM-policy read-back.
 Then follow #109's exact action contract. Until then, keep #109/#111 OPEN/HOLD;
 do not repeat capability probing or create an audit PR just to restate HOLD.
+
+Pre-merge review added terminal-isolation compatibility regression: the prior
+candidate incorrectly invented terminal interval-status mappings. Three
+terminal-state subcases failed before the refinement; readiness now checks HELD
+only for the ACTIVE release target, preserving terminal isolation semantics.

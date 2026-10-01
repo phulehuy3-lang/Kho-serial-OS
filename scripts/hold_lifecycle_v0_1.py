@@ -227,9 +227,6 @@ def validate_hold_record(
                     or _ranges_overlap(interval.range_start, interval.range_end,
                                        interval.range_start, interval.range_end) is None):
                 blockers.append("HOLD_ISOLATION:INTERVAL_RANGE_MISMATCH")
-            expected_status = {"ACTIVE": "HELD", "RELEASED": "ELIGIBLE"}.get(record.status)
-            if expected_status is None or interval.status != expected_status:
-                blockers.append("HOLD_ISOLATION:INTERVAL_STATUS_MISMATCH")
             if not _strict_bool(interval.hold_flag):
                 blockers.append("HOLD_ISOLATION:INTERVAL_HOLDFLAG_NOT_BOOLEAN")
             elif record.status == "ACTIVE" and interval.hold_flag is not True:
@@ -317,6 +314,7 @@ def evaluate_hold_release_readiness(
         record.scope_type != "INTERVAL"
         or record.status != "ACTIVE"
         or record.hold_flag is not True
+        or interval.status != "HELD"
     ):
         return HoldReleaseReadiness(
             status=HOLD,
