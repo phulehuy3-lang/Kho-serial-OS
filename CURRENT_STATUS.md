@@ -82,30 +82,57 @@ ledger was read or changed by R5 or this documentation sync. No credential,
 service account, Drive/Sheets grant or target-authority lifecycle change was
 created by those repository actions.
 
-## PHU-8 remediation candidate — 2026-10-01
+## PHU-8 post-merge remediation — 2026-10-01
 
-Baseline main 6a687f7123788dc00e4e6fea40242692e8072ec3 passed 372 tests and five
-checks but reproduced false-PASS boolean, READBACK_PASS and HOLD-release paths.
-Regression-only commit a619e3be670a8d15384ae689f2ed214aa682de41 ran 377 tests
-locally with 15 expected failures. PR #117 contains the remediation candidate.
+Baseline main `6a687f7123788dc00e4e6fea40242692e8072ec3` passed 372 tests and
+five checks but reproduced boolean, READBACK_PASS and HOLD-release false-PASS.
+[PR #117](https://github.com/phulehuy3-lang/Kho-serial-OS/pull/117) is merged.
+Regression-only commit `a619e3be670a8d15384ae689f2ed214aa682de41` ran 377 tests
+with 15 expected failures. Reviewed head
+`b05427b6c8e76729e34c7e05f88b7ca65d3e4400` and exact squash main
+`ecbdd8d4c7403d65942471b641647a3b0b00005f` passed 382/382 tests and 5/5 checks.
+These are verified checkpoints; this documentation update creates a newer SHA.
 
-Candidate changes enforce native boolean inputs, exact materialized transaction
-readback binding on READBACK_PASS/CLOSED, interval range/state parity and explicit
-complete peer-snapshot metadata with duplicate identity guards. The caller
-contracts document provenance/completeness limits. Repository regression success
-does not establish production-control readiness; canonical acceptance, runtime
-caller integration and post-merge verification are still pending. PHU-8 remains
-PARTIAL/HOLD; #109/#111 remain OPEN/HOLD. No merge or provider action is authorized
-by this candidate's synthetic evidence.
+The merged controls enforce native booleans, materialized readback evidence
+bound to a separately sealed transaction for READBACK_PASS/CLOSED, exact ACTIVE
+HOLD identity/range/state and explicit complete peer-snapshot metadata.
+Pre-merge review removed unsupported terminal interval-status mappings and
+added compatibility regression; terminal isolation remains preserved.
+
+Engineering remediation: **PASS**. Operational acceptance: **PARTIAL/HOLD**.
+Canonical regression records RG-0118–RG-0121 are synthetic PASS. RG-0122 remains
+NOT_RUN for operational integration acceptance. A passing repository suite does
+not authenticate evidence provenance, capture freshness or peer completeness.
+
+### RG-0122 required acceptance
+
+| Gate | Required materialized evidence | Current limit |
+| --- | --- | --- |
+| Operational caller | Exact caller source/version and invocation path using the remediated API | Operational use is not proved by synthetic callers |
+| Boolean validation | Positive native booleans; text, numbers, null and containers rejected through the actual caller | Pure regression PASS; operational acceptance pending |
+| Readback binding | Independently accepted sealed task/scope/payload binding; independent fresh readback; exact fields/types/values and distinct captures | Labels and markers alone do not prove provenance or independence |
+| HOLD readiness | Authoritative complete peer capture; identity/category/range/state parity; duplicate/conflicting IDs and overlap negatives | Completeness flag alone is insufficient; readiness is not release authorization |
+| Compatibility | Terminal isolation and negative production-write guard through the actual invocation path | Synthetic compatibility evidence only |
+| Applicable SOP conformance | Immutable FILE, header-bound schema, structural reconciliation, batch identity, stale-scope invalidation, complete descendants, machine classification, exact manifest/touch equality | Each applicable v1.9 requirement needs canonical acceptance; no blanket conformance claim |
+
+Integration PASS requires exact-version controlled positive and adversarial
+results, independently accepted provenance/freshness/completeness, and canonical
+acceptance for every applicable control. Inapplicability requires an explicit
+authority-backed rationale. Missing evidence keeps RG-0122 NOT_RUN and readiness
+HOLD. Acceptance may inspect already-materialized evidence without live access;
+this checklist grants no provider capability.
+
+#109/#111 remain separate OPEN/HOLD. No credential, IAM grant, live warehouse
+read, MASTER LIVE change or PRG-02 recreation is introduced. P2 serial
+Unicode/overlong follow-up remains outside this P1 remediation.
 
 ## Smallest next action
+
+For PHU-8, inspect already-materialized operational caller and acceptance evidence
+against the matrix above. Keep PARTIAL/HOLD when evidence is absent.
 
 Re-evaluate #111 only when a real provider-native Google Cloud IAM execution
 path exists for create/get, zero USER_MANAGED keys and IAM-policy read-back.
 Then follow #109's exact action contract. Until then, keep #109/#111 OPEN/HOLD;
 do not repeat capability probing or create an audit PR just to restate HOLD.
 
-Pre-merge review added terminal-isolation compatibility regression: the prior
-candidate incorrectly invented terminal interval-status mappings. Three
-terminal-state subcases failed before the refinement; readiness now checks HELD
-only for the ACTIVE release target, preserving terminal isolation semantics.
