@@ -94,19 +94,40 @@ class HoldIsolationTests(unittest.TestCase):
         self.assertIn("HOLD_ISOLATION:RANGE_INVALID", result.blocking_reasons)
 
 
+def release_with_snapshot(record, state, peers=(), **metadata):
+    values = dict(peer_snapshot_complete=True, peer_snapshot_category="CATEGORY-A",
+                  peer_capture_marker="SYNTH-CAPTURE-A")
+    values.update(metadata)
+    return evaluate_hold_release_readiness(record, state, peers, **values)
+
+
 class HoldReleaseReadinessTests(unittest.TestCase):
     def test_mismatched_interval_identity_and_unknown_state_block(self) -> None:
         for changes in ({"range_start": "3000", "range_end": "3999"},
                         {"range_start": "BAD"}, {"status": "UNKNOWN"}):
             with self.subTest(changes=changes):
-                self.assertEqual(evaluate_hold_release_readiness(hold(), interval(**changes)).status, HOLD)
+                self.assertEqual(release_with_snapshot(hold(), interval(**changes)).status, HOLD)
 
     def test_duplicate_hold_id_cannot_hide_active_peer(self) -> None:
         peer = hold(target_id="OTHER", range_start="1500", range_end="2500")
-        self.assertEqual(evaluate_hold_release_readiness(hold(), interval(), peers=(peer,)).status, HOLD)
+        self.assertEqual(release_with_snapshot(hold(), interval(), peers=(peer,)).status, HOLD)
 
     def test_omitted_peer_snapshot_cannot_release(self) -> None:
         self.assertEqual(evaluate_hold_release_readiness(hold(), interval()).status, HOLD)
+        for changes in ({"peer_snapshot_complete": False}, {"peer_snapshot_complete": "TRUE"},
+                        {"peer_snapshot_category": "OTHER"}, {"peer_capture_marker": None}):
+            with self.subTest(changes=changes):
+                self.assertEqual(release_with_snapshot(hold(), interval(), **changes).status, HOLD)
+
+    def test_duplicate_peer_ids_and_invalid_peer_collection_block(self) -> None:
+        peer = hold(hold_id="OTHER", target_id="OTHER", range_start="3000", range_end="3999")
+        for peers in ((peer, peer), None, [], (None,), (hold(category="OTHER"),),
+                      (hold(scope_type="UNKNOWN"),), (hold(hold_id=""),)):
+            with self.subTest(peers=peers):
+                self.assertEqual(release_with_snapshot(hold(), interval(), peers).status, HOLD)
+
+    def test_exact_self_snapshot_is_allowed(self) -> None:
+        self.assertEqual(release_with_snapshot(hold(), interval(), (hold(),)).canonical_decision, PASS_RELEASE_READY)
 
     def test_evidence_is_first_business_gate(self) -> None:
         peer = hold(
@@ -115,7 +136,7 @@ class HoldReleaseReadinessTests(unittest.TestCase):
             range_start="1500",
             range_end="2500",
         )
-        result = evaluate_hold_release_readiness(
+        result = release_with_snapshot(
             hold(),
             interval(
                 evidence_status="UNVERIFIED",
@@ -128,14 +149,14 @@ class HoldReleaseReadinessTests(unittest.TestCase):
         self.assertEqual(result.first_blocking_gate, "EVIDENCE")
 
     def test_exact_date_rejects_extra_text(self) -> None:
-        result = evaluate_hold_release_readiness(
+        result = release_with_snapshot(
             hold(),
             interval(source_date_text="15/02/2026 extra"),
         )
         self.assertEqual(result.canonical_decision, BLOCK_DATE)
 
     def test_source_year_mismatch_fails_date_gate(self) -> None:
-        result = evaluate_hold_release_readiness(
+        result = release_with_snapshot(
             hold(),
             interval(source_date_text="31/12/2025", source_year=2026),
         )
@@ -148,7 +169,7 @@ class HoldReleaseReadinessTests(unittest.TestCase):
             range_start="1500",
             range_end="2500",
         )
-        result = evaluate_hold_release_readiness(
+        result = release_with_snapshot(
             hold(), interval(), peers=(peer,)
         )
         self.assertEqual(result.canonical_decision, BLOCK_OVERLAP)
@@ -161,7 +182,7 @@ class HoldReleaseReadinessTests(unittest.TestCase):
             range_start="1999",
             range_end="2500",
         )
-        result = evaluate_hold_release_readiness(
+        result = release_with_snapshot(
             hold(), interval(), peers=(peer,)
         )
         self.assertEqual(result.canonical_decision, BLOCK_OVERLAP)
@@ -176,7 +197,7 @@ class HoldReleaseReadinessTests(unittest.TestCase):
             status="RELEASED",
             hold_flag=False,
         )
-        result = evaluate_hold_release_readiness(
+        result = release_with_snapshot(
             hold(), interval(), peers=(peer,)
         )
         self.assertEqual(result.canonical_decision, PASS_RELEASE_READY)
@@ -194,25 +215,25 @@ class HoldReleaseReadinessTests(unittest.TestCase):
         )
 
     def test_zero_stock_blocks(self) -> None:
-        result = evaluate_hold_release_readiness(
+        result = release_with_snapshot(
             hold(), interval(available_qty=0)
         )
         self.assertEqual(result.canonical_decision, BLOCK_STOCK_YEAR)
 
     def test_bool_stock_is_invalid(self) -> None:
-        result = evaluate_hold_release_readiness(
+        result = release_with_snapshot(
             hold(), interval(available_qty=True)
         )
         self.assertEqual(result.canonical_decision, BLOCK_STOCK_YEAR)
 
     def test_clean_target_reaches_release_ready(self) -> None:
-        result = evaluate_hold_release_readiness(hold(), interval())
+        result = release_with_snapshot(hold(), interval())
         self.assertEqual(result.status, PASS)
         self.assertTrue(result.ready)
         self.assertEqual(result.canonical_decision, PASS_RELEASE_READY)
 
     def test_released_target_is_not_released_again(self) -> None:
-        result = evaluate_hold_release_readiness(
+        result = release_with_snapshot(
             hold(status="RELEASED", hold_flag=False),
             interval(hold_flag=False),
         )

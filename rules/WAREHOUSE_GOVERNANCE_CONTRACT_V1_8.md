@@ -18,3 +18,25 @@ The predecessor inbound v1.7 and post-facto v1.0 are superseded prospectively in
 ## Synthetic tests
 
 `scripts/warehouse_governance_v1_8.py` and `tests/test_warehouse_governance_v1_8.py` exercise the pure invariants with invented intervals and document labels. They neither connect to a provider nor mutate inventory.
+
+## PHU-8 transition evidence caller contract
+
+Native booleans are required for transition and postfacto inputs. Text booleans,
+integers and unknown values are rejected without coercion. The repaired-history
+classification flag is also a native boolean.
+
+Both WRITTEN -> READBACK_PASS and READBACK_PASS -> CLOSED require:
+- a materialized SourceReadbackRequest passing SOURCE_READBACK_V1 exact field,
+  type, value and binding checks;
+- a nonempty evidence ID and INDEPENDENT_READBACK capture kind;
+- the caller's sealed transaction_binding containing task_id, scope_id,
+  payload_hash, readback_capture_marker and written_capture_marker;
+- readback task/scope/payload matching that sealed binding, and an expected
+  readback capture marker distinct from the written capture marker.
+CLOSED additionally requires native True reconciliation and audit inputs.
+
+The caller must obtain the sealed binding and evidence from the canonical
+accepted source, enforce capture ordering/freshness and independently acquired
+provenance. These pure validators cannot authenticate caller assertions or prove
+provider capture independence. No runtime integration or production readiness
+is conferred by a synthetic PASS. Old callers missing evidence now fail closed.
