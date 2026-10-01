@@ -82,9 +82,30 @@ ledger was read or changed by R5 or this documentation sync. No credential,
 service account, Drive/Sheets grant or target-authority lifecycle change was
 created by those repository actions.
 
+## PHU-8 remediation candidate — 2026-10-01
+
+Baseline main 6a687f7123788dc00e4e6fea40242692e8072ec3 passed 372 tests and five
+checks but reproduced false-PASS boolean, READBACK_PASS and HOLD-release paths.
+Regression-only commit a619e3be670a8d15384ae689f2ed214aa682de41 ran 377 tests
+locally with 15 expected failures. PR #117 contains the remediation candidate.
+
+Candidate changes enforce native boolean inputs, exact materialized transaction
+readback binding on READBACK_PASS/CLOSED, interval range/state parity and explicit
+complete peer-snapshot metadata with duplicate identity guards. The caller
+contracts document provenance/completeness limits. Repository regression success
+does not establish production-control readiness; canonical acceptance, runtime
+caller integration and post-merge verification are still pending. PHU-8 remains
+PARTIAL/HOLD; #109/#111 remain OPEN/HOLD. No merge or provider action is authorized
+by this candidate's synthetic evidence.
+
 ## Smallest next action
 
 Re-evaluate #111 only when a real provider-native Google Cloud IAM execution
 path exists for create/get, zero USER_MANAGED keys and IAM-policy read-back.
 Then follow #109's exact action contract. Until then, keep #109/#111 OPEN/HOLD;
 do not repeat capability probing or create an audit PR just to restate HOLD.
+
+Pre-merge review added terminal-isolation compatibility regression: the prior
+candidate incorrectly invented terminal interval-status mappings. Three
+terminal-state subcases failed before the refinement; readiness now checks HELD
+only for the ACTIVE release target, preserving terminal isolation semantics.

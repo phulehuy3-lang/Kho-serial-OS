@@ -113,3 +113,25 @@ All examples and tests use synthetic short identifiers and ranges. This
 baseline contains no live HOLD snapshot, external-system identifier, private
 registry name, operational count, credential, production adapter, or write
 path.
+
+## PHU-8 release snapshot binding
+
+Release readiness requires HELD interval state for an ACTIVE target; unknown
+or contradictory active state blocks. No terminal interval-status mapping is
+introduced for RELEASED, REVERSED or CANCELLED isolation records.
+Registry and interval range text must match exactly, in addition to target and
+category parity. Conflicting records sharing the target HOLD ID block; only an
+exact self record is ignored.
+
+Release readiness requires an explicit tuple of interval peers (an empty tuple
+is allowed only with a complete snapshot), native True peer_snapshot_complete,
+matching peer_snapshot_category and a nonempty peer_capture_marker. Every peer
+must belong to that interval/category snapshot, with unique nonempty HOLD IDs.
+Missing metadata, malformed peer collections and scope contradictions return
+HOLD. Business gate order remains EVIDENCE -> EXACT_SOURCE_DATE -> ACTIVE_OVERLAP
+-> STOCK_YEAR, after state validation.
+
+Completeness/freshness and snapshot origin must be established by the external
+canonical caller; these are materialized evidence inputs, not provider reads.
+Capture labels cannot prove registry completeness. Production integration and
+acceptance remain HOLD until that caller binding is independently evidenced.

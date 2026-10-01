@@ -126,7 +126,7 @@ class HoldReadbackDecision:
 
 
 def _clean(value: str | None) -> str:
-    return "" if value is None else value.strip()
+    return value.strip() if type(value) is str else ""
 
 
 def _strict_bool(value: object) -> bool:
@@ -221,8 +221,12 @@ def validate_hold_record(
         else:
             if interval.interval_id != record.target_id:
                 blockers.append("HOLD_ISOLATION:TARGET_INTERVAL_MISMATCH")
-            if interval.category != record.category:
+            if not _clean(record.category) or interval.category != record.category:
                 blockers.append("HOLD_ISOLATION:CATEGORY_MISMATCH")
+            if (interval.range_start != record.range_start or interval.range_end != record.range_end
+                    or _ranges_overlap(interval.range_start, interval.range_end,
+                                       interval.range_start, interval.range_end) is None):
+                blockers.append("HOLD_ISOLATION:INTERVAL_RANGE_MISMATCH")
             if not _strict_bool(interval.hold_flag):
                 blockers.append("HOLD_ISOLATION:INTERVAL_HOLDFLAG_NOT_BOOLEAN")
             elif record.status == "ACTIVE" and interval.hold_flag is not True:
@@ -253,6 +257,8 @@ def blocking_overlapping_interval_holds(
     blockers: list[str] = []
     for peer in peers:
         if peer.hold_id == target.hold_id:
+            if peer != target:
+                blockers.append(_peer_id(peer))
             continue
         if peer.scope_type != "INTERVAL":
             continue
@@ -288,7 +294,10 @@ def blocking_overlapping_interval_holds(
 def evaluate_hold_release_readiness(
     record: HoldRecord,
     interval: IntervalHoldState,
-    peers: Iterable[HoldRecord] = (),
+    peers: Iterable[HoldRecord] | None = None,
+    *, peer_snapshot_complete: bool = False,
+    peer_snapshot_category: str | None = None,
+    peer_capture_marker: str | None = None,
 ) -> HoldReleaseReadiness:
     isolation = validate_hold_record(record, interval)
     if not isolation.ready:
@@ -305,6 +314,7 @@ def evaluate_hold_release_readiness(
         record.scope_type != "INTERVAL"
         or record.status != "ACTIVE"
         or record.hold_flag is not True
+        or interval.status != "HELD"
     ):
         return HoldReleaseReadiness(
             status=HOLD,
@@ -341,6 +351,31 @@ def evaluate_hold_release_readiness(
             active_overlap_peer_ids=(),
         )
 
+    if (type(peers) is not tuple or any(type(peer) is not HoldRecord for peer in peers)
+            or peer_snapshot_complete is not True
+            or peer_snapshot_category != record.category
+            or type(peer_capture_marker) is not str or not peer_capture_marker.strip()):
+        return HoldReleaseReadiness(
+            status=HOLD, ready=False, canonical_decision=BLOCK_OVERLAP,
+            first_blocking_gate="ACTIVE_OVERLAP",
+            blocking_reasons=("HOLD_RELEASE:PEER_SNAPSHOT_MISSING_OR_INCOMPLETE",),
+            active_overlap_peer_ids=(),
+        )
+    if any(peer.scope_type != "INTERVAL" or peer.category != record.category for peer in peers):
+        return HoldReleaseReadiness(
+            status=HOLD, ready=False, canonical_decision=BLOCK_OVERLAP,
+            first_blocking_gate="ACTIVE_OVERLAP",
+            blocking_reasons=("HOLD_RELEASE:PEER_SNAPSHOT_SCOPE_MISMATCH",),
+            active_overlap_peer_ids=(),
+        )
+    peer_ids = [peer.hold_id for peer in peers]
+    if any(not _clean(peer_id) for peer_id in peer_ids) or len(set(peer_ids)) != len(peer_ids):
+        return HoldReleaseReadiness(
+            status=HOLD, ready=False, canonical_decision=BLOCK_OVERLAP,
+            first_blocking_gate="ACTIVE_OVERLAP",
+            blocking_reasons=("HOLD_RELEASE:PEER_ID_MISSING_OR_DUPLICATE",),
+            active_overlap_peer_ids=(),
+        )
     overlap_peers = blocking_overlapping_interval_holds(record, peers)
     if overlap_peers:
         return HoldReleaseReadiness(

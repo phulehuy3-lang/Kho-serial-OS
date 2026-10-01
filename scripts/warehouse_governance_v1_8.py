@@ -3,6 +3,8 @@
 import hashlib
 import json
 
+from scripts.source_readback_v0_1 import SourceReadbackRequest, evaluate_source_readback
+
 
 class GateError(ValueError):
     """A warehouse governance gate failed closed."""
@@ -44,12 +46,41 @@ def formula_hash(formulas) -> str:
 PHASES = ("PREPARED", "PREWRITE_SEALED", "WRITTEN", "READBACK_PASS", "CLOSED")
 
 
-def validate_transition(previous, following, *, manifest_readback=False, reconciliation=False, audit=False) -> bool:
+def _validate_transaction_readback(evidence, binding) -> None:
+    """Validate materialized capture against the caller's sealed transaction binding."""
+    if type(evidence) is not dict or type(binding) is not dict:
+        raise GateError("MISSING_READBACK_EVIDENCE")
+    required = ("task_id", "scope_id", "payload_hash", "readback_capture_marker", "written_capture_marker")
+    if any(type(binding.get(k)) is not str or not binding[k] or binding[k] != binding[k].strip()
+           for k in required):
+        raise GateError("INVALID_READBACK_BINDING")
+    if (type(evidence.get("evidence_id")) is not str or not evidence["evidence_id"].strip()
+            or evidence.get("capture_kind") != "INDEPENDENT_READBACK"):
+        raise GateError("INVALID_READBACK_PROVENANCE")
+    request = evidence.get("request")
+    if type(request) is not SourceReadbackRequest or evaluate_source_readback(request).status != "PASS":
+        raise GateError("READBACK_EVIDENCE_NOT_PASS")
+    record = request.readback_record
+    fields = {field.field_id: field.value for field in record.fields}
+    if (record.task_id != binding["task_id"] or record.scope_id != binding["scope_id"]
+            or record.capture_marker != binding["readback_capture_marker"]
+            or record.capture_marker == binding["written_capture_marker"]
+            or type(fields.get("payload_hash")) is not str
+            or fields["payload_hash"] != binding["payload_hash"]):
+        raise GateError("READBACK_TRANSACTION_BINDING_MISMATCH")
+
+
+def validate_transition(previous, following, *, manifest_readback=False, reconciliation=False, audit=False,
+                        readback_evidence=None, transaction_binding=None) -> bool:
     if previous not in PHASES or following not in PHASES or PHASES.index(following) != PHASES.index(previous) + 1:
         raise GateError("INVALID_STATE_TRANSITION")
-    if following == "PREWRITE_SEALED" and not manifest_readback:
+    if any(type(value) is not bool for value in (manifest_readback, reconciliation, audit)):
+        raise GateError("GATE_BOOLEAN_INVALID")
+    if following == "PREWRITE_SEALED" and manifest_readback is not True:
         raise GateError("MISSING_PREWRITE_MANIFEST")
-    if following == "CLOSED" and not (reconciliation and audit):
+    if following in {"READBACK_PASS", "CLOSED"}:
+        _validate_transaction_readback(readback_evidence, transaction_binding)
+    if following == "CLOSED" and not (reconciliation is True and audit is True):
         raise GateError("MISSING_CLOSE_EVIDENCE")
     return True
 
@@ -145,8 +176,9 @@ def exact_middle_split(source_start, source_end, physical_start, physical_end) -
 
 def validate_postfacto_physical(*, signed_range, booked_range, unique_source, sufficient_stock,
                                hold_clear, no_prior_out, owner_confirmed, reranked=False) -> bool:
-    if (signed_range != booked_range or reranked or not all((unique_source, sufficient_stock,
-            hold_clear, no_prior_out, owner_confirmed))):
+    if (signed_range != booked_range or reranked is not False
+            or any(value is not True for value in (unique_source, sufficient_stock,
+                                                  hold_clear, no_prior_out, owner_confirmed))):
         raise GateError("POSTFACTO_EXACT_PHYSICAL_GATE")
     return True
 
@@ -158,6 +190,6 @@ SESSION_GATES = ("terminal_coverage", "no_orphan_child", "unique_transaction_key
 
 
 def classify_global_session(gates, *, repaired_historical_defects=False) -> str:
-    if any(gates.get(k) is not True for k in SESSION_GATES):
+    if type(repaired_historical_defects) is not bool or any(gates.get(k) is not True for k in SESSION_GATES):
         return "BLOCKED_SAFE"
     return "REMEDIATED_PASS" if repaired_historical_defects else "CLEAN_PASS"

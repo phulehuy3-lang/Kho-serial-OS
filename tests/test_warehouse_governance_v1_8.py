@@ -2,6 +2,10 @@
 
 import unittest
 
+from scripts.source_readback_v0_1 import (
+    CONTRACT_ID, SourceFieldValue, MaterializedSourceRecord, SourceReadbackRequest,
+)
+
 from scripts.warehouse_governance_v1_8 import (
     GateError, PROTECTED, SESSION_GATES, classify_global_session,
     composite_identity, duplicate_decision, exact_middle_split, formula_hash,
@@ -11,6 +15,75 @@ from scripts.warehouse_governance_v1_8 import (
 
 
 class GovernanceTests(unittest.TestCase):
+    def test_boolean_gate_inputs_fail_closed(self):
+        for bad in ("FALSE", "TRUE", 0, 1, None, [], {}, [False]):
+            with self.subTest(value=bad):
+                with self.assertRaises(GateError):
+                    validate_transition("PREPARED", "PREWRITE_SEALED", manifest_readback=bad)
+                with self.assertRaises(GateError):
+                    validate_transition("READBACK_PASS", "CLOSED", reconciliation=bad, audit=True)
+                good = dict(signed_range=("1000", "1001"), booked_range=("1000", "1001"),
+                            unique_source=True, sufficient_stock=True, hold_clear=True,
+                            no_prior_out=True, owner_confirmed=True, reranked=False)
+                for key in ("unique_source", "sufficient_stock", "hold_clear", "no_prior_out", "owner_confirmed", "reranked"):
+                    with self.subTest(key=key), self.assertRaises(GateError):
+                        validate_postfacto_physical(**dict(good, **{key: bad}))
+
+    def test_readback_transition_and_close_require_evidence(self):
+        for previous, following in (("WRITTEN", "READBACK_PASS"), ("READBACK_PASS", "CLOSED")):
+            with self.subTest(following=following), self.assertRaises(GateError):
+                validate_transition(previous, following, reconciliation=True, audit=True)
+
+    def readback_fixture(self):
+        fields = (SourceFieldValue("payload_hash", "synthetic-payload"), SourceFieldValue("quantity", 2))
+        expected = MaterializedSourceRecord("TASK-A", "SCOPE-A", "CAPTURE-AFTER", fields)
+        actual = MaterializedSourceRecord("TASK-A", "SCOPE-A", "CAPTURE-AFTER", fields)
+        evidence = dict(evidence_id="EVID-A", capture_kind="INDEPENDENT_READBACK",
+                        request=SourceReadbackRequest(CONTRACT_ID, expected, actual))
+        binding = dict(task_id="TASK-A", scope_id="SCOPE-A", payload_hash="synthetic-payload",
+                       readback_capture_marker="CAPTURE-AFTER", written_capture_marker="CAPTURE-BEFORE")
+        return evidence, binding
+
+    def test_readback_exact_binding_and_complete_state_path(self):
+        evidence, binding = self.readback_fixture()
+        for previous, following in zip(("PREPARED", "PREWRITE_SEALED", "WRITTEN", "READBACK_PASS"),
+                                       ("PREWRITE_SEALED", "WRITTEN", "READBACK_PASS", "CLOSED")):
+            self.assertTrue(validate_transition(previous, following, manifest_readback=True,
+                            reconciliation=True, audit=True, readback_evidence=evidence,
+                            transaction_binding=binding))
+        for key in ("task_id", "scope_id", "payload_hash", "readback_capture_marker"):
+            for value in (None, "", "OTHER"):
+                with self.subTest(key=key, value=value), self.assertRaises(GateError):
+                    validate_transition("WRITTEN", "READBACK_PASS", readback_evidence=evidence,
+                                        transaction_binding=dict(binding, **{key: value}))
+        for key, value in (("evidence_id", ""), ("capture_kind", "WRITER_ASSERTION"), ("request", None)):
+            with self.subTest(key=key), self.assertRaises(GateError):
+                validate_transition("WRITTEN", "READBACK_PASS", readback_evidence=dict(evidence, **{key: value}),
+                                    transaction_binding=binding)
+        with self.assertRaises(GateError):
+            validate_transition("WRITTEN", "READBACK_PASS", readback_evidence=evidence,
+                                transaction_binding=dict(binding, written_capture_marker="CAPTURE-AFTER"))
+
+    def test_readback_missing_type_value_and_capture_drift_block_close(self):
+        evidence, binding = self.readback_fixture()
+        request = evidence["request"]
+        for actual in (None,
+                       MaterializedSourceRecord("TASK-B", "SCOPE-A", "CAPTURE-AFTER", request.expected_record.fields),
+                       MaterializedSourceRecord("TASK-A", "SCOPE-A", "STALE", request.expected_record.fields),
+                       MaterializedSourceRecord("TASK-A", "SCOPE-A", "CAPTURE-AFTER", (SourceFieldValue("payload_hash", "OTHER"),)),
+                       MaterializedSourceRecord("TASK-A", "SCOPE-A", "CAPTURE-AFTER", (SourceFieldValue("payload_hash", "synthetic-payload"), SourceFieldValue("quantity", "2")))):
+            broken = dict(evidence, request=SourceReadbackRequest(CONTRACT_ID, request.expected_record, actual))
+            for previous, following in (("WRITTEN", "READBACK_PASS"), ("READBACK_PASS", "CLOSED")):
+                with self.subTest(actual=actual, following=following), self.assertRaises(GateError):
+                    validate_transition(previous, following, reconciliation=True, audit=True,
+                                        readback_evidence=broken, transaction_binding=binding)
+        for key in ("reconciliation", "audit"):
+            for bad in (False, "FALSE", 1, None):
+                options = dict(reconciliation=True, audit=True, readback_evidence=evidence, transaction_binding=binding)
+                options[key] = bad
+                with self.subTest(key=key, bad=bad), self.assertRaises(GateError):
+                    validate_transition("READBACK_PASS", "CLOSED", **options)
+
     def test_generic_inbound_only_four_cells(self):
         self.assertTrue(validate_inbound_touch_set([("BUSINESS", c) for c in "ACDO"]))
 
