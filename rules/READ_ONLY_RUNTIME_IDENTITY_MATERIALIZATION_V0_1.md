@@ -205,3 +205,31 @@ step. Do not recreate the already-materialized PRG-02 Drive topology.
 - no warehouse Production read
 - target authority unchanged
 - MASTER LIVE unchanged
+
+
+## 9. Execution-capability checkpoint — 2026-10-03
+
+A fresh capability re-audit did not authorize or create the service account.
+
+New external capability evidence:
+
+- Google documents a first-party IAM remote MCP server, but this ChatGPT
+  session has no connected IAM MCP tool;
+- Google Cloud CLI remote MCP still excludes
+  `gcloud iam service-accounts`;
+- the current runtime still has no `gcloud`, ADC, or
+  `GOOGLE_APPLICATION_CREDENTIALS`;
+- an optional remote-terminal connector is discoverable, but it is not
+  connected and therefore supplies no authenticated Google Cloud authority.
+
+Accordingly, this materialization action remains:
+
+**`PARTIAL / HOLD_GOOGLE_CLOUD_IAM_EXECUTION_CAPABILITY_UNAVAILABLE`**
+
+Resume point is unchanged: dedicated service-account creation, followed by
+provider-native reacquisition, zero USER_MANAGED key verification,
+service-account IAM-policy read-back, private identity record materialization,
+deterministic hash recomputation, and a distinct verification event.
+
+Do not recreate the already-materialized private PRG-02 Drive topology.
+
