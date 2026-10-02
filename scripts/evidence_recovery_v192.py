@@ -3,11 +3,11 @@ from dataclasses import dataclass
 import hashlib
 
 
-def _valid_text(value):
+def _valid_text(value: object) -> bool:
     return type(value) is str and bool(value) and value == value.strip()
 
 
-def _valid_sha256(value):
+def _valid_sha256(value: object) -> bool:
     return type(value) is str and len(value) == 64 and all(c in "0123456789abcdef" for c in value)
 
 
@@ -214,7 +214,9 @@ RECOVERY_STAGES_V192 = (
 )
 
 
-def run_disposable_evidence_workflow_v192(request, sandbox):
+def run_disposable_evidence_workflow_v192(
+    request: object, sandbox: object,
+) -> tuple[EvidenceRecoveryResultV192, tuple[str, ...]]:
     """Execute G1A/B/C before a disposable marker; no production writer exists.
 
     The sandbox must be an exact list, not a callback or provider adapter.
