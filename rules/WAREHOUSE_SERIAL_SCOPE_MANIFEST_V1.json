@@ -1254,6 +1254,30 @@
         "WAREHOUSE_DOCUMENT_INTEGRITY"
       ],
       "rationale": "Synthetic regressions for serial split conservation, formula preservation and close gates."
+    },
+    {
+      "path": "scripts/evidence_recovery_v192.py",
+      "capabilities": [
+        "INBOUND",
+        "WAREHOUSE_DOCUMENT_INTEGRITY"
+      ],
+      "rationale": "Prospective offline evidence recovery and byte identity regression before disposable mutation; no production authority."
+    },
+    {
+      "path": "tests/test_evidence_recovery_v192.py",
+      "capabilities": [
+        "INBOUND",
+        "WAREHOUSE_DOCUMENT_INTEGRITY"
+      ],
+      "rationale": "Prospective offline evidence recovery and byte identity regression before disposable mutation; no production authority."
+    },
+    {
+      "path": "rules/SOP_INBOUND_STANDARD_V1_9_2_ENFORCEMENT.md",
+      "capabilities": [
+        "INBOUND",
+        "WAREHOUSE_DOCUMENT_INTEGRITY"
+      ],
+      "rationale": "Prospective offline evidence recovery and byte identity regression before disposable mutation; no production authority."
     }
   ]
 }
