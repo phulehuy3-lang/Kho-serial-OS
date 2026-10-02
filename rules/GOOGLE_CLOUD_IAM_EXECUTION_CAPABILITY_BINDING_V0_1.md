@@ -286,20 +286,21 @@ Current ChatGPT/plugin/runtime evidence:
 - `GOOGLE_APPLICATION_CREDENTIALS` is unset and no Application Default
   Credentials file is present.
 
-Google's current official documentation now exposes an IAM remote MCP server as
-a first-party IAM execution surface. However, that IAM MCP endpoint is not
-currently connected as a ChatGPT tool in this operating session. Therefore it
-is a viable future capability class, not a bound execution capability.
+Google's current official documentation exposes an IAM remote MCP server, but
+its published MCP reference currently exposes tools for IAM v1 roles and v2 deny
+policies rather than service-account lifecycle operations. It therefore does
+not satisfy Issue #109's required create/get/key-list/IAM-policy sequence.
 
-Google's current Cloud CLI remote MCP documentation continues to list
-`gcloud iam service-accounts` among the unsupported command groups, so the
-Cloud CLI remote MCP path still cannot satisfy Issue #109 by itself.
+Google's current Cloud CLI remote MCP documentation also lists
+`gcloud iam service-accounts` among unsupported command groups, so that
+remote MCP path cannot satisfy Issue #109 either.
 
-A separate remote-terminal connector to a user-controlled machine is now
-discoverable in the ChatGPT plugin catalog. It could satisfy accepted class C
+A separate remote-terminal connector to a user-controlled machine is
+discoverable in the ChatGPT plugin catalog. It can satisfy accepted class C
 only after the user explicitly connects an authorized machine and the session
-proves an authenticated Google Cloud CLI/API boundary. Discovery alone does not
-clear this control.
+freshly proves an authenticated Google Cloud project/account boundary with CLI
+or direct REST/API capability for the required service-account operations.
+Discovery alone does not clear this control.
 
 Verdict remains:
 
@@ -307,11 +308,14 @@ Verdict remains:
 
 Updated viable next paths:
 
-1. connect a first-party Google Cloud IAM remote MCP endpoint that exposes
-   service-account create/get, key-list and IAM-policy read-back; or
-2. connect an explicitly authorized user-controlled terminal/Cloud Shell/CLI
-   environment and prove authenticated project/account authority before any
-   IAM mutation.
+1. connect an explicitly authorized user-controlled terminal/Cloud Shell/CLI or
+   direct REST/API environment and prove authenticated project/account authority
+   before any IAM mutation; or
+2. use a future connector only if its exact published tool list actually exposes
+   service-account create/get, USER_MANAGED key-list and service-account
+   IAM-policy read-back.
+
+The current Google IAM remote MCP server is **not** such a connector.
 
 The existing PRG-02 Drive topology must not be recreated.
 
