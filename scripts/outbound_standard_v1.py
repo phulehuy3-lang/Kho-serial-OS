@@ -176,14 +176,15 @@ def validate_rank_plan_decision(
 def classify_single_pass_close(state: SinglePassState) -> str:
     """Require one bounded mutation batch and one consolidated read-back."""
 
-    for field_name in (
-        "fresh_snapshot",
-        "prewrite_manifest",
-        "consolidated_readback",
-        "final_anti_replay_lock",
-        "repaired_historical_defect",
-    ):
-        if type(getattr(state, field_name)) is not bool:
+    strict_boolean_fields = (
+        ("fresh_snapshot", state.fresh_snapshot),
+        ("prewrite_manifest", state.prewrite_manifest),
+        ("consolidated_readback", state.consolidated_readback),
+        ("final_anti_replay_lock", state.final_anti_replay_lock),
+        ("repaired_historical_defect", state.repaired_historical_defect),
+    )
+    for field_name, field_value in strict_boolean_fields:
+        if type(field_value) is not bool:
             raise OutboundControlError(f"{field_name.upper()}_TYPE_INVALID")
 
     if (
