@@ -162,6 +162,37 @@ separate OPEN/HOLD items. `LiveReadAuthorized=False`,
 `ExecutableAcquisitionAuthorized=False`, and `ProductionWriteAuthorized=False`
 remain unchanged.
 
+## PRG-02 IAM/runtime blocker refresh — 2026-10-03
+
+Issues #109 and #111 remain **OPEN/HOLD** after a fresh execution-capability
+re-audit.
+
+Current evidence:
+
+- no connected ChatGPT tool exposes Google Cloud IAM service-account lifecycle;
+- no installable Google Cloud IAM connector is available in the current plugin
+  catalog; BigQuery remains unavailable and is not a lifecycle substitute;
+- the execution container has no `gcloud`, ADC or
+  `GOOGLE_APPLICATION_CREDENTIALS`;
+- Google now documents a first-party IAM remote MCP server, but it is not
+  connected to this session;
+- Google Cloud CLI remote MCP still excludes
+  `gcloud iam service-accounts`, so it remains insufficient for #109;
+- a remote-terminal path to a user-controlled machine is discoverable and could
+  satisfy the approved CLI/API capability class only after explicit connection
+  and authenticated project/account read-back.
+
+Therefore #111 is not cleared and #109 must not proceed to service-account
+creation yet. The already-materialized private PRG-02 topology remains the
+resume point and must not be recreated.
+
+Locked state remains:
+`LiveReadAuthorized=False`,
+`ExecutableAcquisitionAuthorized=False`,
+`ProductionWriteAuthorized=False`,
+Production writer = HOLD.
+
+
 ## Smallest next action
 
 PHU-8 requires no further action at this checkpoint. Reopen its acceptance only

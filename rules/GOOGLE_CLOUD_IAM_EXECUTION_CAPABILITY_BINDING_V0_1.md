@@ -267,3 +267,51 @@ under its current command restrictions.
 - no warehouse Production read
 - target authority unchanged
 - MASTER LIVE unchanged
+
+
+## 11. Capability re-audit — 2026-10-03
+
+Fresh capability discovery was repeated after PHU-8 closure.
+
+Current ChatGPT/plugin/runtime evidence:
+
+- no connected ChatGPT tool exposes Google Cloud IAM service-account lifecycle
+  operations;
+- plugin discovery still exposes no installable Google Cloud IAM/service-account
+  lifecycle connector;
+- the BigQuery connector remains disabled by administrator policy and is not a
+  substitute for the required service-account create/get/key-list/IAM-policy
+  sequence;
+- the current execution container still has no `gcloud` executable;
+- `GOOGLE_APPLICATION_CREDENTIALS` is unset and no Application Default
+  Credentials file is present.
+
+Google's current official documentation now exposes an IAM remote MCP server as
+a first-party IAM execution surface. However, that IAM MCP endpoint is not
+currently connected as a ChatGPT tool in this operating session. Therefore it
+is a viable future capability class, not a bound execution capability.
+
+Google's current Cloud CLI remote MCP documentation continues to list
+`gcloud iam service-accounts` among the unsupported command groups, so the
+Cloud CLI remote MCP path still cannot satisfy Issue #109 by itself.
+
+A separate remote-terminal connector to a user-controlled machine is now
+discoverable in the ChatGPT plugin catalog. It could satisfy accepted class C
+only after the user explicitly connects an authorized machine and the session
+proves an authenticated Google Cloud CLI/API boundary. Discovery alone does not
+clear this control.
+
+Verdict remains:
+
+**`HOLD_GOOGLE_CLOUD_IAM_EXECUTION_CAPABILITY_UNAVAILABLE`**
+
+Updated viable next paths:
+
+1. connect a first-party Google Cloud IAM remote MCP endpoint that exposes
+   service-account create/get, key-list and IAM-policy read-back; or
+2. connect an explicitly authorized user-controlled terminal/Cloud Shell/CLI
+   environment and prove authenticated project/account authority before any
+   IAM mutation.
+
+The existing PRG-02 Drive topology must not be recreated.
+
