@@ -174,10 +174,11 @@ Current evidence:
   catalog; BigQuery remains unavailable and is not a lifecycle substitute;
 - the execution container has no `gcloud`, ADC or
   `GOOGLE_APPLICATION_CREDENTIALS`;
-- Google now documents a first-party IAM remote MCP server, but it is not
-  connected to this session;
+- Google's current IAM remote MCP reference exposes role and deny-policy tools,
+  not service-account lifecycle tools, so it is insufficient for #109 even if
+  connected;
 - Google Cloud CLI remote MCP still excludes
-  `gcloud iam service-accounts`, so it remains insufficient for #109;
+  `gcloud iam service-accounts`, so it is also insufficient for #109;
 - a remote-terminal path to a user-controlled machine is discoverable and could
   satisfy the approved CLI/API capability class only after explicit connection
   and authenticated project/account read-back.
