@@ -213,8 +213,8 @@ A fresh capability re-audit did not authorize or create the service account.
 
 New external capability evidence:
 
-- Google documents a first-party IAM remote MCP server, but this ChatGPT
-  session has no connected IAM MCP tool;
+- Google's published IAM remote MCP reference exposes IAM role and deny-policy
+  tools, not service-account lifecycle tools, so it cannot satisfy this action;
 - Google Cloud CLI remote MCP still excludes
   `gcloud iam service-accounts`;
 - the current runtime still has no `gcloud`, ADC, or
