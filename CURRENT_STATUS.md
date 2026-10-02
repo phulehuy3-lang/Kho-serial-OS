@@ -1,6 +1,6 @@
 # Kho-serial-OS — Current Status
 
-Status snapshot: 2026-09-29 (Asia/Ho_Chi_Minh).
+Status snapshot: 2026-10-03 (Asia/Ho_Chi_Minh).
 
 This page records a verified repository snapshot, not a live authority grant. A
 merge of this document necessarily creates a newer main SHA; use the
@@ -84,6 +84,9 @@ created by those repository actions.
 
 ## PHU-8 post-merge remediation — 2026-10-01
 
+> Historical checkpoint. The PARTIAL/HOLD state in this section was superseded by the accepted closure checkpoint on 2026-10-03 below.
+
+
 Baseline main `6a687f7123788dc00e4e6fea40242692e8072ec3` passed 372 tests and
 five checks but reproduced boolean, READBACK_PASS and HOLD-release false-PASS.
 [PR #117](https://github.com/phulehuy3-lang/Kho-serial-OS/pull/117) is merged.
@@ -126,10 +129,45 @@ this checklist grants no provider capability.
 read, MASTER LIVE change or PRG-02 recreation is introduced. P2 serial
 Unicode/overlong follow-up remains outside this P1 remediation.
 
+## PHU-8 closure — 2026-10-03
+
+PHU-8 is **DONE** and canonical regression `RG-0122` is **PASS** for
+operational integration acceptance on an isolated synthetic provider fixture.
+
+The accepted on-demand ChatGPT → Google Sheets path materialized the evidence
+that had remained missing at the 2026-10-01 checkpoint:
+
+- immutable ORIGINAL evidence remained byte-identical and retained the same
+  provider `modified_time`; an overwrite attempt was blocked before mutation
+  and verification was append-only;
+- the writer was bound to a freshly read header map (`Status:D`); a drifted
+  header moving `Status` to column C was blocked before the adversarial target
+  could be mutated;
+- descendant traversal and same-carrier peer capture were complete; the actual
+  11 native session gates classified `CLEAN_PASS`, while a forced-false
+  adversarial gate classified `BLOCKED_SAFE`;
+- the finalized manifest targeted only `D2`, the provider mutation touched only
+  `D2`, and independent full-row read-back confirmed `D2=ACCEPTED` with all
+  non-target sentinels unchanged.
+
+Canonical evidence is recorded in `NJ-0292` and `RG-0122`. The operational
+read model reports `PRODUCTION_SYNCED / TESTED_PASS`, with regression
+`NOT_RUN=0`, open risk `0`, and open P1 `0` at the closure checkpoint.
+
+This PASS does **not** authorize a Production writer, does not relabel historical
+source-rank evidence, and does not release PRG-02 runtime/IAM holds.
+[#109](https://github.com/phulehuy3-lang/Kho-serial-OS/issues/109) and
+[#111](https://github.com/phulehuy3-lang/Kho-serial-OS/issues/111) remain
+separate OPEN/HOLD items. `LiveReadAuthorized=False`,
+`ExecutableAcquisitionAuthorized=False`, and `ProductionWriteAuthorized=False`
+remain unchanged.
+
 ## Smallest next action
 
-For PHU-8, inspect already-materialized operational caller and acceptance evidence
-against the matrix above. Keep PARTIAL/HOLD when evidence is absent.
+PHU-8 requires no further action at this checkpoint. Reopen its acceptance only
+if the caller/workflow, SOP v1.9.x, header/schema binding, peer/descendant logic,
+manifest-touch contract, readback API, or a new false-PASS changes the accepted
+assumptions.
 
 Re-evaluate #111 only when a real provider-native Google Cloud IAM execution
 path exists for create/get, zero USER_MANAGED keys and IAM-policy read-back.
