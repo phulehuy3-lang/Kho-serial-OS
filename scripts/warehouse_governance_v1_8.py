@@ -193,3 +193,23 @@ def classify_global_session(gates, *, repaired_historical_defects=False) -> str:
     if type(repaired_historical_defects) is not bool or any(gates.get(k) is not True for k in SESSION_GATES):
         return "BLOCKED_SAFE"
     return "REMEDIATED_PASS" if repaired_historical_defects else "CLEAN_PASS"
+
+
+
+def validate_inbound_transition_v1_9_2(previous, following, *, recovery_request,
+        task_id, resolved_task_ids, frozen_generation, current_generation,
+        prior_gates_pass, **transition_evidence) -> object:
+    """Prospective v1.9.2 caller: recheck evidence before seal AND write.
+
+    Legacy validate_transition remains the v1.8 API, never a v1.9.2 substitute.
+    This pure guard does not execute or authorize a production write.
+    """
+    from scripts.evidence_recovery_v1_9_2 import evaluate_prewrite
+
+    result = evaluate_prewrite(recovery_request, task_id=task_id,
+        resolved_task_ids=resolved_task_ids, frozen_generation=frozen_generation,
+        current_generation=current_generation, prior_gates_pass=prior_gates_pass)
+    if result.status != 'PREWRITE_READY':
+        raise GateError('V192_EVIDENCE_PREWRITE_BLOCK:' + result.status)
+    validate_transition(previous, following, **transition_evidence)
+    return result
