@@ -1254,6 +1254,54 @@
         "WAREHOUSE_DOCUMENT_INTEGRITY"
       ],
       "rationale": "Synthetic regressions for serial split conservation, formula preservation and close gates."
+    },
+    {
+      "path": "scripts/evidence_recovery_v1_9_2.py",
+      "capabilities": [
+        "INBOUND",
+        "WAREHOUSE_DOCUMENT_INTEGRITY"
+      ],
+      "rationale": "Prospective evidence discovery, identity and canonical readback gates for inbound v1.9.2; synthetic regression only."
+    },
+    {
+      "path": "tests/test_evidence_recovery_v1_9_2.py",
+      "capabilities": [
+        "INBOUND",
+        "WAREHOUSE_DOCUMENT_INTEGRITY"
+      ],
+      "rationale": "Prospective evidence discovery, identity and canonical readback gates for inbound v1.9.2; synthetic regression only."
+    },
+    {
+      "path": "rules/SOP_INBOUND_V1_9_2_ENFORCEMENT.md",
+      "capabilities": [
+        "INBOUND",
+        "WAREHOUSE_DOCUMENT_INTEGRITY"
+      ],
+      "rationale": "Prospective evidence discovery, identity and canonical readback gates for inbound v1.9.2; synthetic regression only."
+    },
+    {
+      "path": "scripts/evidence_recovery_v192.py",
+      "capabilities": [
+        "INBOUND",
+        "WAREHOUSE_DOCUMENT_INTEGRITY"
+      ],
+      "rationale": "Preserve earlier evidence-only v1.9.2 compatibility API and tests; full prewrite compliance requires composite caller."
+    },
+    {
+      "path": "tests/test_evidence_recovery_v192.py",
+      "capabilities": [
+        "INBOUND",
+        "WAREHOUSE_DOCUMENT_INTEGRITY"
+      ],
+      "rationale": "Preserve earlier evidence-only v1.9.2 compatibility API and tests; full prewrite compliance requires composite caller."
+    },
+    {
+      "path": "rules/SOP_INBOUND_STANDARD_V1_9_2_ENFORCEMENT.md",
+      "capabilities": [
+        "INBOUND",
+        "WAREHOUSE_DOCUMENT_INTEGRITY"
+      ],
+      "rationale": "Preserve earlier evidence-only v1.9.2 compatibility API and tests; full prewrite compliance requires composite caller."
     }
   ]
 }
