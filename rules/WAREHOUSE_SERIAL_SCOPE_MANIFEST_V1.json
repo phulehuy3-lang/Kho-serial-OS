@@ -292,6 +292,17 @@
       "rationale": "Required for the warehouse-serial control baseline: INVENTORY, OUTBOUND."
     },
     {
+      "path": "rules/OUTBOUND_STANDARD_V1.md",
+      "capabilities": [
+        "OUTBOUND",
+        "INVENTORY",
+        "SOURCE_ALLOCATION",
+        "WAREHOUSE_DOCUMENT_INTEGRITY",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Partner-agnostic public-safe contract for effective-date semantics, BBGH template authority, field-bound allocation planning, single-pass execution and terminal classification."
+    },
+    {
       "path": "rules/PHASE_2_RELEASE_BASELINE_V0_2_0.md",
       "capabilities": [
         "REPOSITORY_SAFETY",
@@ -706,6 +717,18 @@
       "rationale": "Governed activation and fail-closed enforcement-readback procedure for additive Trusted Public Boundary V3."
     },
     {
+      "path": "rules/WAREHOUSE_GOVERNANCE_CONTRACT_V1_8.md",
+      "capabilities": [
+        "INBOUND",
+        "OUTBOUND",
+        "INVENTORY",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION",
+        "WAREHOUSE_DOCUMENT_INTEGRITY"
+      ],
+      "rationale": "Sanitized specification for inbound cells, serial split, document identity and global reconciliation."
+    },
+    {
       "path": "rules/WAREHOUSE_INBOUND_SCHEMA_CONTRACT_V1.json",
       "capabilities": [
         "INBOUND",
@@ -910,6 +933,18 @@
       "rationale": "Required for the warehouse-serial control baseline: INVENTORY, OUTBOUND."
     },
     {
+      "path": "scripts/outbound_standard_v1.py",
+      "capabilities": [
+        "OUTBOUND",
+        "INVENTORY",
+        "SOURCE_ALLOCATION",
+        "WAREHOUSE_DOCUMENT_INTEGRITY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Pure deterministic enforcement kernel for the five generalized outbound controls; no provider access or Production mutation authority."
+    },
+    {
       "path": "scripts/ranked_prefix_allocation_lineage_v0_1.py",
       "capabilities": [
         "SOURCE_ALLOCATION",
@@ -976,6 +1011,18 @@
         "REPOSITORY_SAFETY"
       ],
       "rationale": "Pure fail-closed evaluator for the warehouse source-role write-intent boundary; no live I/O or mutation."
+    },
+    {
+      "path": "scripts/warehouse_governance_v1_8.py",
+      "capabilities": [
+        "INBOUND",
+        "OUTBOUND",
+        "INVENTORY",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION",
+        "WAREHOUSE_DOCUMENT_INTEGRITY"
+      ],
+      "rationale": "Pure no-provider governance gate validators for serial-range warehouse transactions."
     },
     {
       "path": "tests/test_allocation_nearest_prior.py",
@@ -1103,6 +1150,18 @@
       "rationale": "Required for the warehouse-serial control baseline: INVENTORY, OUTBOUND."
     },
     {
+      "path": "tests/test_outbound_standard_v1.py",
+      "capabilities": [
+        "OUTBOUND",
+        "INVENTORY",
+        "SOURCE_ALLOCATION",
+        "WAREHOUSE_DOCUMENT_INTEGRITY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Synthetic regression coverage for backdated execution modes, template hierarchy, allocation field binding, formula-owned rank plan and single-pass terminal close."
+    },
+    {
       "path": "tests/test_phase2_contract_chain.py",
       "capabilities": [
         "REPOSITORY_SAFETY"
@@ -1213,37 +1272,6 @@
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
     },
     {
-      "path": "tests/test_warehouse_serial_scope_v1.py",
-      "capabilities": [
-        "REPOSITORY_SAFETY"
-      ],
-      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
-    },
-    {
-      "path": "rules/WAREHOUSE_GOVERNANCE_CONTRACT_V1_8.md",
-      "capabilities": [
-        "INBOUND",
-        "OUTBOUND",
-        "INVENTORY",
-        "SERIAL_IDENTITY_RANGE",
-        "RECONCILIATION",
-        "WAREHOUSE_DOCUMENT_INTEGRITY"
-      ],
-      "rationale": "Sanitized specification for inbound cells, serial split, document identity and global reconciliation."
-    },
-    {
-      "path": "scripts/warehouse_governance_v1_8.py",
-      "capabilities": [
-        "INBOUND",
-        "OUTBOUND",
-        "INVENTORY",
-        "SERIAL_IDENTITY_RANGE",
-        "RECONCILIATION",
-        "WAREHOUSE_DOCUMENT_INTEGRITY"
-      ],
-      "rationale": "Pure no-provider governance gate validators for serial-range warehouse transactions."
-    },
-    {
       "path": "tests/test_warehouse_governance_v1_8.py",
       "capabilities": [
         "INBOUND",
@@ -1254,6 +1282,13 @@
         "WAREHOUSE_DOCUMENT_INTEGRITY"
       ],
       "rationale": "Synthetic regressions for serial split conservation, formula preservation and close gates."
+    },
+    {
+      "path": "tests/test_warehouse_serial_scope_v1.py",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
     }
   ]
 }
