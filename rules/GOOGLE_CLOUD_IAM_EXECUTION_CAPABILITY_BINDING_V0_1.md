@@ -1,6 +1,6 @@
 # GOOGLE_CLOUD_IAM_EXECUTION_CAPABILITY_BINDING_V0_1
 
-Status: **HOLD_GOOGLE_CLOUD_IAM_EXECUTION_CAPABILITY_UNAVAILABLE**
+Status: **PASS_PROVIDER_NATIVE_IAM_EXECUTION_CAPABILITY_BOUND**
 
 Issue: #111
 Blocked action: #109
@@ -319,3 +319,36 @@ The current Google IAM remote MCP server is **not** such a connector.
 
 The existing PRG-02 Drive topology must not be recreated.
 
+
+
+## 12. Capability binding PASS — 2026-10-03
+
+A user-controlled Windows execution path was explicitly connected and
+authenticated through Google Cloud CLI.
+
+Fresh provider-native evidence established:
+
+- an authenticated user-controlled Google Cloud CLI session exists;
+- exactly one visible ACTIVE project boundary was selected for this action;
+- project metadata read-back succeeded;
+- service-account get/describe succeeded;
+- service-account USER_MANAGED key-list read-back succeeded;
+- service-account IAM-policy read-back succeeded;
+- project-level permission testing proved `iam.serviceAccounts.create` is
+  granted to the authenticated operator.
+
+The capability proof used provider-native CLI/API read-back rather than
+screenshots or copied console values.
+
+No service account, key, Workload Identity Federation resource, impersonation
+grant, Drive/Sheets permission, warehouse Production payload, MASTER LIVE
+business data or Production writer state was changed while proving this
+capability.
+
+Therefore:
+
+**`GOOGLE_CLOUD_IAM_EXECUTION_CAPABILITY_BINDING_V0_1 =
+PASS_PROVIDER_NATIVE_IAM_EXECUTION_CAPABILITY_BOUND`**
+
+Issue #111 may close. Issue #109 may resume only from its locked dedicated
+service-account materialization step.
