@@ -296,6 +296,36 @@ Locked:
 `ProductionWriteAuthorized=False`,
 Production writer = HOLD.
 
+## PRG-02 historical acceptance-log containment — 2026-10-03
+
+Issue #132 has sufficient evidence for **CLOSED/PASS** after deletion and
+independent read-back.
+
+Verified public-safe state:
+
+- original historical run `37105787660` was preserved privately before
+  deletion;
+- raw historical log SHA-256 =
+  `cf9a3c348ff3183bacfe6e1b6d84d13f4a36abe343663ca095895fdef7b88afe`;
+- privacy logging path was remediated by PR #131;
+- sanitized replacement run `37106077065` succeeded;
+- one-time containment run `37106675321` returned
+  `HISTORICAL_RUN_DELETE_REQUEST=PASS`,
+  `HISTORICAL_RUN_GET_404=PASS`, and
+  `HISTORICAL_RUN_CONTAINMENT=PASS`;
+- independent direct GitHub API read also returned 404 for the deleted run;
+- containment-log SHA-256 =
+  `8d56ecf07a7a59cfdb161a9b3041743dd0a0a144cd8763f8e0de1d151a48afae`;
+- the one-time helper workflow is removed during closure.
+
+No private locator is reproduced in this repository.
+
+Locked:
+`LiveReadAuthorized=False`,
+`ExecutableAcquisitionAuthorized=False`,
+`ProductionWriteAuthorized=False`,
+Production writer = HOLD.
+
 ## Smallest next action
 
 PHU-8 requires no further action at this checkpoint. Reopen its acceptance only
