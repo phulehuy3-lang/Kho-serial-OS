@@ -418,6 +418,39 @@ Locked:
 `ProductionWriteAuthorized=False`,
 Production writer = HOLD.
 
+## Warehouse inbound schema V2 — 2026-10-03
+
+Issue #146 / Linear PHU-18 materializes a versioned public schema compatible
+with Production serial identity semantics.
+
+New bindings:
+
+- `WAREHOUSE_INBOUND_SCHEMA_V2`;
+- schema hash =
+  `9a7036828810234062496179c1fe652b9078b1cd7fbe7f50e77e6991b33de203`;
+- `SR1_HCM_SERIAL_INBOUND_V2`;
+- registry hash =
+  `2c45382441fb98003b7ccb7161944de938a1f91ee8199e1c26771bf6c6d9fbad`.
+
+Serial/range identity is now strict `SERIAL_TEXT`; lexical identity and leading
+zeroes are preserved. Numeric projection is permitted only for pure interval
+ordering/cardinality and never replaces source identity.
+
+The private inbound source selector now passes V2 schema conformance.
+
+However, the current ACTIVE target-authority record still binds the V1
+schema/registry generation.
+
+PRG-04 therefore remains HOLD on:
+
+`HOLD_TARGET_AUTHORITY_SCHEMA_REGISTRY_REBIND_REQUIRED`.
+
+Locked:
+`LiveReadAuthorized=False`,
+`ExecutableAcquisitionAuthorized=False`,
+`ProductionWriteAuthorized=False`,
+Production writer = HOLD.
+
 ## Smallest next action
 
 PHU-8 requires no further action at this checkpoint. Reopen its acceptance only
