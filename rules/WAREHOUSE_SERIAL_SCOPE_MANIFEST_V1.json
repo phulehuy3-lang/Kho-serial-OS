@@ -10,6 +10,16 @@
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
     },
     {
+      "path": ".github/workflows/prg02-wif-credential-acceptance.yml",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "PRG-02 warehouse-runtime authentication acceptance workflow; validates GitHub OIDC to Google WIF short-lived service-account impersonation without Drive/Sheets target reads or Production write authority."
+    },
+    {
       "path": ".github/workflows/trusted-public-boundary-v2.yml",
       "capabilities": [
         "REPOSITORY_SAFETY"
