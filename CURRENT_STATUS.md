@@ -500,3 +500,10 @@ Locked state remains:
 `ExecutableAcquisitionAuthorized=False`,
 `ProductionWriteAuthorized=False`,
 Production writer = HOLD.
+
+
+## 2026-10-04 isolated integration R2 checkpoint
+
+See [isolated integration audit](docs/OS_INTEGRATION_AUDIT_20261004_R2.md).
+
+Synthetic trace and targeted controls PASS; overall assurance PARTIAL. Provider/deployed acceptance and production writer HOLD; all three authorization flags remain False. This is a separate laboratory generation and does not upgrade the original fixture registration or earlier runtime closures.
