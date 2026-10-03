@@ -354,6 +354,32 @@ Locked:
 `ProductionWriteAuthorized=False`,
 Production writer = HOLD.
 
+## PRG-02 direct Drive reader grant — 2026-10-03
+
+Issue #139 has evidence sufficient for
+**PASS_DIRECT_FILE_READER_GRANT_POST_READBACK**.
+
+Fresh provider metadata confirms:
+
+- exact canonical target permission count = 2;
+- owner permission remains present;
+- exactly one dedicated runtime user permission exists;
+- dedicated runtime permission role = `reader`;
+- no domain/group/anyone grant exists;
+- no worksheet/warehouse payload was read during verification;
+- public post-grant snapshot SHA-256 =
+  `889c43fed1253efa21ccb4043ed8c30c24b3fd3823c67ea9b8fd058b0a5c4ad2`.
+
+This closes the provider permission materialization step only.
+
+PRG-03 effective-permission proof remains separate.
+
+Locked:
+`LiveReadAuthorized=False`,
+`ExecutableAcquisitionAuthorized=False`,
+`ProductionWriteAuthorized=False`,
+Production writer = HOLD.
+
 ## Smallest next action
 
 PHU-8 requires no further action at this checkpoint. Reopen its acceptance only
