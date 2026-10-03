@@ -335,6 +335,17 @@
       "rationale": "Required for the warehouse-serial control baseline: INVENTORY, OUTBOUND."
     },
     {
+      "path": "rules/OS_SHARED_ISOLATED_FIXTURE_SOURCE_V1.json",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "SERIAL_IDENTITY_RANGE",
+        "HOLD_QUARANTINE",
+        "RECONCILIATION"
+      ],
+      "rationale": "Synthetic external warehouse fixture identity and schema mapping for isolated serial-control validation; no operational payload or live authority."
+    },
+    {
       "path": "rules/OUTBOUND_STANDARD_V1.md",
       "capabilities": [
         "OUTBOUND",
@@ -567,6 +578,16 @@
         "REPOSITORY_SAFETY"
       ],
       "rationale": "Public-safe PRG-04 closure record for exact five Production surface bindings, deterministic private binding hash, control-plane-only fresh read-back and retained no-live/no-write locks."
+    },
+    {
+      "path": "rules/PRG05_06_COMPLETENESS_AND_PRG07_CONSISTENCY_DESIGN_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Pure inbound universe coverage coherence and non-live completeness/provider-consistency design; no acquisition or authority grant."
     },
     {
       "path": "rules/PUBLIC_CONTROL_CATALOG_V0_1.md",
@@ -1117,6 +1138,16 @@
       "rationale": "Pure composition of already-materialized inbound warehouse control outcomes through exact-set preflight and fail-closed aggregation; no live I/O or write authority."
     },
     {
+      "path": "scripts/inbound_universe_coverage_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Pure inbound universe coverage coherence and non-live completeness/provider-consistency design; no acquisition or authority grant."
+    },
+    {
       "path": "scripts/materialized_lineage_replay_v0_1.py",
       "capabilities": [
         "SOURCE_ALLOCATION",
@@ -1360,6 +1391,16 @@
       "rationale": "Synthetic adversarial regression coverage for exact seven-gate inbound serial composition, binding tamper, HOLD conflict and no-write-authority invariants."
     },
     {
+      "path": "tests/test_inbound_universe_coverage_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Pure inbound universe coverage coherence and non-live completeness/provider-consistency design; no acquisition or authority grant."
+    },
+    {
       "path": "tests/test_materialized_lineage_replay_v0_1.py",
       "capabilities": [
         "SOURCE_ALLOCATION",
@@ -1537,36 +1578,6 @@
         "REPOSITORY_SAFETY"
       ],
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
-    },
-    {
-      "path": "rules/PRG05_06_COMPLETENESS_AND_PRG07_CONSISTENCY_DESIGN_V0_1.md",
-      "capabilities": [
-        "INBOUND",
-        "INVENTORY",
-        "RECONCILIATION",
-        "REPOSITORY_SAFETY"
-      ],
-      "rationale": "Pure inbound universe coverage coherence and non-live completeness/provider-consistency design; no acquisition or authority grant."
-    },
-    {
-      "path": "scripts/inbound_universe_coverage_v0_1.py",
-      "capabilities": [
-        "INBOUND",
-        "INVENTORY",
-        "RECONCILIATION",
-        "REPOSITORY_SAFETY"
-      ],
-      "rationale": "Pure inbound universe coverage coherence and non-live completeness/provider-consistency design; no acquisition or authority grant."
-    },
-    {
-      "path": "tests/test_inbound_universe_coverage_v0_1.py",
-      "capabilities": [
-        "INBOUND",
-        "INVENTORY",
-        "RECONCILIATION",
-        "REPOSITORY_SAFETY"
-      ],
-      "rationale": "Pure inbound universe coverage coherence and non-live completeness/provider-consistency design; no acquisition or authority grant."
     }
   ]
 }
