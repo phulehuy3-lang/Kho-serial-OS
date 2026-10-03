@@ -467,6 +467,16 @@
       "rationale": "Warehouse-specific PRG-01 readiness audit that verifies whether an external target-authority store and related prerequisites are independently evidenced before any target-authority materialization action."
     },
     {
+      "path": "rules/PRG02_GITHUB_OIDC_CREDENTIAL_ACCEPTANCE_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Public-safe PRG-02 authentication acceptance evidence for short-lived GitHub OIDC to Google WIF service-account impersonation without target resource reads or Production write authority."
+    },
+    {
       "path": "rules/PRG02_GITHUB_OIDC_WIF_MATERIALIZATION_V0_1.md",
       "capabilities": [
         "INBOUND",
