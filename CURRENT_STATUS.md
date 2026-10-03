@@ -164,6 +164,9 @@ remain unchanged.
 
 ## PRG-02 IAM/runtime blocker refresh — 2026-10-03
 
+> Historical checkpoint. The OPEN/HOLD state below was superseded by the provider-native capability and identity-materialization closure later on 2026-10-03.
+
+
 Issues #109 and #111 remain **OPEN/HOLD** after a fresh execution-capability
 re-audit.
 
@@ -194,6 +197,45 @@ Locked state remains:
 Production writer = HOLD.
 
 
+## PRG-02 IAM/runtime identity closure — 2026-10-03
+
+Issue #111 is **CLOSED/PASS** and Issue #109 is eligible for **CLOSED/PASS**
+after actual provider-native materialization and independent verification.
+
+Verified public-safe facts:
+
+- provider-native Google Cloud IAM create/get/key-list/getIamPolicy capability
+  was bound through an explicitly authorized user-controlled execution path;
+- exactly one dedicated PRG-02 service account was created;
+- fresh USER_MANAGED key count = 0;
+- fresh service-account IAM-policy binding count = 0;
+- one private principal locator and one private identity-authority record exist;
+- identity-record and locator hashes independently recomputed MATCH;
+- materialization and verification event IDs differ;
+- no WIF resource, impersonation grant, Drive target permission, warehouse
+  Production read, executable acquisition, Production writer or MASTER LIVE
+  mutation occurred.
+
+Public-safe opaque evidence:
+
+- principal locator `PL1_b730cce235f250ae6d1951c83bea6169`
+  / `423b877409d5ff7588fbb4edea3adda7f2746d68022fb471f6f2f7eb1ca629d7`;
+- identity record `RRI1_c81708f91c3167a4aebb7cef5f4f175f`
+  / `62723bff3a70a10e2291dc63396a43eebfe49da8e948fc62fe3e9207051e0b33`;
+- materialization evidence
+  `eed2566bb581aeaca93310c1dc753a68cc906f440e85a32c5b3d3a0ccdc4bd50`;
+- verification evidence
+  `d2c2f24704278de0e0e0bafb56ec66da0b4a074b033885833b7c6469f669e283`.
+
+Private provider principal/project locators and private Drive IDs are not
+published here.
+
+Locked state remains:
+`LiveReadAuthorized=False`,
+`ExecutableAcquisitionAuthorized=False`,
+`ProductionWriteAuthorized=False`,
+Production writer = HOLD.
+
 ## Smallest next action
 
 PHU-8 requires no further action at this checkpoint. Reopen its acceptance only
@@ -201,8 +243,5 @@ if the caller/workflow, SOP v1.9.x, header/schema binding, peer/descendant logic
 manifest-touch contract, readback API, or a new false-PASS changes the accepted
 assumptions.
 
-Re-evaluate #111 only when a real provider-native Google Cloud IAM execution
-path exists for create/get, zero USER_MANAGED keys and IAM-policy read-back.
-Then follow #109's exact action contract. Until then, keep #109/#111 OPEN/HOLD;
-do not repeat capability probing or create an audit PR just to restate HOLD.
+#109/#111 require no further action at this checkpoint. Future work must start at the next separately authorized runtime/WIF/target-access gate; this closure does not authorize live reads, executable acquisition, target sharing or Production writes.
 
