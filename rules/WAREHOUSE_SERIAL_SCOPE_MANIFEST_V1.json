@@ -819,6 +819,26 @@
       "rationale": "Explicit one-person governance decision allowing owner/approver/read-back role collapse only with fresh provider reacquisition, distinct evidence events, deterministic hash and uniqueness recomputation, and explicit no-human-separation disclosure."
     },
     {
+      "path": "rules/TARGET_AUTHORITY_SUCCESSOR_ID_AND_CUTOVER_PROTOCOL_V0_1.json",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Machine-readable prospective successor authority-ID and fail-closed cutover protocol; no Production payload access or write authority."
+    },
+    {
+      "path": "rules/TARGET_AUTHORITY_SUCCESSOR_ID_AND_CUTOVER_PROTOCOL_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Public-safe governance for CSPRNG successor IDs, collision handling and at-most-one-ACTIVE authority cutover semantics."
+    },
+    {
       "path": "rules/TRUSTED_PUBLIC_BOUNDARY_V2_MIGRATION.md",
       "capabilities": [
         "REPOSITORY_SAFETY"
