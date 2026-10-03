@@ -494,6 +494,16 @@
       "rationale": "Public-safe closure evidence that the single historical PRG-02 Actions run exposing a private project locator was preserved privately, deleted, independently verified 404, and the one-time deletion helper removed."
     },
     {
+      "path": "rules/PRG02_TARGET_ACCESS_READINESS_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Public-safe PRG-02 target-access readiness gate permitting only a separately authorized exact file-level Drive reader grant to the dedicated runtime identity, with no live-read or Production-write authority."
+    },
+    {
       "path": "rules/PUBLIC_CONTROL_CATALOG_V0_1.md",
       "capabilities": [
         "REPOSITORY_SAFETY",
