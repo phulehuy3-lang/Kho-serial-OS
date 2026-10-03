@@ -457,6 +457,16 @@
       "rationale": "Warehouse-specific PRG-01 readiness audit that verifies whether an external target-authority store and related prerequisites are independently evidenced before any target-authority materialization action."
     },
     {
+      "path": "rules/PRG02_GITHUB_OIDC_WIF_MATERIALIZATION_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Warehouse-specific PRG-02 keyless GitHub OIDC Workload Identity Federation materialization evidence with exact numeric trust anchors, provider-native read-back and continued no-live/no-write boundaries."
+    },
+    {
       "path": "rules/PUBLIC_CONTROL_CATALOG_V0_1.md",
       "capabilities": [
         "REPOSITORY_SAFETY",
@@ -553,6 +563,22 @@
         "INVENTORY"
       ],
       "rationale": "Required for the warehouse-serial control baseline: SERIAL_IDENTITY_RANGE, INVENTORY."
+    },
+    {
+      "path": "rules/SOP_INBOUND_STANDARD_V1_9_2_ENFORCEMENT.md",
+      "capabilities": [
+        "INBOUND",
+        "WAREHOUSE_DOCUMENT_INTEGRITY"
+      ],
+      "rationale": "Preserve earlier evidence-only v1.9.2 compatibility API and tests; full prewrite compliance requires composite caller."
+    },
+    {
+      "path": "rules/SOP_INBOUND_V1_9_2_ENFORCEMENT.md",
+      "capabilities": [
+        "INBOUND",
+        "WAREHOUSE_DOCUMENT_INTEGRITY"
+      ],
+      "rationale": "Prospective evidence discovery, identity and canonical readback gates for inbound v1.9.2; synthetic regression only."
     },
     {
       "path": "rules/SOURCE_POOL_AUTHORITY_V0_1.md",
@@ -854,6 +880,22 @@
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY, OUTBOUND, INVENTORY."
     },
     {
+      "path": "scripts/evidence_recovery_v1_9_2.py",
+      "capabilities": [
+        "INBOUND",
+        "WAREHOUSE_DOCUMENT_INTEGRITY"
+      ],
+      "rationale": "Prospective evidence discovery, identity and canonical readback gates for inbound v1.9.2; synthetic regression only."
+    },
+    {
+      "path": "scripts/evidence_recovery_v192.py",
+      "capabilities": [
+        "INBOUND",
+        "WAREHOUSE_DOCUMENT_INTEGRITY"
+      ],
+      "rationale": "Preserve earlier evidence-only v1.9.2 compatibility API and tests; full prewrite compliance requires composite caller."
+    },
+    {
       "path": "scripts/fail_closed_release_gates_v0_1.py",
       "capabilities": [
         "REPOSITORY_SAFETY",
@@ -1062,6 +1104,22 @@
         "INVENTORY"
       ],
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY, OUTBOUND, INVENTORY."
+    },
+    {
+      "path": "tests/test_evidence_recovery_v1_9_2.py",
+      "capabilities": [
+        "INBOUND",
+        "WAREHOUSE_DOCUMENT_INTEGRITY"
+      ],
+      "rationale": "Prospective evidence discovery, identity and canonical readback gates for inbound v1.9.2; synthetic regression only."
+    },
+    {
+      "path": "tests/test_evidence_recovery_v192.py",
+      "capabilities": [
+        "INBOUND",
+        "WAREHOUSE_DOCUMENT_INTEGRITY"
+      ],
+      "rationale": "Preserve earlier evidence-only v1.9.2 compatibility API and tests; full prewrite compliance requires composite caller."
     },
     {
       "path": "tests/test_fail_closed_release_gates_v0_1.py",
@@ -1289,54 +1347,6 @@
         "REPOSITORY_SAFETY"
       ],
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
-    },
-    {
-      "path": "scripts/evidence_recovery_v1_9_2.py",
-      "capabilities": [
-        "INBOUND",
-        "WAREHOUSE_DOCUMENT_INTEGRITY"
-      ],
-      "rationale": "Prospective evidence discovery, identity and canonical readback gates for inbound v1.9.2; synthetic regression only."
-    },
-    {
-      "path": "tests/test_evidence_recovery_v1_9_2.py",
-      "capabilities": [
-        "INBOUND",
-        "WAREHOUSE_DOCUMENT_INTEGRITY"
-      ],
-      "rationale": "Prospective evidence discovery, identity and canonical readback gates for inbound v1.9.2; synthetic regression only."
-    },
-    {
-      "path": "rules/SOP_INBOUND_V1_9_2_ENFORCEMENT.md",
-      "capabilities": [
-        "INBOUND",
-        "WAREHOUSE_DOCUMENT_INTEGRITY"
-      ],
-      "rationale": "Prospective evidence discovery, identity and canonical readback gates for inbound v1.9.2; synthetic regression only."
-    },
-    {
-      "path": "scripts/evidence_recovery_v192.py",
-      "capabilities": [
-        "INBOUND",
-        "WAREHOUSE_DOCUMENT_INTEGRITY"
-      ],
-      "rationale": "Preserve earlier evidence-only v1.9.2 compatibility API and tests; full prewrite compliance requires composite caller."
-    },
-    {
-      "path": "tests/test_evidence_recovery_v192.py",
-      "capabilities": [
-        "INBOUND",
-        "WAREHOUSE_DOCUMENT_INTEGRITY"
-      ],
-      "rationale": "Preserve earlier evidence-only v1.9.2 compatibility API and tests; full prewrite compliance requires composite caller."
-    },
-    {
-      "path": "rules/SOP_INBOUND_STANDARD_V1_9_2_ENFORCEMENT.md",
-      "capabilities": [
-        "INBOUND",
-        "WAREHOUSE_DOCUMENT_INTEGRITY"
-      ],
-      "rationale": "Preserve earlier evidence-only v1.9.2 compatibility API and tests; full prewrite compliance requires composite caller."
     }
   ]
 }
