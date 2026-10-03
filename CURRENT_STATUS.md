@@ -438,12 +438,18 @@ ordering/cardinality and never replaces source identity.
 
 The private inbound source selector now passes V2 schema conformance.
 
-However, the current ACTIVE target-authority record still binds the V1
-schema/registry generation.
-
-PRG-04 therefore remains HOLD on:
-
+Historical schema-V2 checkpoint (superseded by the accepted PHU-19 and
+PHU-17 closures below): at that checkpoint, the ACTIVE target-authority
+record still bound the V1 schema/registry generation and PRG-04 was HOLD on
 `HOLD_TARGET_AUTHORITY_SCHEMA_REGISTRY_REBIND_REQUIRED`.
+
+Current control-plane state as of 2026-10-03: PHU-18/#146, PHU-19/#148 and
+PHU-17/#145 are Done/closed within their respective scopes. V2 authority is
+ACTIVE, V1 is SUPERSEDED, and exact-five physical binding is accepted PASS.
+The supporting protocol and closure documentation are merged in PR #149
+and PR #150. These scoped closures do not authorize live reads, executable
+acquisition or Production writes; all three authorization flags remain False
+and the Production writer remains HOLD.
 
 Locked:
 `LiveReadAuthorized=False`,
