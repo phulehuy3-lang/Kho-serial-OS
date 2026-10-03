@@ -380,6 +380,44 @@ Locked:
 `ProductionWriteAuthorized=False`,
 Production writer = HOLD.
 
+## PRG-03 effective Drive permission proof — 2026-10-03
+
+Issue #141 has evidence sufficient for
+**PASS_EFFECTIVE_DRIVE_PERMISSION_METADATA_ONLY**.
+
+Accepted workflow run:
+
+- run `37108886203`, attempt `2`;
+- head `43418e7304d64c02fa33684fd30d043cc6c5bfad`;
+- GitHub conclusion = `success`;
+- OIDC issuance PASS;
+- STS/WIF exchange PASS;
+- dedicated service-account impersonation PASS;
+- short-lived access-token PASS;
+- exact Drive `files.get(fields=kind)` PASS;
+- effective direct reader permission PASS;
+- target locator not exported;
+- worksheet payload read = false;
+- resource write = false.
+
+Attempt #1 failed closed on `accessNotConfigured`; enabling
+`drive.googleapis.com` was sufficient remediation.
+
+Public acceptance snapshot SHA-256 =
+`6954f63b8c07cc160e463a178cf29f7f44a5955c8139fe1372a63c85d40b91c7`.
+
+This closes the effective-permission blocker only.
+
+Remaining executable-acquisition blockers include exact Production surface
+bindings, serial/HOLD universe completeness, provider version semantics,
+zero-write runtime attestation, and tamper-evident receipt boundary.
+
+Locked:
+`LiveReadAuthorized=False`,
+`ExecutableAcquisitionAuthorized=False`,
+`ProductionWriteAuthorized=False`,
+Production writer = HOLD.
+
 ## Smallest next action
 
 PHU-8 requires no further action at this checkpoint. Reopen its acceptance only
