@@ -8,7 +8,7 @@ Define a pure integrity contract for building deterministic multi-surface
 read-only snapshots from already-materialized data.
 
 This control validates only snapshot structure, schema binding, row shape,
-scalar types, deterministic hashing, and version-marker atomicity.
+scalar types, deterministic hashing, and version-marker consistency.
 
 It does not connect to any external system, load credentials, discover targets,
 resolve business authority, execute allocation, or mutate data.
@@ -78,11 +78,21 @@ The same normalized inputs therefore produce the same hashes.
 
 Every surface read must carry a non-empty version marker.
 
-A multi-surface snapshot is considered atomically consistent only when all
-surface version markers are identical.
+Identical markers are a consistency observation, not provider-backed atomicity
+proof. This in-memory API cannot verify a provider snapshot attestation, so
+`atomic_snapshot_proven` remains `False` even for equal markers or capture times.
+The equal-marker result is `HOLD`, `ready=False`, with
+`SHADOW_SNAPSHOT:PROVIDER_ATOMICITY_UNPROVEN`; the normalized snapshot and hash
+are preserved for diagnostics. A later proof-verification path requires a
+separate versioned contract, review, and negative tests; no caller boolean or
+free-form proof label can upgrade this result.
 
 Version drift returns `HOLD` while preserving the computed snapshot as
 diagnostic evidence with `atomic_snapshot_proven=False`.
+
+Correction for issue #154 supersedes the former equal-marker atomicity claim.
+Diagnostic hashes used in pure replay do not grant snapshot readiness. Callers
+must not promote a diagnostic snapshot to live acquisition or write authority.
 
 ## Scope boundary
 
