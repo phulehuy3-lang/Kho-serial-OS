@@ -236,6 +236,38 @@ Locked state remains:
 `ProductionWriteAuthorized=False`,
 Production writer = HOLD.
 
+## PRG-02 GitHub OIDC WIF materialization — 2026-10-03
+
+Issue #127 has provider-native evidence sufficient for **CLOSED/PASS** after
+public-safe repository sync.
+
+Verified public-safe state:
+
+- exactly one PRG-02 WIF pool and one GitHub OIDC provider;
+- provider ACTIVE;
+- GitHub issuer MATCH;
+- exact repository numeric ID `1383239508`;
+- exact owner numeric ID `300983965`;
+- exact ref `refs/heads/main`;
+- required four-attribute mapping MATCH;
+- exact three-claim provider condition MATCH;
+- exactly one `roles/iam.workloadIdentityUser` federation binding;
+- USER_MANAGED service-account key count = 0;
+- WIF config hash =
+  `397d1ad6ee08f0e7b6f7bfbc52dac647a814c82581152034fbb62020fd47b17b`;
+- verification evidence hash =
+  `d200d624dcb04f6bb1fb46e10b04a2761fdf62ec985fafed0848b28c8fa367e3`.
+
+No OIDC/access token was minted, no GitHub runtime job was executed, no Drive
+target permission changed, no warehouse Production payload was read and MASTER
+LIVE was not mutated.
+
+Locked:
+`LiveReadAuthorized=False`,
+`ExecutableAcquisitionAuthorized=False`,
+`ProductionWriteAuthorized=False`,
+Production writer = HOLD.
+
 ## Smallest next action
 
 PHU-8 requires no further action at this checkpoint. Reopen its acceptance only
