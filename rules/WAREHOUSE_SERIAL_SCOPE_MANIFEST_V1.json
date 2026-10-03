@@ -557,6 +557,18 @@
       "rationale": "Public-safe PRG-03 acceptance evidence proving the dedicated runtime identity can exercise the exact Drive reader grant via one fields=kind metadata GET; no worksheet payload read or resource write authority."
     },
     {
+      "path": "rules/PRG04_EXACT_FIVE_SURFACE_BINDINGS_CLOSURE_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION",
+        "HOLD_QUARANTINE",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Public-safe PRG-04 closure record for exact five Production surface bindings, deterministic private binding hash, control-plane-only fresh read-back and retained no-live/no-write locks."
+    },
+    {
       "path": "rules/PUBLIC_CONTROL_CATALOG_V0_1.md",
       "capabilities": [
         "REPOSITORY_SAFETY",
