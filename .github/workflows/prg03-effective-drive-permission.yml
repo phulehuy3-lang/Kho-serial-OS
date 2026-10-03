@@ -41,7 +41,35 @@ jobs:
             curl --silent --show-error               --output /tmp/prg03-drive-response.json               --write-out '%{http_code}'               --header "Authorization: Bearer $ACCESS_TOKEN"               "https://www.googleapis.com/drive/v3/files/${TARGET_FILE_ID}?fields=kind&supportsAllDrives=true"
           )"
 
-          test "$http_code" = "200"
+          if [ "$http_code" != "200" ]; then
+            HTTP_CODE="$http_code" python - <<'PY'
+          import json
+          import os
+
+          http_code = os.environ["HTTP_CODE"]
+          status = "UNKNOWN"
+          reason = "UNKNOWN"
+
+          try:
+              with open("/tmp/prg03-drive-response.json", "r", encoding="utf-8") as f:
+                  data = json.load(f)
+              err = data.get("error", {})
+              status = str(err.get("status", "UNKNOWN"))
+              errors = err.get("errors") or []
+              if errors and isinstance(errors[0], dict):
+                  reason = str(errors[0].get("reason", "UNKNOWN"))
+          except Exception:
+              pass
+
+          safe = lambda s: "".join(ch for ch in s if ch.isalnum() or ch in "._-")[:80]
+          print(f"DRIVE_METADATA_HTTP_STATUS={safe(http_code)}")
+          print(f"DRIVE_METADATA_ERROR_STATUS={safe(status)}")
+          print(f"DRIVE_METADATA_ERROR_REASON={safe(reason)}")
+          PY
+            rm -f /tmp/prg03-drive-response.json
+            exit 1
+          fi
+
           python - <<'PY'
           import json
           with open("/tmp/prg03-drive-response.json", "r", encoding="utf-8") as f:
