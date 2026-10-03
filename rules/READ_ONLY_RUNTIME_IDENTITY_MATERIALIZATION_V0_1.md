@@ -1,6 +1,6 @@
 # READ_ONLY_RUNTIME_IDENTITY_MATERIALIZATION_V0_1
 
-Status: **PARTIAL / HOLD_GOOGLE_CLOUD_IAM_EXECUTION_CAPABILITY_UNAVAILABLE**
+Status: **PASS_READ_ONLY_RUNTIME_IDENTITY_MATERIALIZED**
 
 Issue: #109
 
@@ -233,3 +233,69 @@ deterministic hash recomputation, and a distinct verification event.
 
 Do not recreate the already-materialized private PRG-02 Drive topology.
 
+
+
+## 10. Materialization closure — 2026-10-03
+
+The previously blocked provider action has now been executed and independently
+verified.
+
+Public-safe resulting state:
+
+- exactly one new dedicated
+  `GOOGLE_CLOUD_USER_MANAGED_SERVICE_ACCOUNT` was created for PRG-02;
+- no user-managed private key was created;
+- fresh provider read-back reacquired the exact principal;
+- fresh USER_MANAGED key-list result = **0**;
+- fresh service-account IAM-policy binding count = **0**;
+- private principal locator exists exactly once;
+- private identity-authority record exists exactly once;
+- private REGISTRY record cardinality = **1**;
+- private PRINCIPAL_LOCATOR cardinality = **1**;
+- identity-record canonical hash recomputed = **MATCH**;
+- principal-locator canonical hash recomputed = **MATCH**;
+- materialization and verification used distinct event IDs;
+- REGISTRY, PRINCIPAL_LOCATOR and retained evidence remain private owner-only.
+
+Public-safe opaque refs:
+
+- principal locator:
+  `PL1_b730cce235f250ae6d1951c83bea6169`;
+- principal locator hash:
+  `423b877409d5ff7588fbb4edea3adda7f2746d68022fb471f6f2f7eb1ca629d7`;
+- identity record:
+  `RRI1_c81708f91c3167a4aebb7cef5f4f175f`;
+- identity-record hash:
+  `62723bff3a70a10e2291dc63396a43eebfe49da8e948fc62fe3e9207051e0b33`;
+- materialization event:
+  `PRG02-ID-MAT-20261003-01`;
+- materialization evidence hash:
+  `eed2566bb581aeaca93310c1dc753a68cc906f440e85a32c5b3d3a0ccdc4bd50`;
+- verification event:
+  `PRG02-ID-VERIFY-20261003-01`;
+- verification evidence hash:
+  `d2c2f24704278de0e0e0bafb56ec66da0b4a074b033885833b7c6469f669e283`.
+
+The actual provider principal, project locators and private Drive object
+identifiers remain outside the public repository.
+
+No WIF pool/provider, `roles/iam.workloadIdentityUser` grant, OIDC token,
+Google access token, target Drive reader grant, warehouse Production read,
+executable acquisition, Production writer activation, target-authority
+lifecycle change or MASTER LIVE mutation occurred in this action.
+
+Therefore:
+
+**`READ_ONLY_RUNTIME_IDENTITY_MATERIALIZATION_V0_1 =
+PASS_READ_ONLY_RUNTIME_IDENTITY_MATERIALIZED`**
+
+Issue #109 may close.
+
+Locked after closure:
+
+- `LiveReadAuthorized=False`
+- `ExecutableAcquisitionAuthorized=False`
+- `ProductionWriteAuthorized=False`
+- Production writer = HOLD
+- target Drive/Sheets permission unchanged
+- MASTER LIVE unchanged
