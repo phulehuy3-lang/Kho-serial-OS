@@ -20,6 +20,16 @@
       "rationale": "PRG-02 warehouse-runtime authentication acceptance workflow; validates GitHub OIDC to Google WIF short-lived service-account impersonation without Drive/Sheets target reads or Production write authority."
     },
     {
+      "path": ".github/workflows/prg03-effective-drive-permission.yml",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "On-demand PRG-03 proof that the dedicated runtime identity can exercise the exact Drive reader grant via GitHub OIDC/WIF using a single fields=kind metadata GET, without worksheet payload reads or resource writes."
+    },
+    {
       "path": ".github/workflows/trusted-public-boundary-v2.yml",
       "capabilities": [
         "REPOSITORY_SAFETY"
