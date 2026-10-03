@@ -172,6 +172,18 @@
       "rationale": "Canonical public-safe five-surface registry payload for PRG-01 binding; exactly five logical inbound evidence surfaces, deterministic order and no Production locator identifiers."
     },
     {
+      "path": "rules/FIVE_SURFACE_REGISTRY_V2.json",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION",
+        "HOLD_QUARANTINE",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Versioned exact five-surface registry binding the unchanged logical surface set to WAREHOUSE_INBOUND_SCHEMA_V2."
+    },
+    {
       "path": "rules/FORMULA_SEMANTIC_IDENTITY_V0_1.md",
       "capabilities": [
         "RECONCILIATION",
@@ -267,6 +279,17 @@
         "REPOSITORY_SAFETY"
       ],
       "rationale": "Warehouse-specific locked inbound serial composition profile requiring all seven source/serial/reconciliation/formula gates before profile readiness."
+    },
+    {
+      "path": "rules/INBOUND_SOURCE_RECORD_SELECTOR_CONFORMANCE_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Public-safe conformance result for the privately reviewed deterministic inbound source selector against WAREHOUSE_INBOUND_SCHEMA_V2."
     },
     {
       "path": "rules/INBOUND_TARGET_AUTHORITY_REGISTRY_MATERIALIZATION_PLAN_REVIEW_V0_1.md",
@@ -832,6 +855,18 @@
       "rationale": "Canonical public-safe normalized warehouse inbound schema contract bound as WAREHOUSE_INBOUND_SCHEMA_V1; exact logical types/cardinality/roles without Production worksheet inspection."
     },
     {
+      "path": "rules/WAREHOUSE_INBOUND_SCHEMA_CONTRACT_V2.json",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION",
+        "HOLD_QUARANTINE",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Current public-safe inbound evidence schema V2 aligning serial identity with Production TEXT-preserving semantics while retaining numeric interval projection only for pure comparison/cardinality."
+    },
+    {
       "path": "rules/WAREHOUSE_SCHEMA_AND_FIVE_SURFACE_REGISTRY_BINDING_REVIEW_V0_1.md",
       "capabilities": [
         "INBOUND",
@@ -842,6 +877,18 @@
       "rationale": "Conformance review proving exact schema version, five-surface uniqueness/order, canonical hash recomputation, public redaction and continued no-live/no-write invariants."
     },
     {
+      "path": "rules/WAREHOUSE_SCHEMA_AND_FIVE_SURFACE_REGISTRY_BINDING_REVIEW_V0_2.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION",
+        "HOLD_QUARANTINE",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Conformance review for V2 serial TEXT semantics, numeric interval compatibility, exact registry hash and remaining authority-rebind HOLD."
+    },
+    {
       "path": "rules/WAREHOUSE_SCHEMA_AND_FIVE_SURFACE_REGISTRY_BINDING_V0_1.md",
       "capabilities": [
         "INBOUND",
@@ -850,6 +897,18 @@
         "REPOSITORY_SAFETY"
       ],
       "rationale": "Authority-bearing public-safe binding that materializes the exact warehouse_schema_version and surface_registry_id/hash required before Phase B locator/DRAFT readiness can be reconsidered."
+    },
+    {
+      "path": "rules/WAREHOUSE_SCHEMA_AND_FIVE_SURFACE_REGISTRY_BINDING_V0_2.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION",
+        "HOLD_QUARANTINE",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Authority-bearing public-safe V2 schema/registry binding that preserves V1 history and records explicit target-authority rebind boundary."
     },
     {
       "path": "rules/WAREHOUSE_SERIAL_REPOSITORY_SCOPE_V1.md",
@@ -1092,6 +1151,16 @@
         "INVENTORY"
       ],
       "rationale": "Required for the warehouse-serial control baseline: SERIAL_IDENTITY_RANGE, INVENTORY."
+    },
+    {
+      "path": "scripts/serial_text_interval_projection_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "SERIAL_IDENTITY_RANGE",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Pure no-I/O bridge preserving SERIAL_TEXT lexical identity while projecting numeric interval semantics for existing Control 04."
     },
     {
       "path": "scripts/source_pool_authority_v0_1.py",
@@ -1355,6 +1424,16 @@
       "rationale": "Required for the warehouse-serial control baseline: SERIAL_IDENTITY_RANGE, INVENTORY."
     },
     {
+      "path": "tests/test_serial_text_interval_projection_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "SERIAL_IDENTITY_RANGE",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Adversarial regression for leading-zero preservation, strict serial text validation and numeric projection without identity rewrite."
+    },
+    {
       "path": "tests/test_source_pool_authority_v0_1.py",
       "capabilities": [
         "SOURCE_ALLOCATION",
@@ -1407,6 +1486,18 @@
         "WAREHOUSE_DOCUMENT_INTEGRITY"
       ],
       "rationale": "Synthetic regressions for serial split conservation, formula preservation and close gates."
+    },
+    {
+      "path": "tests/test_warehouse_inbound_schema_v2.py",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION",
+        "HOLD_QUARANTINE",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Regression coverage for schema V2/registry V2 exact hashes, five-surface order, SERIAL_TEXT field coverage and no-provider-locator boundary."
     },
     {
       "path": "tests/test_warehouse_serial_scope_v1.py",
