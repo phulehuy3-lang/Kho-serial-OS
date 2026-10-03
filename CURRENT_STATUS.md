@@ -326,6 +326,34 @@ Locked:
 `ProductionWriteAuthorized=False`,
 Production writer = HOLD.
 
+## PRG-02 target-access readiness — 2026-10-03
+
+Issue #136 has evidence sufficient for
+**PASS_FOR_DIRECT_FILE_READER_GRANT_ACTION_ONLY**.
+
+Verified public-safe prerequisites:
+
+- target authority is ACTIVE/PASS;
+- dedicated PRG-02 runtime identity is materialized and keyless;
+- WIF and sanitized short-lived credential acceptance are PASS;
+- current canonical target permission state is owner-only;
+- the dedicated runtime principal has no current target permission;
+- exact target file can be shared by the connected owner;
+- private readiness snapshot SHA-256 =
+  `26ff671488e3cac37c2abdda22f61f7e6f7628849508287a33a2f3e35c32a764`.
+
+The next separately authorized action may grant only exact file-level
+`reader` permission to the exact dedicated runtime identity, followed by
+fresh permission read-back.
+
+This readiness does not grant target access.
+
+Locked:
+`LiveReadAuthorized=False`,
+`ExecutableAcquisitionAuthorized=False`,
+`ProductionWriteAuthorized=False`,
+Production writer = HOLD.
+
 ## Smallest next action
 
 PHU-8 requires no further action at this checkpoint. Reopen its acceptance only
