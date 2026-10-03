@@ -10,6 +10,13 @@
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
     },
     {
+      "path": ".github/workflows/prg02-historical-run-containment.yml",
+      "capabilities": [
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "One-time PRG-02 repository-safety containment workflow hard-bound to the single historical Actions run that exposed a private project locator; deletes only that run and verifies provider 404 without touching warehouse data or runtime identity configuration."
+    },
+    {
       "path": ".github/workflows/prg02-wif-credential-acceptance.yml",
       "capabilities": [
         "INBOUND",
