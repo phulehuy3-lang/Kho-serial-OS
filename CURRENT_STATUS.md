@@ -268,6 +268,34 @@ Locked:
 `ProductionWriteAuthorized=False`,
 Production writer = HOLD.
 
+## PRG-02 short-lived credential acceptance — 2026-10-03
+
+Issue #129 has sufficient evidence for **CLOSED/PASS**.
+
+Sanitized workflow-dispatch run `37106077065` on `main`
+(`1fbce8321ec84b7f2514b68fd70daba6c3a3737b`) proved:
+
+- GitHub OIDC issuance PASS;
+- Google STS/WIF exchange PASS;
+- dedicated service-account impersonation PASS;
+- 300-second short-lived access token PASS;
+- no credentials file was created;
+- Google project environment variables were not exported;
+- project locator was not exported in the sanitized run;
+- target resource read = false;
+- resource write = false.
+
+A prior run had a public-log privacy defect and is tracked separately in #132.
+That issue must not reproduce the private locator.
+
+This acceptance proves authentication only.
+
+Locked:
+`LiveReadAuthorized=False`,
+`ExecutableAcquisitionAuthorized=False`,
+`ProductionWriteAuthorized=False`,
+Production writer = HOLD.
+
 ## Smallest next action
 
 PHU-8 requires no further action at this checkpoint. Reopen its acceptance only
