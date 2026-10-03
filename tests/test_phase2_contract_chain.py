@@ -145,6 +145,10 @@ def snapshot_hash():
         },
     )
     assert assessment.snapshot is not None
+    # Hash-chain replay uses diagnostic evidence only, not readiness or
+    # provider atomicity authorization.
+    assert not assessment.ready
+    assert not assessment.snapshot.atomic_snapshot_proven
     return assessment.snapshot.snapshot_hash
 
 

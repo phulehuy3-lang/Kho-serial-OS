@@ -138,7 +138,7 @@ class ContractValidationTests(unittest.TestCase):
 
 
 class SnapshotAssessmentTests(unittest.TestCase):
-    def test_clean_snapshot_passes_and_is_deterministic(self) -> None:
+    def test_equal_markers_remain_unproven_and_hash_is_deterministic(self) -> None:
         first = assess_shadow_snapshot(
             snapshot_id="SNAP-A",
             target=target(),
@@ -149,14 +149,38 @@ class SnapshotAssessmentTests(unittest.TestCase):
             target=target(),
             reads=clean_reads(),
         )
-        self.assertEqual(first.status, PASS)
-        self.assertTrue(first.ready)
+        self.assertEqual(first.status, HOLD)
+        self.assertFalse(first.ready)
+        self.assertIn("SHADOW_SNAPSHOT:PROVIDER_ATOMICITY_UNPROVEN",
+                      first.blocking_reasons)
         self.assertIsNotNone(first.snapshot)
         self.assertEqual(
             first.snapshot.snapshot_hash,
             second.snapshot.snapshot_hash,
         )
-        self.assertTrue(first.snapshot.atomic_snapshot_proven)
+        self.assertFalse(first.snapshot.atomic_snapshot_proven)
+
+    def test_equal_capture_times_do_not_manufacture_provider_proof(self) -> None:
+        reads = clean_reads()
+        reads["DERIVED_VIEW"] = replace(reads["DERIVED_VIEW"], captured_at="T1")
+        result = assess_shadow_snapshot(snapshot_id="SNAP-A", target=target(),
+                                        reads=reads)
+        self.assertEqual(result.status, HOLD)
+        self.assertFalse(result.ready)
+        self.assertFalse(result.snapshot.atomic_snapshot_proven)
+
+    def test_single_surface_marker_does_not_prove_atomicity(self) -> None:
+        single = with_computed_target_contract_hash(
+            target_id="TARGET-A", schema_version="SCHEMA-A",
+            surfaces=(source_surface(),),
+        )
+        result = assess_shadow_snapshot(
+            snapshot_id="SNAP-A", target=single,
+            reads={"SOURCE_STATE": clean_reads()["SOURCE_STATE"]},
+        )
+        self.assertEqual(result.status, HOLD)
+        self.assertFalse(result.ready)
+        self.assertFalse(result.snapshot.atomic_snapshot_proven)
 
     def test_row_mapping_order_does_not_change_hash(self) -> None:
         reads = clean_reads()

@@ -385,7 +385,11 @@ def assess_shadow_snapshot(
 
     surfaces = tuple(normalized_surfaces)
     version_markers = {surface.version_marker for surface in surfaces}
-    atomic = len(version_markers) == 1
+    markers_consistent = len(version_markers) == 1
+    # Equal caller-supplied markers are not provider-backed atomicity proof.
+    # This in-memory API has no mechanism to verify such a proof, so retain
+    # the normalized snapshot for diagnostics without manufacturing readiness.
+    atomic = False
 
     snapshot = ReadOnlyShadowSnapshot(
         snapshot_id=snapshot_id,
@@ -409,7 +413,7 @@ def assess_shadow_snapshot(
         ),
     )
 
-    if not atomic:
+    if not markers_consistent:
         return SnapshotAssessment(
             status=HOLD,
             ready=False,
@@ -418,8 +422,8 @@ def assess_shadow_snapshot(
         )
 
     return SnapshotAssessment(
-        status=PASS,
-        ready=True,
-        blocking_reasons=(),
+        status=HOLD,
+        ready=False,
+        blocking_reasons=("SHADOW_SNAPSHOT:PROVIDER_ATOMICITY_UNPROVEN",),
         snapshot=snapshot,
     )
