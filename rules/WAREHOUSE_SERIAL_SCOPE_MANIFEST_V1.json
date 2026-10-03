@@ -1537,6 +1537,36 @@
         "REPOSITORY_SAFETY"
       ],
       "rationale": "Required for the warehouse-serial control baseline: REPOSITORY_SAFETY."
+    },
+    {
+      "path": "rules/PRG05_06_COMPLETENESS_AND_PRG07_CONSISTENCY_DESIGN_V0_1.md",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Pure inbound universe coverage coherence and non-live completeness/provider-consistency design; no acquisition or authority grant."
+    },
+    {
+      "path": "scripts/inbound_universe_coverage_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Pure inbound universe coverage coherence and non-live completeness/provider-consistency design; no acquisition or authority grant."
+    },
+    {
+      "path": "tests/test_inbound_universe_coverage_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "RECONCILIATION",
+        "REPOSITORY_SAFETY"
+      ],
+      "rationale": "Pure inbound universe coverage coherence and non-live completeness/provider-consistency design; no acquisition or authority grant."
     }
   ]
 }
