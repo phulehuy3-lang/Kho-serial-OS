@@ -460,3 +460,37 @@ assumptions.
 
 #109/#111 require no further action at this checkpoint. Future work must start at the next separately authorized runtime/WIF/target-access gate; this closure does not authorize live reads, executable acquisition, target sharing or Production writes.
 
+
+## PRG-04 exact five Production surface bindings closure — 2026-10-03
+
+Issue #145 / Linear PHU-17 has sufficient evidence for **CLOSED/PASS**.
+
+Fresh control-plane-only read-back after the target-authority V1→V2 migration
+established exactly five deterministic physical bindings for the locked inbound
+surface set. Source-vs-derived roles are preserved; the inbound source record is
+bound by an exact stable selector rather than a guessed row; the derived
+projection and formula anchor are bound to the exact current anchor formula;
+and system-table bindings are header/schema bound.
+
+Private canonical binding hash:
+`c2a75f6cdc94ccff776b9fa5472b81fb988714ce6d311a840cb8086d036e96e1`.
+
+Public-safe fingerprints:
+- inbound source header: `db5fd124214d262695422a5f9d7e3f209b5b5547146e969a6d87a893ee3da198`;
+- serial-universe header: `d1461129b036e7db9be544a4643f2139499b90a58de0f8b51b3c2642994535cf`;
+- HOLD-universe header: `35b4d93ef94af27912ef7913071c45471fd0525c4e46dd322c7e884ccabce02d`;
+- derived anchor formula: `4b6976ebc5ab6941ad18fee425634a7e661e17eb81f0a4aaa7b2dd38bb51e388`.
+
+The closure evidence is bound to the ACTIVE V2 target authority and
+`SR1_HCM_SERIAL_INBOUND_V2`. The private artifact was materialized in the
+restricted authority evidence boundary and read back after creation.
+
+No serial/stock/ledger business rows were read. No MASTER LIVE business-data,
+locator, Drive permission, IAM/WIF/service-account or credential mutation was
+performed.
+
+Locked state remains:
+`LiveReadAuthorized=False`,
+`ExecutableAcquisitionAuthorized=False`,
+`ProductionWriteAuthorized=False`,
+Production writer = HOLD.
