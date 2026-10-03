@@ -1567,6 +1567,17 @@
         "REPOSITORY_SAFETY"
       ],
       "rationale": "Pure inbound universe coverage coherence and non-live completeness/provider-consistency design; no acquisition or authority grant."
+    },
+    {
+      "path": "rules/OS_SHARED_ISOLATED_FIXTURE_SOURCE_V1.json",
+      "capabilities": [
+        "INBOUND",
+        "INVENTORY",
+        "SERIAL_IDENTITY_RANGE",
+        "HOLD_QUARANTINE",
+        "RECONCILIATION"
+      ],
+      "rationale": "Synthetic external warehouse fixture identity and schema mapping for isolated serial-control validation; no operational payload or live authority."
     }
   ]
 }

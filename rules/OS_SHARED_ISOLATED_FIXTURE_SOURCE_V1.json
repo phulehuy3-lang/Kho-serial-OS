@@ -1,0 +1,57 @@
+{
+  "registry_schema_version": "OS_SHARED_ISOLATED_FIXTURE_SOURCE_REGISTRY_V1",
+  "fixture_id": "OS_SHARED_ISOLATED_FIXTURE_V1",
+  "artifact_filename": "KHO_PHU_OS_ISOLATED_TEST_FIXTURE_V1_0_2026-10-03.xlsx",
+  "artifact_sha256": "de0f5958f02c510230c8570fb203dff30948c893e9642f3a32aeb4616e20272d",
+  "classification": "SYNTHETIC_ONLY",
+  "custody": "EXTERNAL_NO_REPOSITORY_PAYLOAD",
+  "connection_mode": "METADATA_IDENTITY_BINDING_ONLY",
+  "workbook_sheet_count": 11,
+  "warehouse_schema_version": "WAREHOUSE_INBOUND_SCHEMA_V2",
+  "warehouse_schema_canonical_sha256": "9a7036828810234062496179c1fe652b9078b1cd7fbe7f50e77e6991b33de203",
+  "surface_registry_id": "SR1_HCM_SERIAL_INBOUND_V2",
+  "surface_registry_canonical_sha256": "2c45382441fb98003b7ccb7161944de938a1f91ee8199e1c26771bf6c6d9fbad",
+  "logical_surface_aliases": {
+    "INBOUND_SOURCE_RECORD": "V2_SOURCE",
+    "ACTIVE_SERIAL_INTERVAL_UNIVERSE": "V2_ACTIVE",
+    "INBOUND_DERIVED_QUERY_PROJECTION": "V2_DERIVED",
+    "INBOUND_QUERY_FORMULA_ANCHOR": "V2_ANCHOR",
+    "ACTIVE_HOLD_INTERVAL_UNIVERSE": "V2_HOLD"
+  },
+  "physical_adapter": "PRODUCTION_MAPPING_V0_2",
+  "physical_surface_names": [
+    "SYSTEM_INTERVAL_STATE",
+    "ELIGIBLE_STOCK",
+    "SYSTEM_HOLD_REGISTRY"
+  ],
+  "formula_anchor": "ELIGIBLE_STOCK!A3",
+  "cache_evidence": "SYNTHETIC_SERIALIZED_CACHE",
+  "validation_scope": [
+    "SCHEMA_TYPES",
+    "SERIAL_TEXT_IDENTITY",
+    "FORMULA_SEMANTIC_IDENTITY",
+    "SYNTHETIC_CACHED_PROJECTION_RECONCILIATION"
+  ],
+  "reported_local_verification": {
+    "saved_workbook": "PASS",
+    "hash_unchanged_after_read": true,
+    "pinned_existing_repository_tests": {
+      "passed": 61,
+      "total": 61
+    },
+    "adversarial_workbook_mutations": {
+      "passed": 16,
+      "total": 16,
+      "phu_hold": 13,
+      "kho_v2_reject": 3
+    },
+    "evidence_kind": "LOCAL_EXECUTION_ON_SYNTHETIC_FIXTURE",
+    "repository_ci_scope": "ENGINEERING_CHECKS_ON_METADATA_CHANGE"
+  },
+  "external_recalculation_proven": false,
+  "allocation_acceptance": "NOT_RUN",
+  "operational_acceptance": false,
+  "live_read_authorized": false,
+  "executable_acquisition_authorized": false,
+  "production_write_authorized": false
+}
