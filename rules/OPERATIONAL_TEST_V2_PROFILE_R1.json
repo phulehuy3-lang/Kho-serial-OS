@@ -34,5 +34,9 @@
   "repo_role": "WAREHOUSE_SCHEMA_BUSINESS_PROFILE_AND_HEADER_BOUND_INTENT_VALIDATOR",
   "target_spreadsheet_id": "1jQLuw2sGc0s-p9nWCtnzS8hcTFJWGSouBTQFap1vDS4",
   "transport_protocol": "OS_CONNECTED_SESSION_TRANSPORT_V1",
-  "writer_mode": "SINGLE_WRITER"
+  "writer_mode": "SINGLE_WRITER",
+  "m5_evidence_guard_patch": "M5_EVIDENCE_GUARD_V1",
+  "inbound_evidence_requirement": "EXACT_ONE_LINKED_VERIFIED_EVIDENCE_TOUCH",
+  "inbound_missing_evidence_blocker": "HOLD_EVIDENCE_MISSING",
+  "inbound_mismatch_blocker": "HOLD_EVIDENCE_MISMATCH"
 }
