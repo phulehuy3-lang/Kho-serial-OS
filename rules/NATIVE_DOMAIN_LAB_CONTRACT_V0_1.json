@@ -1,0 +1,17 @@
+{
+  "contract_id":"NATIVE_DOMAIN_LAB_CONTRACT_V0_1",
+  "scope":"FINITE_SYNTHETIC_LAB_ONLY",
+  "manifest_custody":"SEPARATELY_LOCKED_EXTERNAL_SYNTHETIC_MODEL_AND_EXPECTED_HASH",
+  "expected_cells":"COMPLETE_SPARSE_RAW_USER_ENTERED_AND_EFFECTIVE_TYPED_MAP",
+  "coordinates":"ZERO_BASED_ORIGIN_ANCHORED",
+  "termination":"KNOWN_NONEMPTY_END_R4_TITLE_SENTINEL_AT_FINAL_GUARD_ROW_COLUMN_ZERO",
+  "guard_rows":3,
+  "guard_population_policy":"ONLY_DECLARED_TERMINAL_SENTINEL_ALLOWED_OTHER_POPULATION_HOLD_REBIND",
+  "excluded_domain":"EVERYTHING_OUTSIDE_DECLARED_BODY_AND_GUARD_IS_EXCLUDED_FROM_THIS_LAB_CLAIM",
+  "success":"PASS_SCOPED_FINITE_MODEL_PARITY_ONLY",
+  "operational_ready":false,
+  "provider_atomicity_proven":false,
+  "production_domain_completeness_proven":false,
+  "maximum_declared_cells":6000,
+  "capture_transport":"EXTERNAL_PAYLOAD_NO_NETWORK_OR_WRITE"
+}

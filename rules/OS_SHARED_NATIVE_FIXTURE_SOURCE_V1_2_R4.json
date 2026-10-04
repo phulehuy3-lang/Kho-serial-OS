@@ -1,0 +1,27 @@
+{
+  "fixture_id": "OS_SHARED_NATIVE_ISOLATED_FIXTURE_V1_2_R4",
+  "predecessor_native_fixture_id": "OS_SHARED_NATIVE_ISOLATED_FIXTURE_V1_1",
+  "revision": "R4",
+  "format": "NATIVE_CELLDATA_EXTERNAL_CAPTURE",
+  "domain_contract_path": "rules/NATIVE_DOMAIN_LAB_CONTRACT_V0_1.json",
+  "domain_contract_sha256": "2e9bb36b6de07056d5a726bb7d55f87ec564153d84bb1c27aa5c10a7ea471998",
+  "domain_verifier": "scripts/native_capture_domain_lab_v0_1.py",
+  "external_frozen_model_sha256": "e7a52050069ca581c76df97fff6c992876abcab5fe9e8b6bb2b67a1ccf8b62e8",
+  "model_scope": "FINITE_SYNTHETIC_BODY_PLUS_THREE_GUARD_ROWS_ONLY",
+  "manifest_location": "EXTERNAL_LAB_EVIDENCE_NOT_REPOSITORY_PAYLOAD",
+  "native_locators": "EXTERNAL_CONFIG_ONLY",
+  "allocation_runner": "scripts/fixture_allocation_lab_v0_1.py",
+  "allocation_profile_id": "OS_SHARED_FIXTURE_ALLOCATION_LAB_R4",
+  "case_revision": {
+    "B06": "R4_FROZEN_TYPED_MODEL_AND_TERMINAL_SENTINELS",
+    "B07": "R4_DECLARED_GUARD_OVERFLOW_AND_REBIND",
+    "G04": "R4_NEW_ALLOCATION_BINDING_SUPERSEDES_UNBOUND_FOR_FUTURE_RUN_ONLY"
+  },
+  "historical_results": "PRESERVE_ORIGINAL_B06_B07_PARTIAL_AND_G04_NOT_RUN",
+  "provider_atomicity_proven": false,
+  "production_domain_completeness_proven": false,
+  "operational_acceptance": false,
+  "live_read_authorized": false,
+  "executable_acquisition_authorized": false,
+  "production_write_authorized": false
+}
