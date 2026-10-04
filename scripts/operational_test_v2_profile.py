@@ -135,6 +135,46 @@ def rank_candidates(candidates: object, document_date: object) -> tuple:
     return tuple(candidate for _, candidate in eligible)
 
 
+def _valid_sha256(value: object) -> bool:
+    return (
+        type(value) is str
+        and len(value) == 64
+        and all(ch in "0123456789abcdef" for ch in value)
+    )
+
+
+def validate_inbound_evidence_intent(transaction_key: object, touches: object) -> None:
+    if not _text(transaction_key):
+        raise WarehouseProfileRejected("TRANSACTION_KEY")
+    if type(touches) is not list:
+        raise WarehouseProfileRejected("TOUCHES")
+    evidence_rows: dict[str, dict[str, object]] = {}
+    for touch in touches:
+        if type(touch) is not dict or touch.get("sheet") != "OP_EVIDENCE_REGISTRY":
+            continue
+        key = touch.get("key")
+        field = touch.get("field")
+        if _text(key) and _text(field):
+            evidence_rows.setdefault(key, {})[field] = touch.get("after")
+    linked = [
+        (key, fields)
+        for key, fields in evidence_rows.items()
+        if fields.get("ObjectID") == transaction_key
+    ]
+    if not linked:
+        raise WarehouseProfileRejected("HOLD_EVIDENCE_MISSING")
+    if len(linked) != 1:
+        raise WarehouseProfileRejected("HOLD_EVIDENCE_MISMATCH")
+    key, fields = linked[0]
+    if (
+        fields.get("EvidenceID") != key
+        or not _valid_sha256(fields.get("FileSHA256"))
+        or fields.get("ReadbackStatus") != "PASS"
+        or fields.get("Status") != "VERIFIED"
+    ):
+        raise WarehouseProfileRejected("HOLD_EVIDENCE_MISMATCH")
+
+
 def validate_operational_plan(plan: object) -> None:
     if type(plan) is not dict:
         raise WarehouseProfileRejected("PLAN_TYPE")
@@ -195,4 +235,14 @@ def build_warehouse_intent(operation_type: object, touches: object) -> tuple[dic
         if touch["before"] == touch["after"]:
             raise WarehouseProfileRejected("NOOP_TOUCH")
         out.append(dict(touch))
+    if operation_type == "IN":
+        transaction_keys = {
+            touch["key"]
+            for touch in touches
+            if touch.get("sheet") == "OP_TRANSACTION_REGISTRY"
+            and touch.get("field") == "TransactionKey"
+        }
+        if len(transaction_keys) != 1:
+            raise WarehouseProfileRejected("TRANSACTION_KEY")
+        validate_inbound_evidence_intent(next(iter(transaction_keys)), touches)
     return tuple(out)
