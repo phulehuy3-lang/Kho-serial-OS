@@ -1,0 +1,26 @@
+{
+  "fixture_family": "OS_SHARED_NATIVE_ISOLATED_FIXTURE",
+  "revision": "R5_MUTATION_LAB_V0_1",
+  "scope": "FINITE_SYNTHETIC_DISPOSABLE_COPY_ONLY",
+  "plan_contract_id": "OS_NATIVE_MUTATION_LAB_R5_V0_1",
+  "sequence": [
+    "BASE17",
+    "IN22",
+    "OUT14",
+    "IN22",
+    "BASE17"
+  ],
+  "generation_quantities": [
+    17,
+    22,
+    14
+  ],
+  "orchestrator_owner": "Phu_OS",
+  "consumer": "Kho-serial-OS",
+  "external_locators_and_payloads_only": true,
+  "derived_writes_forbidden": true,
+  "production_write_authorized": false,
+  "operational_acceptance": false,
+  "provider_atomicity_proven": false,
+  "historical_results_preserved": true
+}

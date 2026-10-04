@@ -1,0 +1,9 @@
+# Kho consumer of PHU disposable source-only mutation lab v0.1
+
+Kho supplies actual domain, typed V2 schema, allocation, seven inbound producer and source readback/lifecycle controls to PHU's R5 lab driver. `native_inbound_profile_lab_v0_1.py` composes existing source-role, readback, range quantity, overlap, source/derived reconciliation, formula health and semantic-identity producers. `native_mutation_lifecycle_lab_v0_1.py` materializes observed source cells and invokes existing governance transitions. Neither module performs I/O or grants production authority.
+
+The externally sealed scenario is BASE17 → IN22 → OUT14 → IN22 → BASE17 on an explicitly identified native copy. Only exact source cells are patched; QUERY projections/formula anchors/HOLD tables are never written. V2_ACTIVE is the labeled frozen pre-inbound universe. Both actual allocation APIs must match synthetic 5+2+1. Transaction metadata is a caller lab seal, not provider attestation.
+
+Runtime requires PHU's pinned isolated worker, generation hashes, exact whitelist/before values, a copy-restricted transport, durable replay ledger and separately captured readback. Unknown concurrent target edits forbid rollback overwrite. Failed postwrite assessment can yield HOLD_ROLLED_BACK after actual recovery, never operational PASS. Same completed payload/code version retry is read-only replay; changed code pin, conflicts and pending/failed records HOLD.
+
+Acceptance: actual native full sequence/restoration, transport-fault-induced native rollback, and no-write replay. Eleven added tests cover inbound overlap/HOLD, changed source intent, conservative QUERY semantics and materialized lifecycle source mismatch/identity. Raw evidence and locators remain external. Historical results are preserved. This closes the fixture integration engineering milestone; Production/IAM/provider/independent-review acceptance remains separate.

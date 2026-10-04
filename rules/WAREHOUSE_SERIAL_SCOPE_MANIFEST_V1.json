@@ -1704,6 +1704,51 @@
         "RECONCILIATION"
       ],
       "rationale": "Finite synthetic native model verification and read-only fixture allocation; no operational payload/provider or Production authority."
+    },
+    {
+      "path": "rules/OS_SHARED_NATIVE_MUTATION_FIXTURE_R5_V0_1.json",
+      "capabilities": [
+        "INBOUND",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION"
+      ],
+      "rationale": "Synthetic native mutation-copy inbound producer and lifecycle verification; caller lab seal only, no Production or provider authority."
+    },
+    {
+      "path": "scripts/native_inbound_profile_lab_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION"
+      ],
+      "rationale": "Synthetic native mutation-copy inbound producer and lifecycle verification; caller lab seal only, no Production or provider authority."
+    },
+    {
+      "path": "scripts/native_mutation_lifecycle_lab_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION"
+      ],
+      "rationale": "Synthetic native mutation-copy inbound producer and lifecycle verification; caller lab seal only, no Production or provider authority."
+    },
+    {
+      "path": "tests/test_native_inbound_profile_lab_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION"
+      ],
+      "rationale": "Synthetic native mutation-copy inbound producer and lifecycle verification; caller lab seal only, no Production or provider authority."
+    },
+    {
+      "path": "tests/test_native_mutation_lifecycle_lab_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION"
+      ],
+      "rationale": "Synthetic native mutation-copy inbound producer and lifecycle verification; caller lab seal only, no Production or provider authority."
     }
   ]
 }
