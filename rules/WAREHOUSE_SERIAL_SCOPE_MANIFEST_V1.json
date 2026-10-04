@@ -1578,6 +1578,69 @@
         "RECONCILIATION"
       ],
       "rationale": "Synthetic external warehouse fixture identity and schema mapping for isolated serial-control validation; no operational payload or live authority."
+    },
+    {
+      "path": "rules/NATIVE_CAPTURE_LAB_CONTRACT_V0_1.json",
+      "capabilities": [
+        "INBOUND",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION"
+      ],
+      "rationale": "Versioned synthetic native inbound capture validation and regression; no provider acquisition or Production authority."
+    },
+    {
+      "path": "rules/OS_SHARED_ISOLATED_FIXTURE_SOURCE_V1_1.json",
+      "capabilities": [
+        "INBOUND",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION"
+      ],
+      "rationale": "Versioned synthetic native inbound capture validation and regression; no provider acquisition or Production authority."
+    },
+    {
+      "path": "scripts/native_cell_capture_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION"
+      ],
+      "rationale": "Versioned synthetic native inbound capture validation and regression; no provider acquisition or Production authority."
+    },
+    {
+      "path": "scripts/native_v2_lab_adapter_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION"
+      ],
+      "rationale": "Versioned synthetic native inbound capture validation and regression; no provider acquisition or Production authority."
+    },
+    {
+      "path": "tests/test_fixture_source_v1_1.py",
+      "capabilities": [
+        "INBOUND",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION"
+      ],
+      "rationale": "Versioned synthetic native inbound capture validation and regression; no provider acquisition or Production authority."
+    },
+    {
+      "path": "tests/test_native_cell_capture_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION"
+      ],
+      "rationale": "Versioned synthetic native inbound capture validation and regression; no provider acquisition or Production authority."
+    },
+    {
+      "path": "tests/test_native_v2_lab_adapter_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION"
+      ],
+      "rationale": "Versioned synthetic native inbound capture validation and regression; no provider acquisition or Production authority."
     }
   ]
 }

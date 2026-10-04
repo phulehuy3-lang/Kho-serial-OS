@@ -1,0 +1,32 @@
+{
+  "contract_id": "NATIVE_CAPTURE_LAB_CONTRACT_V0_1",
+  "authority_status": "LAB_ONLY_NOT_PRODUCTION_AUTHORITY",
+  "payload_shape": "NATIVE_CELLDATA_BOUNDED_ORIGIN_ANCHORED",
+  "capture_transport": "EXTERNALLY_SUPPLIED_NO_NETWORK_ADAPTER",
+  "max_declared_cells": 6000,
+  "native_integer_exact_limit": 9007199254740991,
+  "missing_formula_effective_value": "MISSING_DIAGNOSTIC_NOT_RECALCULATION_PROOF",
+  "serial_identity": "NATIVE_ASCII_DIGIT_TEXT_NO_COERCION",
+  "phu_mapping": "PRODUCTION_MAPPING_V0_2_INTERVAL_ONLY",
+  "kho_schema": "WAREHOUSE_INBOUND_SCHEMA_V2",
+  "domain_completeness_proven": false,
+  "provider_atomicity_proven": false,
+  "required_before_promotion": [
+    "APPROVED_DOMAIN_AND_EXCLUSION_METHOD",
+    "BOUNDS_AND_RESPONSE_LIMIT_TERMINATION_PROOF",
+    "PROVIDER_CONSISTENCY_VERIFIER",
+    "ZERO_WRITE_RUNTIME_ATTESTATION",
+    "TAMPER_EVIDENT_RECEIPT_AND_ACCEPTANCE_REVIEW"
+  ],
+  "live_read_authorized": false,
+  "executable_acquisition_authorized": false,
+  "production_write_authorized": false,
+  "native_number_magnitude_limit": 9007199254740991,
+  "kho_active_hold_lab_profile": {
+    "supported_statuses": [
+      "ACTIVE"
+    ],
+    "hold_flag_required": true,
+    "production_status_domain_authority": "UNPROVEN"
+  }
+}
