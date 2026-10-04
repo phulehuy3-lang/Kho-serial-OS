@@ -1641,6 +1641,69 @@
         "RECONCILIATION"
       ],
       "rationale": "Versioned synthetic native inbound capture validation and regression; no provider acquisition or Production authority."
+    },
+    {
+      "path": "scripts/fixture_allocation_lab_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION"
+      ],
+      "rationale": "Finite synthetic native model verification and read-only fixture allocation; no operational payload/provider or Production authority."
+    },
+    {
+      "path": "scripts/native_capture_domain_lab_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION"
+      ],
+      "rationale": "Finite synthetic native model verification and read-only fixture allocation; no operational payload/provider or Production authority."
+    },
+    {
+      "path": "rules/OS_SHARED_NATIVE_FIXTURE_SOURCE_V1_2_R4.json",
+      "capabilities": [
+        "INBOUND",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION"
+      ],
+      "rationale": "Finite synthetic native model verification and read-only fixture allocation; no operational payload/provider or Production authority."
+    },
+    {
+      "path": "rules/NATIVE_DOMAIN_LAB_CONTRACT_V0_1.json",
+      "capabilities": [
+        "INBOUND",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION"
+      ],
+      "rationale": "Finite synthetic native model verification and read-only fixture allocation; no operational payload/provider or Production authority."
+    },
+    {
+      "path": "tests/test_fixture_allocation_lab_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION"
+      ],
+      "rationale": "Finite synthetic native model verification and read-only fixture allocation; no operational payload/provider or Production authority."
+    },
+    {
+      "path": "tests/test_native_capture_domain_lab_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION"
+      ],
+      "rationale": "Finite synthetic native model verification and read-only fixture allocation; no operational payload/provider or Production authority."
+    },
+    {
+      "path": "tests/test_fixture_source_v1_2_r4.py",
+      "capabilities": [
+        "INBOUND",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION"
+      ],
+      "rationale": "Finite synthetic native model verification and read-only fixture allocation; no operational payload/provider or Production authority."
     }
   ]
 }
