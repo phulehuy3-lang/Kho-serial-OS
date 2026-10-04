@@ -1,0 +1,38 @@
+{
+  "allocation_policy": "SOURCE_DATE_DESC|SOURCE_ROW_ASC|SERIAL_START_ASC",
+  "binding_id": "OPTEST_BINDING_V2_0_R1_M3",
+  "contract_id": "OS_OPERATIONAL_TEST_CONTRACT_V2_0_R1_20261004",
+  "contract_sha256": "9303d3d61f9e71618f925f908b1b2b044963c94c474958cba8bdb3e6c511774c",
+  "environment": "TEST_ONLY",
+  "event_types": [
+    "IN",
+    "OUT",
+    "HOLD_APPLY",
+    "HOLD_RELEASE",
+    "REVERSAL",
+    "RESET_REGRESSION"
+  ],
+  "generation_id": "OPTEST_SCHEMA_GEN_V2_0_R1",
+  "header_aggregate_sha256": "762b9451a94339b8798f0bbd79d36c6792715bf66f952ef8f2839e735f24caa7",
+  "historical_r4_r5_read_only": true,
+  "hold_scopes": [
+    "INTERVAL",
+    "DOCUMENT",
+    "DOCUMENT_LINE"
+  ],
+  "hold_states": [
+    "ACTIVE",
+    "RELEASED"
+  ],
+  "legacy_r5_runner_allowed": false,
+  "m4_clearance": "CODE_ONLY_NO_OPERATIONAL_TRANSACTION",
+  "operational_mutation_authorized_at_m4": false,
+  "population_manifest_id": "OPTEST_POPULATION_MANIFEST_V2_0_R1_M3",
+  "population_manifest_sha256": "0063246baacf8c73bdb4280968d40c0cb3830576ac991a96e55f4c9adb2126b4",
+  "production_write_authorized": false,
+  "profile_id": "OPERATIONAL_TEST_V2_PROFILE_R1",
+  "repo_role": "WAREHOUSE_SCHEMA_BUSINESS_PROFILE_AND_HEADER_BOUND_INTENT_VALIDATOR",
+  "target_spreadsheet_id": "1jQLuw2sGc0s-p9nWCtnzS8hcTFJWGSouBTQFap1vDS4",
+  "transport_protocol": "OS_CONNECTED_SESSION_TRANSPORT_V1",
+  "writer_mode": "SINGLE_WRITER"
+}

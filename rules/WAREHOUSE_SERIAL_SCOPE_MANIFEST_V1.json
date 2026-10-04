@@ -1749,6 +1749,45 @@
         "RECONCILIATION"
       ],
       "rationale": "Synthetic native mutation-copy inbound producer and lifecycle verification; caller lab seal only, no Production or provider authority."
+    },
+    {
+      "path": "rules/OPERATIONAL_TEST_V2_PROFILE_R1.json",
+      "capabilities": [
+        "INBOUND",
+        "OUTBOUND",
+        "INVENTORY",
+        "HOLD_QUARANTINE",
+        "RECONCILIATION",
+        "SERIAL_IDENTITY_RANGE",
+        "SOURCE_ALLOCATION"
+      ],
+      "rationale": "TEST-only Operational V2 warehouse contract/profile metadata; binds M2/M3 schema, HOLD/date/rank semantics and keeps Production authority false."
+    },
+    {
+      "path": "scripts/operational_test_v2_profile.py",
+      "capabilities": [
+        "INBOUND",
+        "OUTBOUND",
+        "INVENTORY",
+        "HOLD_QUARANTINE",
+        "RECONCILIATION",
+        "SERIAL_IDENTITY_RANGE",
+        "SOURCE_ALLOCATION"
+      ],
+      "rationale": "Pure warehouse Operational TEST V2 schema/business validator and header-bound intent producer; no provider I/O or Production authority."
+    },
+    {
+      "path": "tests/test_operational_test_v2_profile.py",
+      "capabilities": [
+        "INBOUND",
+        "OUTBOUND",
+        "INVENTORY",
+        "HOLD_QUARANTINE",
+        "RECONCILIATION",
+        "SERIAL_IDENTITY_RANGE",
+        "SOURCE_ALLOCATION"
+      ],
+      "rationale": "Deterministic tests for Operational TEST V2 schema, HOLD/date/rank/reversal and write-surface fail-closed behavior."
     }
   ]
 }
