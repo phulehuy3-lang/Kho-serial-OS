@@ -43,7 +43,7 @@
   "provider_atomicity_proven": false,
   "domain_completeness_proven": false,
   "native_capture_contract_id": "NATIVE_CAPTURE_LAB_CONTRACT_V0_1",
-  "native_capture_contract_sha256": "274ac1c28963748359cd3690285ae019ba72a890e76963b4525471f1ecea3aca",
+  "native_capture_contract_sha256": "a4a1d00d0282f594e21d1faede22035640ec7fecb9c8b0467ed29ceb28c0d94d",
   "native_capture_decoder": "scripts/native_cell_capture_v0_1.py",
   "logical_surface_aliases": {
     "INBOUND_SOURCE_RECORD": "V2_SOURCE",

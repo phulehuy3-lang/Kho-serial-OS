@@ -37,3 +37,10 @@ claims remain unproved; this is not a Production acquisition adapter.
 The Phu assess_native_capture_lab wrapper always returns operational HOLD/ready=False,
 while retaining its mapping_report diagnostics. Callers must not promote the
 inner mapping report as authorization.
+
+The lab decoder rejects integer/float magnitudes above 2**53-1. Kho's lab HOLD
+profile supports only exact ACTIVE with native hold_flag=True; other states are
+rejected without guessing Production state semantics. PASS_SCHEMA_ONLY covers
+the listed lab checks, not complete schema authority: schema_conformance_proven
+is always False and unverified_constraints names the remaining domain/scope
+and complete-universe authority requirements.

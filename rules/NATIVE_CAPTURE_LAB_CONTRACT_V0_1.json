@@ -20,5 +20,13 @@
   ],
   "live_read_authorized": false,
   "executable_acquisition_authorized": false,
-  "production_write_authorized": false
+  "production_write_authorized": false,
+  "native_number_magnitude_limit": 9007199254740991,
+  "kho_active_hold_lab_profile": {
+    "supported_statuses": [
+      "ACTIVE"
+    ],
+    "hold_flag_required": true,
+    "production_status_domain_authority": "UNPROVEN"
+  }
 }

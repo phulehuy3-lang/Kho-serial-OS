@@ -25,6 +25,14 @@ class NativeV2LabReport:
         return "REJECT" if self.errors else "PASS_SCHEMA_ONLY"
 
     @property
+    def schema_conformance_proven(self) -> bool:
+        return False
+
+    @property
+    def unverified_constraints(self) -> tuple[str, ...]:
+        return ("PRODUCTION_ACTIVE_HOLD_DOMAIN_AND_SCOPE_AUTHORITY", "COMPLETE_UNIVERSE_AUTHORITY")
+
+    @property
     def ready(self) -> bool:
         return False
 
@@ -76,6 +84,10 @@ def validate_native_v2_lab(capture: NativeCapture, schema: dict) -> NativeV2LabR
                         errors.append(title + ":QUANTITY_MISMATCH")
                 except (TypeError, ValueError):
                     errors.append(title + ":INTERVAL_INVALID")
+        if title == "V2_HOLD":
+            for row in rows:
+                if row["status"] != "ACTIVE" or row["hold_flag"] is not True:
+                    errors.append(title + ":UNSUPPORTED_ACTIVE_HOLD_LAB_PROFILE")
         records[title] = rows
         count = len(rows)
         if surface["cardinality"] == "EXACTLY_ONE_RECORD" and count != 1:

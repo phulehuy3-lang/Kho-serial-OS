@@ -48,7 +48,7 @@ def _value(value: object) -> tuple[object, str]:
         return item, "str"
     if key == "boolValue" and type(item) is bool:
         return item, "b"
-    if key == "numberValue" and ((type(item) is int and abs(item) <= 2 ** 53 - 1) or (type(item) is float and (item == item and -float("inf") < item < float("inf")))):
+    if key == "numberValue" and ((type(item) is int and abs(item) <= 2 ** 53 - 1) or (type(item) is float and abs(item) <= 2 ** 53 - 1 and (item == item and -float("inf") < item < float("inf")))):
         return item, "n"
     if key == "errorValue" and isinstance(item, dict) and type(item.get("type")) is str and item.get("type") in ERROR_CODES:
         return ERROR_CODES[item["type"]], "e"

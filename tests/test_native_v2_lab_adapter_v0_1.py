@@ -67,3 +67,15 @@ class NativeV2LabTests(unittest.TestCase):
         c = dataclasses.replace(c, bounds=c.bounds[:-1])
         with self.assertRaisesRegex(CaptureRejected, "SURFACE_BINDING_MISSING"):
             validate_native_v2_lab(c, s)
+
+    def test_active_hold_lab_profile_and_unproved_authority(self):
+        c, s = self.setup_capture()
+        for status in ["RELEASED", "UNKNOWN"]:
+            r = validate_native_v2_lab(self.changed(c, "V2_HOLD", 5, status, "str"), s)
+            self.assertEqual(r.status, "REJECT")
+            self.assertIn("V2_HOLD:UNSUPPORTED_ACTIVE_HOLD_LAB_PROFILE", r.errors)
+            self.assertFalse(r.schema_conformance_proven)
+            self.assertFalse(r.ready)
+        r = validate_native_v2_lab(c, s)
+        self.assertFalse(r.schema_conformance_proven)
+        self.assertIn("PRODUCTION_ACTIVE_HOLD_DOMAIN_AND_SCOPE_AUTHORITY", r.unverified_constraints)

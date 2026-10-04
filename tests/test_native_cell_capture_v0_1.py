@@ -27,7 +27,7 @@ class NativeCaptureTests(unittest.TestCase):
                 c.cell(*args)
 
     def test_bad_typed_values(self):
-        for value in [{"boolValue": "FALSE"}, {"numberValue": True}, {"numberValue": float("nan")}, {"numberValue": 10 ** 400}, {"stringValue": "x", "boolValue": True}, {"errorValue": {"type": "UNKNOWN"}}, {"errorValue": {"type": []}}]:
+        for value in [{"boolValue": "FALSE"}, {"numberValue": True}, {"numberValue": float("nan")}, {"numberValue": 10 ** 400}, {"numberValue": float(2 ** 53)}, {"stringValue": "x", "boolValue": True}, {"errorValue": {"type": "UNKNOWN"}}, {"errorValue": {"type": []}}]:
             p = self.payload()
             p["sheets"][0]["data"][0]["rowData"][0]["values"][0]["effectiveValue"] = value
             with self.assertRaises(CaptureRejected):
