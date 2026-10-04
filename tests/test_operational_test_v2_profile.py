@@ -13,6 +13,7 @@ from scripts.operational_test_v2_profile import (
     validate_event,
     validate_header_manifest,
     validate_hold_record,
+    validate_inbound_evidence_intent,
     validate_operational_plan,
     build_warehouse_intent,
 )
@@ -90,10 +91,42 @@ class WarehouseOperationalV2Tests(unittest.TestCase):
             }])
 
     def test_writer_intent_is_header_bound(self):
-        intent=build_warehouse_intent("IN", [{
+        intent=build_warehouse_intent("OUT", [{
             "sheet":"SYSTEM_INTERVAL_STATE","key":"I1","field":"Status","before":"HOLD","after":"AVAILABLE"
         }])
         self.assertEqual(intent[0]["field"],"Status")
+
+    def test_inbound_missing_evidence_holds(self):
+        touches=[
+            {"sheet":"OP_TRANSACTION_REGISTRY","key":"TX1","field":"TransactionKey","before":None,"after":"TX1"},
+            {"sheet":"OP_TRANSACTION_REGISTRY","key":"TX1","field":"Status","before":None,"after":"PREPARED"},
+        ]
+        with self.assertRaisesRegex(WarehouseProfileRejected, "HOLD_EVIDENCE_MISSING"):
+            build_warehouse_intent("IN", touches)
+
+    def test_inbound_evidence_mismatch_holds(self):
+        touches=[
+            {"sheet":"OP_TRANSACTION_REGISTRY","key":"TX1","field":"TransactionKey","before":None,"after":"TX1"},
+            {"sheet":"OP_EVIDENCE_REGISTRY","key":"E1","field":"EvidenceID","before":None,"after":"E1"},
+            {"sheet":"OP_EVIDENCE_REGISTRY","key":"E1","field":"ObjectID","before":None,"after":"TX1"},
+            {"sheet":"OP_EVIDENCE_REGISTRY","key":"E1","field":"FileSHA256","before":None,"after":"bad"},
+            {"sheet":"OP_EVIDENCE_REGISTRY","key":"E1","field":"ReadbackStatus","before":None,"after":"PASS"},
+            {"sheet":"OP_EVIDENCE_REGISTRY","key":"E1","field":"Status","before":None,"after":"VERIFIED"},
+        ]
+        with self.assertRaisesRegex(WarehouseProfileRejected, "HOLD_EVIDENCE_MISMATCH"):
+            build_warehouse_intent("IN", touches)
+
+    def test_inbound_verified_evidence_passes(self):
+        touches=[
+            {"sheet":"OP_TRANSACTION_REGISTRY","key":"TX1","field":"TransactionKey","before":None,"after":"TX1"},
+            {"sheet":"OP_EVIDENCE_REGISTRY","key":"E1","field":"EvidenceID","before":None,"after":"E1"},
+            {"sheet":"OP_EVIDENCE_REGISTRY","key":"E1","field":"ObjectID","before":None,"after":"TX1"},
+            {"sheet":"OP_EVIDENCE_REGISTRY","key":"E1","field":"FileSHA256","before":None,"after":"d" * 64},
+            {"sheet":"OP_EVIDENCE_REGISTRY","key":"E1","field":"ReadbackStatus","before":None,"after":"PASS"},
+            {"sheet":"OP_EVIDENCE_REGISTRY","key":"E1","field":"Status","before":None,"after":"VERIFIED"},
+        ]
+        out=build_warehouse_intent("IN", touches)
+        self.assertEqual(len(out),6)
 
     def test_old_generation_holds(self):
         plan={
