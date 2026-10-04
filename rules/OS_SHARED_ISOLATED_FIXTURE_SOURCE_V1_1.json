@@ -1,0 +1,55 @@
+{
+  "registry_schema_version": "OS_SHARED_ISOLATED_FIXTURE_SOURCE_REGISTRY_V1_1",
+  "fixture_id": "OS_SHARED_ISOLATED_FIXTURE_V1_1",
+  "artifact_filename": "KHO_PHU_OS_SHARED_ISOLATED_FIXTURE_V1_1_2026-10-04.xlsx",
+  "artifact_sha256": "8648d2985c71c1fc68e3368cd95eca58b1a0202d44bc39d3149a15bd39846701",
+  "classification": "SYNTHETIC_ONLY",
+  "custody": "EXTERNAL_NO_REPOSITORY_PAYLOAD",
+  "connection_mode": "EXTERNAL_CAPTURE_DECODER_LAB_ONLY",
+  "workbook_sheet_count": 13,
+  "warehouse_schema_version": "WAREHOUSE_INBOUND_SCHEMA_V2",
+  "warehouse_schema_canonical_sha256": "9a7036828810234062496179c1fe652b9078b1cd7fbe7f50e77e6991b33de203",
+  "surface_registry_id": "SR1_HCM_SERIAL_INBOUND_V2",
+  "surface_registry_canonical_sha256": "2c45382441fb98003b7ccb7161944de938a1f91ee8199e1c26771bf6c6d9fbad",
+  "physical_adapter": "PRODUCTION_MAPPING_V0_2",
+  "physical_surface_names": [
+    "SYSTEM_INTERVAL_STATE",
+    "ELIGIBLE_STOCK",
+    "SYSTEM_HOLD_REGISTRY"
+  ],
+  "formula_anchor": "ELIGIBLE_STOCK!A3",
+  "cache_evidence": "SYNTHETIC_SERIALIZED_CACHE",
+  "validation_scope": [
+    "SCHEMA_TYPES",
+    "SERIAL_TEXT_IDENTITY",
+    "FORMULA_SEMANTIC_IDENTITY",
+    "SYNTHETIC_CACHED_PROJECTION_RECONCILIATION"
+  ],
+  "external_recalculation_proven": false,
+  "allocation_acceptance": "NOT_RUN",
+  "operational_acceptance": false,
+  "live_read_authorized": false,
+  "executable_acquisition_authorized": false,
+  "production_write_authorized": false,
+  "native_fixture_id": "OS_SHARED_NATIVE_ISOLATED_FIXTURE_V1_1",
+  "native_binding_version": "OS_NATIVE_V11_V2_QUERY_LAB_BINDING_R1",
+  "predecessor_fixture_id": "OS_SHARED_ISOLATED_FIXTURE_V1",
+  "native_formula_contract": {
+    "source": "V2_SOURCE!A2:F2",
+    "query_text": "select A,B,C,D,E,F",
+    "header_rows": 0,
+    "anchor": "V2_DERIVED!A2"
+  },
+  "provider_atomicity_proven": false,
+  "domain_completeness_proven": false,
+  "native_capture_contract_id": "NATIVE_CAPTURE_LAB_CONTRACT_V0_1",
+  "native_capture_contract_sha256": "274ac1c28963748359cd3690285ae019ba72a890e76963b4525471f1ecea3aca",
+  "native_capture_decoder": "scripts/native_cell_capture_v0_1.py",
+  "logical_surface_aliases": {
+    "INBOUND_SOURCE_RECORD": "V2_SOURCE",
+    "ACTIVE_SERIAL_INTERVAL_UNIVERSE": "V2_ACTIVE",
+    "INBOUND_DERIVED_QUERY_PROJECTION": "V2_DERIVED",
+    "INBOUND_QUERY_FORMULA_ANCHOR": "V2_ANCHOR",
+    "ACTIVE_HOLD_INTERVAL_UNIVERSE": "V2_HOLD"
+  }
+}
