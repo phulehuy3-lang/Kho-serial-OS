@@ -76,16 +76,24 @@ def validate_closeout(evidence: Mapping[str, Any]) -> Verdict:
         issues.add("G9_ADMISSION_NOT_ATTESTED")
     planned = manifest.get("touch_set")
     touched = provider.get("touch_set")
-    if not isinstance(planned, (list, tuple)) or not planned or len(set(planned)) != len(planned):
-        issues.add("G8_TOUCH_SET_INVALID")
-    if not isinstance(touched, (list, tuple)) or not touched or len(set(touched)) != len(touched):
-        issues.add("ACTUAL_TOUCH_SET_MISSING_OR_DUPLICATE")
-    if (isinstance(planned, (list, tuple)) and isinstance(touched, (list, tuple))
-            and set(planned) != set(touched)):
+    def canonical_touch_set(items: object, reason: str) -> frozenset[str] | None:
+        if (type(items) not in (list, tuple) or not items
+                or any(type(item) is not str or not item.strip() or item.strip() != item for item in items)):
+            issues.add(reason)
+            return None
+        unique = frozenset(items)
+        if len(unique) != len(items):
+            issues.add(reason)
+            return None
+        return unique
+
+    planned_exact = canonical_touch_set(planned, "G8_TOUCH_SET_INVALID")
+    actual_exact = canonical_touch_set(touched, "ACTUAL_TOUCH_SET_MISSING_OR_DUPLICATE")
+    if planned_exact is not None and actual_exact is not None and planned_exact != actual_exact:
         issues.add("ACTUAL_TOUCH_SET_MISMATCH")
     if provider.get("native_afterimage_verified") is not True:
         issues.add("NATIVE_AFTERIMAGE_MISSING")
-    if provider.get("provider_error") is True or provider.get("unknown_ack") is True:
+    if provider.get("provider_error") is not False or provider.get("unknown_ack") is not False:
         issues.add("UNKNOWN_COMMIT_STATE_NO_REPLAY")
 
     quantities = source.get("quantities")
@@ -94,25 +102,58 @@ def validate_closeout(evidence: Mapping[str, Any]) -> Verdict:
             sum(quantities) != tx.get("total_quantity") or
             len(quantities) != tx.get("interval_count")):
         issues.add("SOURCE_LEDGER_STATE_QUANTITY_MISMATCH")
-    if source.get("duplicate_transaction_count") != 1:
+    if type(tx.get("total_quantity")) is not int or type(tx.get("interval_count")) is not int:
+        issues.add("TRANSACTION_QUANTITY_SCHEMA_INVALID")
+    if type(source.get("duplicate_transaction_count")) is not int or source.get("duplicate_transaction_count") != 1:
         issues.add("IDEMPOTENCY_NOT_UNIQUE")
-    if source.get("hold_overlap_count") != 0:
+    if type(source.get("hold_overlap_count")) is not int or source.get("hold_overlap_count") != 0:
         issues.add("ACTIVE_HOLD_OR_OVERLAP")
 
     if recon.get("native_recheck") is not True:
         issues.add("G10_G18_NATIVE_RECHECK_MISSING")
     if recon.get("all_checks_pass") is not True:
         issues.add("RECONCILIATION_HAS_HOLD")
-    # A check cannot be its own prerequisite; generated expected==actual is insufficient.
-    for record in recon.get("records", ()) if isinstance(recon.get("records"), (list, tuple)) else ():
-        if not isinstance(record, Mapping) or not isinstance(record.get("id"), str):
-            issues.add("RECON_STRUCTURAL_INVALID")
-            continue
-        if record.get("id") in record.get("depends_on", ()):
-            issues.add("CIRCULAR_RECONCILIATION")
-        if record.get("provider_readback") is not True:
-            issues.add("RECON_WITHOUT_PROVIDER_READBACK")
-    if not recon.get("records"):
+    # The dependency graph must be complete, acyclic, and independently provider-bound.
+    records = recon.get("records")
+    if type(records) not in (list, tuple) or not records:
         issues.add("RECON_RECORDS_MISSING")
+    else:
+        edges: dict[str, tuple[str, ...]] = {}
+        for record in records:
+            if not isinstance(record, Mapping):
+                issues.add("RECON_STRUCTURAL_INVALID")
+                continue
+            key = record.get("id")
+            dependencies = record.get("depends_on")
+            if (type(key) is not str or not key.strip() or key != key.strip()
+                    or type(dependencies) not in (list, tuple)
+                    or any(type(dep) is not str or not dep.strip() for dep in dependencies)
+                    or len(set(dependencies)) != len(dependencies)):
+                issues.add("RECON_STRUCTURAL_INVALID")
+                continue
+            if key in edges:
+                issues.add("RECON_DUPLICATE_ID")
+            edges[key] = tuple(dependencies)
+            if record.get("provider_readback") is not True:
+                issues.add("RECON_WITHOUT_PROVIDER_READBACK")
+        for key, dependencies in edges.items():
+            if any(dep not in edges for dep in dependencies):
+                issues.add("RECON_DEPENDENCY_MISSING")
+        colors: dict[str, int] = {}
+
+        def visit(node: str) -> None:
+            if colors.get(node) == 1:
+                issues.add("CIRCULAR_RECONCILIATION")
+                return
+            if colors.get(node) == 2:
+                return
+            colors[node] = 1
+            for dependency in edges[node]:
+                if dependency in edges:
+                    visit(dependency)
+            colors[node] = 2
+
+        for key in edges:
+            visit(key)
 
     return Verdict("PASS" if not issues else "HOLD", tuple(sorted(issues)))
