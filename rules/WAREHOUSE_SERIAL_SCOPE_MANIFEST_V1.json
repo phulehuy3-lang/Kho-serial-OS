@@ -1788,6 +1788,24 @@
         "SOURCE_ALLOCATION"
       ],
       "rationale": "Deterministic tests for Operational TEST V2 schema, HOLD/date/rank/reversal and write-surface fail-closed behavior."
+    },
+    {
+      "path": "scripts/inbound_closeout_safety_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION"
+      ],
+      "rationale": "Pure synthetic fail-closed verifier for existing G9/G10/G15/G18; canonical transaction state enum, provider touch evidence and independent postwrite closure; no I/O or production authority."
+    },
+    {
+      "path": "tests/test_inbound_closeout_safety_v0_1.py",
+      "capabilities": [
+        "INBOUND",
+        "SERIAL_IDENTITY_RANGE",
+        "RECONCILIATION"
+      ],
+      "rationale": "18 offline synthetic regressions for invalid state enum, admission, native receipts, touch mismatches, circular closeout and replay; never writes live stock."
     }
   ]
 }
