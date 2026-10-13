@@ -53,7 +53,7 @@ class CloseoutSafetyTests(unittest.TestCase):
         self.assert_hold(lambda e: e["provider"].update(response_receipt=""), "PROVIDER_REQUEST_RESPONSE_MISSING")
 
     def test_expected_equals_expected_is_not_actual_touch(self):
-        self.assert_hold(lambda e: e["provider"].update(touch_set=[]), "ACTUAL_TOUCH_SET_MISMATCH")
+        self.assert_hold(lambda e: e["provider"].update(touch_set=[]), "ACTUAL_TOUCH_SET_MISSING_OR_DUPLICATE")
 
     def test_extra_protected_touch(self):
         self.assert_hold(lambda e: e["provider"]["touch_set"].append("Sheet!B8"), "ACTUAL_TOUCH_SET_MISMATCH")
@@ -84,6 +84,37 @@ class CloseoutSafetyTests(unittest.TestCase):
 
     def test_hold_overlap(self):
         self.assert_hold(lambda e: e["source"].update(hold_overlap_count=1), "ACTIVE_HOLD_OR_OVERLAP")
+
+    def test_indirect_g18_cycle(self):
+        def corrupt(e):
+            e["reconciliation"]["records"][0]["depends_on"] = ["G18_SYNTHETIC"]
+        self.assert_hold(corrupt, "CIRCULAR_RECONCILIATION")
+
+    def test_missing_reconciliation_dependency(self):
+        def corrupt(e):
+            e["reconciliation"]["records"][1]["depends_on"] = ["NONEXISTENT"]
+        self.assert_hold(corrupt, "RECON_DEPENDENCY_MISSING")
+
+    def test_duplicate_reconciliation_id(self):
+        def corrupt(e):
+            e["reconciliation"]["records"].append(deepcopy(e["reconciliation"]["records"][0]))
+        self.assert_hold(corrupt, "RECON_DUPLICATE_ID")
+
+    def test_unhashable_touch_set_holds_without_crashing(self):
+        self.assert_hold(lambda e: e["provider"].update(touch_set=[["A1"]]),
+                         "ACTUAL_TOUCH_SET_MISSING_OR_DUPLICATE")
+
+    def test_string_touch_set_cannot_replace_array(self):
+        self.assert_hold(lambda e: e["provider"].update(touch_set="Sheet!A8"),
+                         "ACTUAL_TOUCH_SET_MISSING_OR_DUPLICATE")
+
+    def test_unknown_provider_flags_fail_closed(self):
+        self.assert_hold(lambda e: e["provider"].update(unknown_ack=None),
+                         "UNKNOWN_COMMIT_STATE_NO_REPLAY")
+
+    def test_boolean_count_rejected_as_type_invalid(self):
+        self.assert_hold(lambda e: e["transaction"].update(total_quantity=True),
+                         "TRANSACTION_QUANTITY_SCHEMA_INVALID")
 
     def test_no_mutation_side_effects(self):
         x = fixture()
