@@ -87,6 +87,14 @@ class HoldIsolationTests(unittest.TestCase):
             result.blocking_reasons,
         )
 
+    def test_malformed_status_holds_without_crashing(self) -> None:
+        for value in (False, 0, [], {}, ["ACTIVE"], " ACTIVE "):
+            with self.subTest(value=value):
+                result = validate_hold_record(hold(status=value), interval())
+                self.assertEqual(result.status, HOLD)
+                self.assertFalse(result.ready)
+                self.assertIn("HOLD_ISOLATION:STATUS_INVALID", result.blocking_reasons)
+
     def test_active_interval_flag_mismatch_fails(self) -> None:
         result = validate_hold_record(hold(), interval(hold_flag=False))
         self.assertIn(

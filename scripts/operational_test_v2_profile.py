@@ -59,9 +59,9 @@ def validate_header_manifest(actual: object) -> None:
 def validate_hold_record(record: object) -> None:
     if type(record) is not dict:
         raise WarehouseProfileRejected("HOLD_RECORD_TYPE")
-    if record.get("ScopeType") not in HOLD_SCOPES:
+    if type(record.get("ScopeType")) is not str or record.get("ScopeType") not in HOLD_SCOPES:
         raise WarehouseProfileRejected("HOLD_UNSUPPORTED_SCOPE")
-    if record.get("Status") not in HOLD_STATES:
+    if type(record.get("Status")) is not str or record.get("Status") not in HOLD_STATES:
         raise WarehouseProfileRejected("HOLD_STATUS")
     scope = record["ScopeType"]
     if scope == "INTERVAL" and not _text(record.get("TargetIntervalID")):

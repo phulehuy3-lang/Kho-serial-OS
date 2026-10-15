@@ -194,7 +194,7 @@ def validate_hold_record(
         if not _clean(value):
             blockers.append(f"HOLD_ISOLATION:{code}")
 
-    if record.status not in _ALLOWED_STATES:
+    if type(record.status) is not str or record.status not in _ALLOWED_STATES:
         blockers.append("HOLD_ISOLATION:STATUS_INVALID")
     if not _strict_bool(record.hold_flag):
         blockers.append("HOLD_ISOLATION:HOLDFLAG_NOT_BOOLEAN")
