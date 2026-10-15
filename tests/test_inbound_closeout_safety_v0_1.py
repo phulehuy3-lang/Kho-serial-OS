@@ -52,6 +52,21 @@ class CloseoutSafetyTests(unittest.TestCase):
     def test_transport_receipt_absent(self):
         self.assert_hold(lambda e: e["provider"].update(response_receipt=""), "PROVIDER_REQUEST_RESPONSE_MISSING")
 
+    def test_receipt_requires_nonempty_string_reference(self):
+        for key in ("request_receipt", "response_receipt"):
+            for value in (True, 1, ["placeholder"], {"unverified": True}, "   ", " receipt ", None):
+                with self.subTest(key=key, value=value):
+                    self.assert_hold(lambda e: e["provider"].update({key: value}),
+                                     "PROVIDER_REQUEST_RESPONSE_MISSING")
+
+    def test_unhashable_state_with_set_enum_holds_without_crashing(self):
+        for value in ([], {}, ["CLOSED"]):
+            with self.subTest(value=value):
+                def corrupt(e):
+                    e["canonical_states"] = set(e["canonical_states"])
+                    e["transaction"]["state"] = value
+                self.assert_hold(corrupt, "STATE_NOT_IN_CANONICAL_ENUM")
+
     def test_expected_equals_expected_is_not_actual_touch(self):
         self.assert_hold(lambda e: e["provider"].update(touch_set=[]), "ACTUAL_TOUCH_SET_MISSING_OR_DUPLICATE")
 

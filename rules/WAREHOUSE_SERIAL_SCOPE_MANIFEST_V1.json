@@ -1805,7 +1805,7 @@
         "SERIAL_IDENTITY_RANGE",
         "RECONCILIATION"
       ],
-      "rationale": "18 offline synthetic regressions for invalid state enum, admission, native receipts, touch mismatches, circular closeout and replay; never writes live stock."
+      "rationale": "Offline synthetic regressions for invalid state types/enums, admission, native receipt references, touch mismatches, circular closeout and replay; never writes live stock."
     }
   ]
 }

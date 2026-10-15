@@ -39,7 +39,7 @@ def validate_closeout(evidence: Mapping[str, Any]) -> Verdict:
     if not isinstance(tx, Mapping):
         tx = {}
         issues.add("TRANSACTION_MISSING")
-    if tx.get("state") not in states:
+    if type(tx.get("state")) is not str or tx.get("state") not in states:
         issues.add("STATE_NOT_IN_CANONICAL_ENUM")
     if tx.get("state") != "CLOSED" or tx.get("readback_status") != "PASS":
         issues.add("TERMINAL_CLOSURE_NOT_PROVEN")
@@ -70,7 +70,9 @@ def validate_closeout(evidence: Mapping[str, Any]) -> Verdict:
         issues.add("ORIGINAL_EVIDENCE_UNVERIFIED")
     if provider.get("transport") not in ("GOOGLE_SHEETS_NATIVE", "APPROVED_NATIVE_WRITER"):
         issues.add("PROVIDER_TRANSPORT_UNVERIFIED")
-    if not provider.get("request_receipt") or not provider.get("response_receipt"):
+    if any(type(provider.get(key)) is not str or not provider[key].strip()
+           or provider[key] != provider[key].strip()
+           for key in ("request_receipt", "response_receipt")):
         issues.add("PROVIDER_REQUEST_RESPONSE_MISSING")
     if provider.get("prewrite_admission_pass") is not True:
         issues.add("G9_ADMISSION_NOT_ATTESTED")
