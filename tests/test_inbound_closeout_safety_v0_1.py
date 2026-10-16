@@ -105,6 +105,36 @@ class CloseoutSafetyTests(unittest.TestCase):
             e["reconciliation"]["records"][0]["depends_on"] = ["G18_SYNTHETIC"]
         self.assert_hold(corrupt, "CIRCULAR_RECONCILIATION")
 
+    def test_deep_acyclic_reconciliation_does_not_crash(self):
+        ev = fixture()
+        ev["reconciliation"]["records"] = [
+            {"id": f"N{i}", "depends_on": [f"N{i+1}"] if i < 1199 else [],
+             "provider_readback": True}
+            for i in range(1200)
+        ]
+        self.assertEqual(validate_closeout(ev).status, "PASS")
+
+    def test_deep_cyclic_reconciliation_holds_without_crashing(self):
+        ev = fixture()
+        ev["reconciliation"]["records"] = [
+            {"id": f"N{i}", "depends_on": [f"N{i+1}"] if i < 1199 else ["N0"],
+             "provider_readback": True}
+            for i in range(1200)
+        ]
+        result = validate_closeout(ev)
+        self.assertEqual(result.status, "HOLD")
+        self.assertIn("CIRCULAR_RECONCILIATION", result.reasons)
+
+    def test_reconciliation_shared_dependency_not_a_cycle(self):
+        ev = fixture()
+        ev["reconciliation"]["records"] = [
+            {"id": "TOP", "depends_on": ["LEFT", "RIGHT"], "provider_readback": True},
+            {"id": "LEFT", "depends_on": ["LEAF"], "provider_readback": True},
+            {"id": "RIGHT", "depends_on": ["LEAF"], "provider_readback": True},
+            {"id": "LEAF", "depends_on": [], "provider_readback": True},
+        ]
+        self.assertEqual(validate_closeout(ev).status, "PASS")
+
     def test_missing_reconciliation_dependency(self):
         def corrupt(e):
             e["reconciliation"]["records"][1]["depends_on"] = ["NONEXISTENT"]

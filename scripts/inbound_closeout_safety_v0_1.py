@@ -141,21 +141,27 @@ def validate_closeout(evidence: Mapping[str, Any]) -> Verdict:
         for key, dependencies in edges.items():
             if any(dep not in edges for dep in dependencies):
                 issues.add("RECON_DEPENDENCY_MISSING")
+        # Iterative DFS avoids RecursionError on otherwise valid long chains.
         colors: dict[str, int] = {}
-
-        def visit(node: str) -> None:
-            if colors.get(node) == 1:
-                issues.add("CIRCULAR_RECONCILIATION")
-                return
-            if colors.get(node) == 2:
-                return
-            colors[node] = 1
-            for dependency in edges[node]:
-                if dependency in edges:
-                    visit(dependency)
-            colors[node] = 2
-
-        for key in edges:
-            visit(key)
+        for root in edges:
+            if colors.get(root) == 2:
+                continue
+            stack: list[tuple[str, bool]] = [(root, False)]
+            while stack:
+                node, exiting = stack.pop()
+                if exiting:
+                    colors[node] = 2
+                    continue
+                color = colors.get(node)
+                if color == 1:
+                    issues.add("CIRCULAR_RECONCILIATION")
+                    continue
+                if color == 2:
+                    continue
+                colors[node] = 1
+                stack.append((node, True))
+                for dependency in reversed(edges[node]):
+                    if dependency in edges:
+                        stack.append((dependency, False))
 
     return Verdict("PASS" if not issues else "HOLD", tuple(sorted(issues)))
