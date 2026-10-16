@@ -37,6 +37,18 @@ class WarehouseOperationalV2Tests(unittest.TestCase):
         with self.assertRaisesRegex(WarehouseProfileRejected, "HOLD_RELEASE_LINEAGE"):
             validate_hold_record({"ScopeType":"INTERVAL","Status":"RELEASED","TargetIntervalID":"I1"})
 
+    def test_malformed_hold_scope_is_rejected_without_type_error(self):
+        for value in (False, 0, [], {}, ["INTERVAL"]):
+            with self.subTest(value=value):
+                with self.assertRaisesRegex(WarehouseProfileRejected, "HOLD_UNSUPPORTED_SCOPE"):
+                    validate_hold_record({"ScopeType": value, "Status": "ACTIVE"})
+
+    def test_malformed_hold_status_is_rejected_without_type_error(self):
+        for value in (False, 0, [], {}, ["ACTIVE"]):
+            with self.subTest(value=value):
+                with self.assertRaisesRegex(WarehouseProfileRejected, "HOLD_STATUS"):
+                    validate_hold_record({"ScopeType": "INTERVAL", "Status": value})
+
     def test_reversal_requires_link(self):
         with self.assertRaisesRegex(WarehouseProfileRejected, "REVERSAL_LINK"):
             validate_event({"EventType":"REVERSAL","Status":"COMMITTED","TransactionKey":"T","SessionID":"S"})
